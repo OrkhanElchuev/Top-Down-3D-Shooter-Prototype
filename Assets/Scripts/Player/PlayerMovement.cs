@@ -3,14 +3,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {   
-    private Player_Controls player_controls;
-    private CharacterController characterController;
+    // REFERENCES
+    private Player_Controls player_controls; // Access to Input System.
+    private CharacterController characterController; // Component on Player Prefab.
 
+    // PLAYER MOVEMENT
     [Header("Movement Info")]
     [SerializeField] private float moveSpeed;
-
+    [SerializeField] private float gravityValue = 9.81f;
     private Vector3 movementDirection;
     private Vector2 moveInput;
+    private float verticalVelocity; // Handles falling down.
+    private float defaultGroundedVelocity = 0.5f; // On ground make sure to have a small downward pull.
+
+    // AIM
     private Vector2 aimInput;
 
     private void Awake()
@@ -33,7 +39,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        ApplyMovement();
+    }
+
+    private void ApplyMovement()
+    {
+        // The Z vector gets the Y value of moveInput to move Up and Down in 2D coordinates.
         movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        ApplyGravity();
 
         // Check the length of the vector, if > 0, then there is a value to apply.
         if (movementDirection.magnitude > 0)
@@ -42,6 +55,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    private void ApplyGravity()
+    {
+        // Pull the player down from Air (for e.g. when jumping from platform).
+        if (!characterController.isGrounded)
+        {
+            verticalVelocity -= gravityValue * Time.deltaTime;
+            movementDirection.y = verticalVelocity;
+        }
+        else
+            // Apply downward force when on ground.
+            verticalVelocity = -defaultGroundedVelocity;
+    }
 
     private void OnEnable() 
     {

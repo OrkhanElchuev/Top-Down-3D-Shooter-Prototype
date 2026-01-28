@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     // REFERENCES
     private Player_Controls player_controls; // Access to Input System.
     private CharacterController characterController; // Component on Player Prefab.
+    private Camera mainCamera;
 
     // PLAYER MOVEMENT
     [Header("Movement Info")]
@@ -42,7 +43,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start() 
     {
-        characterController = GetComponent<CharacterController>();
+        InitCharacterController();
+        InitMainCamera();
     }
 
     private void Update()
@@ -50,11 +52,33 @@ public class PlayerMovement : MonoBehaviour
         ApplyMovement();
         AimTowardsMousePos();
     }
+    
+    #region Initializations
+    private void InitMainCamera()
+    {
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+            Debug.Log("Main Camera not Found! It has to have the MainCamera tag.");
+    }
+
+    private void InitCharacterController()
+    {
+        characterController = GetComponent<CharacterController>();
+        
+        if (characterController == null)
+        {
+            Debug.Log("CharacterController component is missing on Player!");
+            enabled = false; // Stop script from spamming errors.
+            return;
+        }
+    }
+
+    #endregion 
 
     private void AimTowardsMousePos()
     {
         // Create a ray starting from the camera and going through the mouse position.
-        Ray ray = Camera.main.ScreenPointToRay(aimInput);
+        Ray ray = mainCamera.ScreenPointToRay(aimInput);
 
         // Check if ray hits any objects defined in the layer mask.
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
@@ -66,8 +90,12 @@ public class PlayerMovement : MonoBehaviour
             lookingDirection.Normalize(); // Keep direction, remove distance.
 
             transform.forward = lookingDirection; 
-            // A visual crosshair to show the Hit position.
-            aimPoint.position = new Vector3 (hitInfo.point.x, transform.position.y, hitInfo.point.z);
+
+            if (aimPoint != null)
+            {
+                // A visual crosshair to show the Hit position.
+                aimPoint.position = new Vector3 (hitInfo.point.x, transform.position.y, hitInfo.point.z);
+            }
         }
     }
 
@@ -84,7 +112,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void ApplyGravity()
     {
         // Pull the player down from Air (for e.g. when jumping from platform).
@@ -98,13 +125,19 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity = -defaultGroundedVelocity;
     }
 
-    private void OnEnable() 
+    #region OnEnable / OnDisable
+    
+    private void OnEnable()
     {
-        player_controls.Enable();    
+        if (player_controls != null)
+            player_controls.Enable();
     }
 
-    private void Oisable()
+    private void OnDisable()
     {
-        player_controls.Disable();        
+        if (player_controls != null)
+            player_controls.Disable();
     }
+
+    #endregion
 }

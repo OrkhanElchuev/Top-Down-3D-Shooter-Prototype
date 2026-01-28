@@ -1,11 +1,17 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {   
     private Player_Controls player_controls;
+    private CharacterController characterController;
 
-    public Vector2 moveInput;
-    public Vector2 aimInput;
+    [Header("Movement Info")]
+    [SerializeField] private float moveSpeed;
+
+    private Vector3 movementDirection;
+    private Vector2 moveInput;
+    private Vector2 aimInput;
 
     private void Awake()
     {
@@ -18,8 +24,24 @@ public class PlayerMovement : MonoBehaviour
 
         player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
         player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
-
     }
+
+    private void Start() 
+    {
+        characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
+
+        // Check the length of the vector, if > 0, then there is a value to apply.
+        if (movementDirection.magnitude > 0)
+        {
+            characterController.Move(movementDirection * Time.deltaTime * moveSpeed);
+        }
+    }
+
 
     private void OnEnable() 
     {
@@ -29,10 +51,5 @@ public class PlayerMovement : MonoBehaviour
     private void Oisable()
     {
         player_controls.Disable();        
-    }
-
-    private void Shoot()
-    {
-        Debug.Log("Shoot");
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -17,7 +18,14 @@ public class PlayerMovement : MonoBehaviour
     private float defaultGroundedVelocity = 0.5f; // On ground make sure to have a small downward pull.
 
     // AIM
+    [Header("Aim Info")]
+    [Tooltip("A layer mask for shooting a Ray.")]
+    [SerializeField] private LayerMask aimLayerMask;
+    [Tooltip("A small visible cursor object to show the aiming position.")]
+    [SerializeField] private Transform aimPoint;
     private Vector2 aimInput;
+    private Vector3 lookingDirection;
+
 
     private void Awake()
     {
@@ -40,6 +48,27 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         ApplyMovement();
+        AimTowardsMousePos();
+    }
+
+    private void AimTowardsMousePos()
+    {
+        // Create a ray starting from the camera and going through the mouse position.
+        Ray ray = Camera.main.ScreenPointToRay(aimInput);
+
+        // Check if ray hits any objects defined in the layer mask.
+        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
+        {
+            // hitinfo.point = world position where the ray hits
+            // subtracting player position gives direction Vector.
+            lookingDirection = hitInfo.point - transform.position;
+            lookingDirection.y = 0f; // Ignore vertical rotation.
+            lookingDirection.Normalize(); // Keep direction, remove distance.
+
+            transform.forward = lookingDirection; 
+            // A visual crosshair to show the Hit position.
+            aimPoint.position = new Vector3 (hitInfo.point.x, transform.position.y, hitInfo.point.z);
+        }
     }
 
     private void ApplyMovement()

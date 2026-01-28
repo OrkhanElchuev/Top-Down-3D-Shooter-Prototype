@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 274453933}
   - component: {fileID: 274453932}
   m_Layer: 0
-  m_Name: Aim
+  m_Name: AimPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1662,7 +1662,7 @@ MonoBehaviour:
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 192
-  aim: {fileID: 274453935}
+  aimPoint: {fileID: 0}
 --- !u!65 &1831957748
 BoxCollider:
   m_ObjectHideFlags: 0

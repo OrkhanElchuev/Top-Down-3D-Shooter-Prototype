@@ -57,7 +57,7 @@ AnimatorController:
   m_Name: Player_AC
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: xVeclocity
+  - m_Name: xVelocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -130,7 +130,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
-  m_BlendParameter: xVeclocity
+  m_BlendParameter: xVelocity
   m_BlendParameterY: zVelocity
   m_MinThreshold: 0
   m_MaxThreshold: 1

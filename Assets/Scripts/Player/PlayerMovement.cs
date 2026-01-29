@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Player_Controls player_controls; // Access to Input System.
     private CharacterController characterController; // Component on Player Prefab.
     private Camera mainCamera;
+    private Animator animator;
 
     // PLAYER MOVEMENT
     [Header("Movement Info")]
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private float verticalVelocity; // Handles falling down.
     private float defaultGroundedVelocity = 0.5f; // On ground make sure to have a small downward pull.
+    private float movementTransitionTime = 0.1f; // Assure smoother transition between animation types.
 
     // AIM
     [Header("Aim Info")]
@@ -45,12 +47,14 @@ public class PlayerMovement : MonoBehaviour
     {
         InitCharacterController();
         InitMainCamera();
+        InitCharacterAnimation();
     }
 
     private void Update()
     {
         ApplyMovement();
         AimTowardsMousePos();
+        AnimatorControllers();
     }
     
     #region Initializations
@@ -73,7 +77,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void InitCharacterAnimation()
+    {
+        animator = GetComponentInChildren<Animator>();
+        if (animator == null)
+        {
+            Debug.Log("Animator component is missing on Child Object of Player");
+            return;
+        }
+    }
+
     #endregion 
+
+    // Handle Player Animation.
+    private void AnimatorControllers()
+    {
+        // Convert movement direction to direction-only (ignore speed).
+        Vector3 normalizedMovement = movementDirection.normalized;
+
+        // How much is player moving left/right relative to where the player is facing.
+        float xVelocity = Vector3.Dot(normalizedMovement, transform.right);
+        // How much is player moving forward/back relative to where the player is facing.
+        float zVelocity = Vector3.Dot(normalizedMovement, transform.forward);
+
+        // String references are coming from the Animator Parameters (Blend Tree).
+        animator.SetFloat("xVelocity", xVelocity, movementTransitionTime, Time.deltaTime);
+        animator.SetFloat("zVelocity", zVelocity, movementTransitionTime, Time.deltaTime);
+    }
 
     private void AimTowardsMousePos()
     {

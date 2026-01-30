@@ -98,9 +98,16 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion 
 
+    private void Fire()
+    {
+        animator.SetTrigger("Fire");
+    }
     private void AssignInputEvents()
     {
         player_controls = new Player_Controls();
+
+        // TEMPORARY
+        player_controls.Character.Fire.performed += context => Fire();
 
         // Walking
         // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
@@ -125,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
         };
     }
 
-    // Handle Player Animation.
     private void AnimatorControllers()
     {
         // Convert movement direction to direction-only (ignore speed).

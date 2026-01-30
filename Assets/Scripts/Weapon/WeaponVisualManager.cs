@@ -20,34 +20,39 @@ public class WeaponVisualManager : MonoBehaviour
 
     private void Update()
     {
-        // If "1" key is pressed.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            ActivateThisWeapon(pistol);
+        ChooseWeaponBasedOnKeyInput();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            ActivateThisWeapon(revolver);
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            ActivateThisWeapon(rifle);
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            ActivateThisWeapon(shotgun);    
-
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            ActivateThisWeapon(sniper);
+    private void ChooseWeaponBasedOnKeyInput()
+    {
+        // If "1, 2, 3, 4, 5" keys are pressed.
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateThisWeapon(pistol);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateThisWeapon(revolver);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) ActivateThisWeapon(rifle);
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) ActivateThisWeapon(shotgun);
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) ActivateThisWeapon(sniper);
     }
 
     private void ActivateThisWeapon(Transform weaponTransform)
     {
+        if (weaponTransform == null)
+        {
+            Debug.Log("Tried to activate a weapon, but the reference is missing.", this);
+            return;
+        }
+
         DeactivateAllGuns();
         weaponTransform.gameObject.SetActive(true);        
     }
 
     private void DeactivateAllGuns()
     {
+        if (weaponTransforms == null) return;
+
         for (int i = 0; i < weaponTransforms.Length; i++)
         {
-            weaponTransforms[i].gameObject.SetActive(false);
+            if (weaponTransforms[i] != null)
+                weaponTransforms[i].gameObject.SetActive(false);
         }
     }
 }

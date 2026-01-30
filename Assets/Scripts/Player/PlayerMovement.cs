@@ -21,12 +21,16 @@ public class PlayerMovement : MonoBehaviour
     private Camera mainCamera;
     private Animator animator;
 
+    // GENERAL SETTINGS
+    [Header("General Settings")]
+    [SerializeField] private float gravityValue = 9.81f;
+
     // PLAYER MOVEMENT
     [Header("Movement Info")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
-    [SerializeField] private float gravityValue = 9.81f;
-    
+    [SerializeField] private float turnSpeed;
+
     private Vector3 movementDirection;
     private Vector2 moveInput;
     private float verticalVelocity; // Handles falling down.
@@ -148,7 +152,10 @@ public class PlayerMovement : MonoBehaviour
         lookingDirection.y = 0f; // Ignore vertical rotation.
         lookingDirection.Normalize(); // Keep direction, remove distance.
 
-        transform.forward = lookingDirection; 
+        // Create rotation that looks in the calculated direction.
+        Quaternion targetRotation = Quaternion.LookRotation(lookingDirection);
+        // Smoothly rotate from the current rotation toward the target rotation (Spherical Interpolation).
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime); 
     }
 
     private void ApplyMovement()

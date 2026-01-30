@@ -1723,6 +1723,10 @@ PrefabInstance:
       propertyPath: aimPoint
       value: 
       objectReference: {fileID: 274453935}
+    - target: {fileID: 1048910383657671734, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+      propertyPath: turnSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1194574704436753766, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
       propertyPath: m_Name
       value: Player

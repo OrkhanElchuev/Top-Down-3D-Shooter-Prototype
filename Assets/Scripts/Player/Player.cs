@@ -9,14 +9,11 @@ public class Player : MonoBehaviour
     // REFERENCES
     public Player_Controls player_controls;
 
-    # region Awake / Start / Update
     private void Awake()
     {
         player_controls = new Player_Controls();
     }
 
-    #endregion
-    
     #region OnEnable / OnDisable
 
     private void OnEnable()

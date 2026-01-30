@@ -18,10 +18,17 @@ public class WeaponVisualManager : MonoBehaviour
     [SerializeField] private Transform shotgun;
     [SerializeField] private Transform sniper;
 
+    private void Start()
+    {
+        ActivateThisWeapon(pistol);
+    }
+
     private void Update()
     {
         ChooseWeaponBasedOnKeyInput();
     }
+
+    #region Private Methods
 
     private void ChooseWeaponBasedOnKeyInput()
     {
@@ -55,4 +62,5 @@ public class WeaponVisualManager : MonoBehaviour
                 weaponTransforms[i].gameObject.SetActive(false);
         }
     }
+    #endregion
 }

@@ -1,31 +1,33 @@
 using UnityEngine;
 
 /// <summary>
-/// Hold Components related to Player (for e.g. Player_Controls).
+/// Hold Components related to Player.
 /// </summary>
 
 public class Player : MonoBehaviour
 {
     // REFERENCES
-    public Player_Controls player_controls;
+    public PlayerControls controls { get; private set; }
+    public PlayerAim aim { get; private set; } // Read-only.
 
     private void Awake()
     {
-        player_controls = new Player_Controls();
+        controls = new PlayerControls();
+        aim = GetComponent<PlayerAim>();
     }
 
     #region OnEnable / OnDisable
 
     private void OnEnable()
     {
-        if (player_controls != null)
-            player_controls.Enable();
+        if (controls != null)
+            controls.Enable();
     }
 
     private void OnDisable()
     {
-        if (player_controls != null)
-            player_controls.Disable();
+        if (controls != null)
+            controls.Disable();
     }
 
     #endregion

@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 /// <summary>
@@ -17,16 +16,21 @@ public class PlayerMovement : MonoBehaviour
 
     // REFERENCES
     private Player player;
-    private Player_Controls player_controls; // Access to Input System.
+    private PlayerControls player_controls; // Access to Input System.
     private CharacterController characterController; // Component on Player Prefab.
     private Camera mainCamera;
     private Animator animator;
+
+    // GENERAL SETTINGS
+    [Header("General Settings")]
+    [SerializeField] private float gravityValue = 9.81f;
 
     // PLAYER MOVEMENT
     [Header("Movement Info")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
-    [SerializeField] private float gravityValue = 9.81f;
+    [SerializeField] private float turnSpeed;
+
     private Vector3 movementDirection;
     private Vector2 moveInput;
     private float verticalVelocity; // Handles falling down.
@@ -35,16 +39,6 @@ public class PlayerMovement : MonoBehaviour
     private float speed;
     private bool isRunning;
 
-    // AIM
-    [Header("Aim Info")]
-    [Tooltip("A layer mask for shooting a Ray.")]
-    [SerializeField] private LayerMask aimLayerMask;
-    [Tooltip("A small visible cursor object to show the aiming position.")]
-    [SerializeField] private Transform aimPoint;
-    private Vector2 aimInput;
-    private Vector3 lookingDirection;
-
-    #region Awake / Start / Update
 
     private void Start() 
     {
@@ -67,11 +61,9 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         ApplyMovement();
-        AimTowardsMousePos();
+        ApplyRotation();
         AnimatorControllers();
     }
-
-    #endregion
     
     #region Initializations
 
@@ -113,16 +105,12 @@ public class PlayerMovement : MonoBehaviour
     #region Private Methods
     private void AssignInputEvents()
     {
-        player_controls = player.player_controls;
+        player_controls = player.controls;
 
         // Walking
         // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
         player_controls.Character.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         player_controls.Character.Movement.canceled += ctx => moveInput = Vector2.zero;
-
-        // Aiming
-        player_controls.Character.Aim.performed += ctx => aimInput = ctx.ReadValue<Vector2>();
-        player_controls.Character.Aim.canceled += ctx => aimInput = Vector2.zero;
 
         // Running
         player_controls.Character.Run.performed += ctx =>
@@ -157,28 +145,17 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool(IS_RUNNING, playRunAnimation);
     }
 
-    private void AimTowardsMousePos()
+    private void ApplyRotation()
     {
-        // Create a ray starting from the camera and going through the mouse position.
-        Ray ray = mainCamera.ScreenPointToRay(aimInput);
+        // Subtracting player position gives direction Vector.
+        Vector3 lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
+        lookingDirection.y = 0f; // Ignore vertical rotation.
+        lookingDirection.Normalize(); // Keep direction, remove distance.
 
-        // Check if ray hits any objects defined in the layer mask.
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
-        {
-            // hitinfo.point = world position where the ray hits
-            // subtracting player position gives direction Vector.
-            lookingDirection = hitInfo.point - transform.position;
-            lookingDirection.y = 0f; // Ignore vertical rotation.
-            lookingDirection.Normalize(); // Keep direction, remove distance.
-
-            transform.forward = lookingDirection; 
-
-            if (aimPoint != null)
-            {
-                // A visual crosshair to show the Hit position.
-                aimPoint.position = new Vector3 (hitInfo.point.x, transform.position.y, hitInfo.point.z);
-            }
-        }
+        // Create rotation that looks in the calculated direction.
+        Quaternion targetRotation = Quaternion.LookRotation(lookingDirection);
+        // Smoothly rotate from the current rotation toward the target rotation (Spherical Interpolation).
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime); 
     }
 
     private void ApplyMovement()

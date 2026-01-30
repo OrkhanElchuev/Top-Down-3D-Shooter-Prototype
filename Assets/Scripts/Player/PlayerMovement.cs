@@ -37,32 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 aimInput;
     private Vector3 lookingDirection;
 
-
+    #region Awake / Start / Update
     private void Awake()
     {
-        player_controls = new Player_Controls();
-
-        // Walking
-        // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
-        player_controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        player_controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
-        
-        // Aiming
-        player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
-        player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
-
-        // Running
-        player_controls.Character.Run.performed += context => 
-        {
-            speed = runSpeed;
-            isRunning = true;
-        };
-
-        player_controls.Character.Run.canceled += context => 
-        {
-            speed = walkSpeed;
-            isRunning = false;
-        };
+        AssignInputEvents();
     }
 
     private void Start() 
@@ -80,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
         AimTowardsMousePos();
         AnimatorControllers();
     }
+
+    #endregion
     
     #region Initializations
     private void InitMainCamera()
@@ -118,6 +98,33 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion 
 
+    private void AssignInputEvents()
+    {
+        player_controls = new Player_Controls();
+
+        // Walking
+        // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
+        player_controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
+        player_controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
+
+        // Aiming
+        player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
+        player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
+
+        // Running
+        player_controls.Character.Run.performed += context =>
+        {
+            speed = runSpeed;
+            isRunning = true;
+        };
+
+        player_controls.Character.Run.canceled += context =>
+        {
+            speed = walkSpeed;
+            isRunning = false;
+        };
+    }
+
     // Handle Player Animation.
     private void AnimatorControllers()
     {
@@ -132,7 +139,10 @@ public class PlayerMovement : MonoBehaviour
         // String references are coming from the Animator Parameters (Blend Tree).
         animator.SetFloat(X_VELOCITY, xVelocity, movementTransitionTime, Time.deltaTime);
         animator.SetFloat(Z_VELOCITY, zVelocity, movementTransitionTime, Time.deltaTime);
-        animator.SetBool(IS_RUNNING, isRunning);
+
+        // Make sure the run animation is not ON when player stopped while holding SHIFT (Run).
+        bool playRunAnimation = isRunning && movementDirection.magnitude > 0;
+        animator.SetBool(IS_RUNNING, playRunAnimation);
     }
 
     private void AimTowardsMousePos()

@@ -2,6 +2,12 @@ using System;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
+/// <summary>
+/// Player Movement Script which handles Player Movement and Running Input Actions.
+/// Also handles player drop from height and constant downforce gravity on player.
+/// Additionaly handles player aim using mouse action.
+/// </summary>
+
 public class PlayerMovement : MonoBehaviour
 {   
     // CONST VALUES
@@ -10,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private const string IS_RUNNING = "isRunning";
 
     // REFERENCES
+    private Player player;
     private Player_Controls player_controls; // Access to Input System.
     private CharacterController characterController; // Component on Player Prefab.
     private Camera mainCamera;
@@ -38,18 +45,23 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookingDirection;
 
     #region Awake / Start / Update
-    private void Awake()
-    {
-        AssignInputEvents();
-    }
 
     private void Start() 
     {
+        InitPlayer();
         InitCharacterController();
         InitMainCamera();
         InitCharacterAnimation();
-
         InitLocalVariables();
+
+        AssignInputEvents();
+
+        // Stop the script if critical references are mising.
+        if (characterController == null || mainCamera == null || animator == null)
+        {
+            enabled = false;
+            return;
+        }
     }
 
     private void Update()
@@ -62,33 +74,33 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     
     #region Initializations
+
+    private void InitPlayer()
+    {
+        player = GetComponent<Player>();
+        if (player == null)
+            Debug.Log("Player Component is missing on Player!", this);
+    }
+
     private void InitMainCamera()
     {
         mainCamera = Camera.main;
         if (mainCamera == null)
-            Debug.Log("Main Camera not Found! It has to have the MainCamera tag.");
+            Debug.Log("Main Camera not Found! It has to have the MainCamera tag.", this);
     }
 
     private void InitCharacterController()
     {
         characterController = GetComponent<CharacterController>();
-        
         if (characterController == null)
-        {
-            Debug.Log("CharacterController component is missing on Player!");
-            enabled = false; // Stop script from spamming errors.
-            return;
-        }
+            Debug.Log("CharacterController component is missing on Player!", this);
     }
 
     private void InitCharacterAnimation()
     {
         animator = GetComponentInChildren<Animator>();
         if (animator == null)
-        {
-            Debug.Log("Animator component is missing on Child Object of Player");
-            return;
-        }
+            Debug.Log("Animator component is missing on Child Object of Player", this);
     }
 
     private void InitLocalVariables()
@@ -98,34 +110,28 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion 
 
-    private void Fire()
-    {
-        animator.SetTrigger("Fire");
-    }
+    #region Private Methods
     private void AssignInputEvents()
     {
-        player_controls = new Player_Controls();
-
-        // TEMPORARY
-        player_controls.Character.Fire.performed += context => Fire();
+        player_controls = player.player_controls;
 
         // Walking
         // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
-        player_controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        player_controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
+        player_controls.Character.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        player_controls.Character.Movement.canceled += ctx => moveInput = Vector2.zero;
 
         // Aiming
-        player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
-        player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
+        player_controls.Character.Aim.performed += ctx => aimInput = ctx.ReadValue<Vector2>();
+        player_controls.Character.Aim.canceled += ctx => aimInput = Vector2.zero;
 
         // Running
-        player_controls.Character.Run.performed += context =>
+        player_controls.Character.Run.performed += ctx =>
         {
             speed = runSpeed;
             isRunning = true;
         };
 
-        player_controls.Character.Run.canceled += context =>
+        player_controls.Character.Run.canceled += ctx =>
         {
             speed = walkSpeed;
             isRunning = false;
@@ -199,20 +205,6 @@ public class PlayerMovement : MonoBehaviour
         else
             // Apply downward force when on ground.
             verticalVelocity = -defaultGroundedVelocity;
-    }
-
-    #region OnEnable / OnDisable
-    
-    private void OnEnable()
-    {
-        if (player_controls != null)
-            player_controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        if (player_controls != null)
-            player_controls.Disable();
     }
 
     #endregion

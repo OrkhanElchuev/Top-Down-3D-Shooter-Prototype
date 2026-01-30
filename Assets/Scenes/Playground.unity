@@ -1542,7 +1542,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168e63f523e638d4abf8b42b1205d7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 2
+  walkSpeed: 1.8
+  runSpeed: 3.3
   gravityValue: 9.81
   aimLayerMask:
     serializedVersion: 2

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {   
+    // CONST VALUES
+    private const string X_VELOCITY = "xVelocity";
+    private const string Z_VELOCITY = "zVelocity";
+    private const string IS_RUNNING = "isRunning";
+
     // REFERENCES
     private Player_Controls player_controls; // Access to Input System.
     private CharacterController characterController; // Component on Player Prefab.
@@ -12,13 +17,16 @@ public class PlayerMovement : MonoBehaviour
 
     // PLAYER MOVEMENT
     [Header("Movement Info")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
     [SerializeField] private float gravityValue = 9.81f;
     private Vector3 movementDirection;
     private Vector2 moveInput;
     private float verticalVelocity; // Handles falling down.
     private float defaultGroundedVelocity = 0.5f; // On ground make sure to have a small downward pull.
     private float movementTransitionTime = 0.1f; // Assure smoother transition between animation types.
+    private float speed;
+    private bool isRunning;
 
     // AIM
     [Header("Aim Info")]
@@ -29,18 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 aimInput;
     private Vector3 lookingDirection;
 
-
+    #region Awake / Start / Update
     private void Awake()
     {
-        player_controls = new Player_Controls();
-
-        // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
-        player_controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        // If movement action is stopped, assign 0 to moveInput.
-        player_controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
-
-        player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
-        player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
+        AssignInputEvents();
     }
 
     private void Start() 
@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         InitCharacterController();
         InitMainCamera();
         InitCharacterAnimation();
+
+        InitLocalVariables();
     }
 
     private void Update()
@@ -56,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
         AimTowardsMousePos();
         AnimatorControllers();
     }
+
+    #endregion
     
     #region Initializations
     private void InitMainCamera()
@@ -87,9 +91,47 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void InitLocalVariables()
+    {
+        speed = walkSpeed;
+    }
+
     #endregion 
 
-    // Handle Player Animation.
+    private void Fire()
+    {
+        animator.SetTrigger("Fire");
+    }
+    private void AssignInputEvents()
+    {
+        player_controls = new Player_Controls();
+
+        // TEMPORARY
+        player_controls.Character.Fire.performed += context => Fire();
+
+        // Walking
+        // Inside of Input System, if the Movement is performed, read context val and assign to moveInput.
+        player_controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
+        player_controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
+
+        // Aiming
+        player_controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
+        player_controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
+
+        // Running
+        player_controls.Character.Run.performed += context =>
+        {
+            speed = runSpeed;
+            isRunning = true;
+        };
+
+        player_controls.Character.Run.canceled += context =>
+        {
+            speed = walkSpeed;
+            isRunning = false;
+        };
+    }
+
     private void AnimatorControllers()
     {
         // Convert movement direction to direction-only (ignore speed).
@@ -101,8 +143,12 @@ public class PlayerMovement : MonoBehaviour
         float zVelocity = Vector3.Dot(normalizedMovement, transform.forward);
 
         // String references are coming from the Animator Parameters (Blend Tree).
-        animator.SetFloat("xVelocity", xVelocity, movementTransitionTime, Time.deltaTime);
-        animator.SetFloat("zVelocity", zVelocity, movementTransitionTime, Time.deltaTime);
+        animator.SetFloat(X_VELOCITY, xVelocity, movementTransitionTime, Time.deltaTime);
+        animator.SetFloat(Z_VELOCITY, zVelocity, movementTransitionTime, Time.deltaTime);
+
+        // Make sure the run animation is not ON when player stopped while holding SHIFT (Run).
+        bool playRunAnimation = isRunning && movementDirection.magnitude > 0;
+        animator.SetBool(IS_RUNNING, playRunAnimation);
     }
 
     private void AimTowardsMousePos()
@@ -138,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
         // Check the length of the vector, if > 0, then there is a value to apply.
         if (movementDirection.magnitude > 0)
         {
-            characterController.Move(movementDirection * Time.deltaTime * moveSpeed);
+            characterController.Move(movementDirection * Time.deltaTime * speed);
         }
     }
 

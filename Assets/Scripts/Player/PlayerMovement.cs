@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyRotation()
     {
         // Subtracting player position gives direction Vector.
-        Vector3 lookingDirection = player.aim.GetMousePosition() - transform.position;
+        Vector3 lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
         lookingDirection.y = 0f; // Ignore vertical rotation.
         lookingDirection.Normalize(); // Keep direction, remove distance.
 

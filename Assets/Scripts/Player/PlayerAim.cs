@@ -17,6 +17,7 @@ public class PlayerAim : MonoBehaviour
 
     [SerializeField] private Transform aimObject;
     private Vector2 aimInput;
+    private RaycastHit lastKnownRayHit;
 
 
     private void Start()
@@ -43,7 +44,7 @@ public class PlayerAim : MonoBehaviour
 
     #region Public Methods
 
-    public Vector3 GetMousePosition()
+    public RaycastHit GetMouseHitInfo()
     {
         // Create a ray that starts at the camera and goes through the mouse position.
         Ray ray = Camera.main.ScreenPointToRay(aimInput);
@@ -51,10 +52,11 @@ public class PlayerAim : MonoBehaviour
         // Cast the ray into the world and check if it hits something on the aimLayerMask.
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
         {
+            lastKnownRayHit = hitInfo;
             // Return the world position of the hit.
-            return hitInfo.point;
+            return hitInfo;
         }
-        return Vector3.zero;
+        return lastKnownRayHit;
     }
 
     #endregion
@@ -77,7 +79,7 @@ public class PlayerAim : MonoBehaviour
         if (aimObject == null) return;
 
         // Get the aim point once (one raycast per frame).
-        Vector3 aimPoint = GetMousePosition();
+        Vector3 aimPoint = GetMouseHitInfo().point;
         // Place the aim object at the hit XZ and clamp Y to a fixed height next to the player.
         aimObject.position = new Vector3(aimPoint.x, transform.position.y + 1f, aimPoint.z);
     }

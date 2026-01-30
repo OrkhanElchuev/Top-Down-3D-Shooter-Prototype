@@ -12,16 +12,13 @@ public class PlayerWeaponManager : MonoBehaviour
     // REFERENCES
     private Player player;
 
-    # region Awake / Start / Update
 
     private void Start()
     {
         InitPlayer();
 
-        player.player_controls.Character.Fire.performed += ctx => Fire();
+        player.controls.Character.Fire.performed += ctx => Fire();
     }
-
-    #endregion
 
     #region Initializations
 

@@ -72,7 +72,7 @@ using UnityEngine.InputSystem.Utilities;
 /// }
 /// </code>
 /// </example>
-public partial class @Player_Controls: IInputActionCollection2, IDisposable
+public partial class PlayerControls: IInputActionCollection2, IDisposable
 {
     /// <summary>
     /// Provides access to the underlying asset instance.
@@ -82,7 +82,7 @@ public partial class @Player_Controls: IInputActionCollection2, IDisposable
     /// <summary>
     /// Constructs a new instance.
     /// </summary>
-    public @Player_Controls()
+    public PlayerControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""version"": 1,
@@ -231,7 +231,7 @@ public partial class @Player_Controls: IInputActionCollection2, IDisposable
         m_Character_Run = m_Character.FindAction("Run", throwIfNotFound: true);
     }
 
-    ~@Player_Controls()
+    ~PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_Character.enabled, "This will cause a leak and performance issues, Player_Controls.Character.Disable() has not been called.");
     }
@@ -318,12 +318,12 @@ public partial class @Player_Controls: IInputActionCollection2, IDisposable
     /// </summary>
     public struct CharacterActions
     {
-        private @Player_Controls m_Wrapper;
+        private PlayerControls m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public CharacterActions(@Player_Controls wrapper) { m_Wrapper = wrapper; }
+        public CharacterActions(PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "Character/Fire".
         /// </summary>

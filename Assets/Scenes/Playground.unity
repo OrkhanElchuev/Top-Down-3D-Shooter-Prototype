@@ -1226,8 +1226,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.0735801, y: 1, z: 1.0338624}
+  m_Center: {x: 0.036790952, y: 0, z: -0.01693114}
 --- !u!23 &623024690
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1430,7 +1430,7 @@ MonoBehaviour:
     m_Bits: 2240
   aimObject: {fileID: 274453935}
   aimLaser: {fileID: 511503226}
-  laserTipLength: 0.8
+  laserLength: 5
 --- !u!1 &952928812
 GameObject:
   m_ObjectHideFlags: 0

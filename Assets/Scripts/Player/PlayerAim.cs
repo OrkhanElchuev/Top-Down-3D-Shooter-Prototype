@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework.Constraints;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,10 +25,9 @@ public class PlayerAim : MonoBehaviour
     [Header("Aim Visual - Laser")]
     [Tooltip("Laser pointer coming from the weapon, to help with aiming.")]
     [SerializeField] private LineRenderer aimLaser;
+    [SerializeField] private float laserLength = 5f;
 
-    [SerializeField] private float laserTipLength = 0.5f;
-
-    private Vector2 aimInput;
+    private Vector2 mouseInput;
     private RaycastHit lastKnownRayHit;
 
     private void Start()
@@ -39,7 +39,7 @@ public class PlayerAim : MonoBehaviour
     private void Update()
     {
         AssignAimObject();
-        UpdateAimLaser();
+        UpdateAimVisuals();
     }
 
     #region Initializations
@@ -55,10 +55,12 @@ public class PlayerAim : MonoBehaviour
 
     #region Public Methods
 
+    public Transform Aim() => aimObject;
+
     public RaycastHit GetMouseHitInfo()
     {
         // Create a ray that starts at the camera and goes through the mouse position.
-        Ray ray = Camera.main.ScreenPointToRay(aimInput);
+        Ray ray = Camera.main.ScreenPointToRay(mouseInput);
 
         // Cast the ray into the world and check if it hits something on the aimLayerMask.
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
@@ -74,16 +76,27 @@ public class PlayerAim : MonoBehaviour
 
     #region Private Methods
 
-    private void UpdateAimLaser()
+    private void UpdateAimVisuals()
     {
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
-        float gunRange = 4f; // Temporary distance.
 
+        float gunRange = laserLength;
+        float laserTipLength = 0.5f;
+
+        // Calculate the main endpoint of the laser beam.
         Vector3 endPoint = gunPoint.position + laserDirection * gunRange;
+
+        // Make sure the laser doesn't penetrate the walls and other objects.
+        if (Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hit, gunRange))
+        {
+            endPoint = hit.point;
+            laserTipLength = 0f;
+        }
 
         aimLaser.SetPosition(0, gunPoint.position);
         aimLaser.SetPosition(1, endPoint);
+        // Extend the laser slightly further to create a visible tip effect.
         aimLaser.SetPosition(2, endPoint + laserDirection * laserTipLength);
     }
 
@@ -93,9 +106,9 @@ public class PlayerAim : MonoBehaviour
 
         controls = player.controls;
 
-        // Aiming
-        controls.Character.Aim.performed += ctx => aimInput = ctx.ReadValue<Vector2>();
-        controls.Character.Aim.canceled += ctx => aimInput = Vector2.zero;
+        // Aiming input events.
+        controls.Character.Aim.performed += ctx => mouseInput = ctx.ReadValue<Vector2>();
+        controls.Character.Aim.canceled += ctx => mouseInput = Vector2.zero;
     }
 
     private void AssignAimObject()

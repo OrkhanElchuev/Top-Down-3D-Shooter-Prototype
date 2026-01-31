@@ -30,13 +30,9 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Transform that visually rotates the weapon toward the aim point.")]
     [SerializeField] private Transform weaponHolder;
 
-    [Tooltip("Transform representing the current aim position.")]
-    [SerializeField] private Transform aim;
-
     // REFERENCES
     private Player player;
 
-    
     private void Start()
     {
         InitPlayer();
@@ -64,13 +60,14 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public Vector3 BulletDirection()
     {
+        Transform aim = player.aim.Aim();
         // Calculate direction from the gun to the aim point.
         Vector3 direction = (aim.position - gunPoint.position).normalized;
         direction.y = 0;
 
         // Rotate weapon holder toward the aim position.
-        weaponHolder.LookAt(aim);
-        gunPoint.LookAt(aim);
+        // weaponHolder.LookAt(aim);
+        // gunPoint.LookAt(aim);
 
         return direction;
     }

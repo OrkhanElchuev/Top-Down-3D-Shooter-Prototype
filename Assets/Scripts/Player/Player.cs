@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     // REFERENCES
     public PlayerControls controls { get; private set; }
-    public PlayerAim aim { get; private set; } // Read-only.
+    public PlayerAim aim { get; private set; }
     public PlayerMovement movement { get; private set; }
     public PlayerWeaponManager weapon { get; private set; }
 

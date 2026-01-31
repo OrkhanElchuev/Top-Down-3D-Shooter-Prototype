@@ -13,13 +13,13 @@ public class PlayerAim : MonoBehaviour
     private PlayerControls controls;
 
     // AIM
-    [Header("Aim Info")]
+    [Header("Aim Settings")]
     [Tooltip("A layer mask for shooting a Ray.")]
-
     [SerializeField] private LayerMask aimLayerMask;
-    [Tooltip("A small visible cursor object to show the aiming position.")]
 
+    [Tooltip("A small visible cursor object to show the aiming position.")]
     [SerializeField] private Transform aimObject;
+
     private Vector2 aimInput;
     private RaycastHit lastKnownRayHit;
 
@@ -58,7 +58,7 @@ public class PlayerAim : MonoBehaviour
         {
             lastKnownRayHit = hitInfo;
             // Return the world position of the hit.
-            return hitInfo;
+            return hitInfo; 
         }
         return lastKnownRayHit;
     }
@@ -84,6 +84,7 @@ public class PlayerAim : MonoBehaviour
 
         // Get the aim point once (one raycast per frame).
         Vector3 aimPoint = GetMouseHitInfo().point;
+
         // Place the aim object at the hit XZ and clamp Y to a fixed height next to the player.
         aimObject.position = new Vector3(aimPoint.x, transform.position.y + 1f, aimPoint.z);
     }

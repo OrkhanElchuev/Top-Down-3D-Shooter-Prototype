@@ -82,15 +82,6 @@ public class PlayerWeaponManager : MonoBehaviour
 
         return direction;
     }
-
-    private void OnDrawGizmos()
-    {
-        // Draw a line showing where weapon is facing.
-        Gizmos.DrawLine(weaponHolder.position, weaponHolder.position + weaponHolder.forward * 25);
-        Gizmos.color = Color.yellow;
-        // Draw a line showing bullet's actual travel direction.
-        Gizmos.DrawLine(gunPoint.position, gunPoint.position + BulletDirection() * 25);
-    }
-
+    
     #endregion
 }

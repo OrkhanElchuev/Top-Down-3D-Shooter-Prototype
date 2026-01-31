@@ -1242,6 +1242,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &889521920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 889521921}
+  m_Layer: 0
+  m_Name: GunPoint Pistol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &889521921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889521920}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0416, z: 0.1832}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4400230969729782978}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895394745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1194574704436753766, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
@@ -1719,6 +1750,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 429810613676724509, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+      propertyPath: gunPoint
+      value: 
+      objectReference: {fileID: 889521921}
+    - target: {fileID: 429810613676724509, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+      propertyPath: bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 429810613676724509, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3022830310450304800, guid: ea4b76f2b9c0a974aaa90f0521636e60, type: 3}
     - target: {fileID: 1048910383657671734, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
       propertyPath: aimPoint
       value: 
@@ -1773,12 +1816,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7813112313871582182, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 889521921}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1194574704436753766, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
       insertIndex: -1
       addedObject: {fileID: 895394752}
   m_SourcePrefab: {fileID: 100100000, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+--- !u!4 &4400230969729782978 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7813112313871582182, guid: 2a1a66468e128304fb591a86947ced66, type: 3}
+  m_PrefabInstance: {fileID: 4400230969729782977}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

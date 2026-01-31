@@ -4,7 +4,6 @@ using UnityEngine;
 /// <summary>
 /// Player Movement Script which handles Player Movement and Running Input Actions.
 /// Also handles player drop from height and constant downforce gravity on player.
-/// Additionaly handles player aim using mouse action.
 /// </summary>
 
 public class PlayerMovement : MonoBehaviour

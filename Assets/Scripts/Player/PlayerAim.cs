@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Handle Aiming with the mouse and adding a cursor object.
+/// </summary>
+
 public class PlayerAim : MonoBehaviour
 {
     // REFERENCES

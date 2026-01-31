@@ -66,8 +66,8 @@ public class PlayerWeaponManager : MonoBehaviour
         direction.y = 0;
 
         // Rotate weapon holder toward the aim position.
-        // weaponHolder.LookAt(aim);
-        // gunPoint.LookAt(aim);
+        weaponHolder.LookAt(aim);
+        gunPoint.LookAt(aim);
 
         return direction;
     }

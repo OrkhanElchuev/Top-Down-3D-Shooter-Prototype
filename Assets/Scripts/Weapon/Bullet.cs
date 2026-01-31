@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Stop moving the bullet after it hits an object.
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        // rb.constraints = RigidbodyConstraints.FreezeAll;
+        Destroy(gameObject);
     }
 }

@@ -47,6 +47,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     #region Initializations
 
+
+
     private void InitPlayer()
     {
         player = GetComponent<Player>();
@@ -55,6 +57,25 @@ public class PlayerWeaponManager : MonoBehaviour
     }
 
     #endregion
+
+    #region Public Methods
+
+    public Transform GunPoint() => gunPoint;
+
+    public Vector3 BulletDirection()
+    {
+        // Calculate direction from the gun to the aim point.
+        Vector3 direction = (aim.position - gunPoint.position).normalized;
+        direction.y = 0;
+
+        // Rotate weapon holder toward the aim position.
+        weaponHolder.LookAt(aim);
+        gunPoint.LookAt(aim);
+
+        return direction;
+    }
+
+    #endregion Public Methods
 
     #region Private Methods
     
@@ -70,18 +91,5 @@ public class PlayerWeaponManager : MonoBehaviour
         GetComponentInChildren<Animator>().SetTrigger(FIRE);
     }
 
-    private Vector3 BulletDirection()
-    {
-        // Calculate direction from the gun to the aim point.
-        Vector3 direction = (aim.position - gunPoint.position).normalized;
-        direction.y = 0;
-
-        // Rotate weapon holder toward the aim position.
-        weaponHolder.LookAt(aim);
-        gunPoint.LookAt(aim);
-
-        return direction;
-    }
-    
     #endregion
 }

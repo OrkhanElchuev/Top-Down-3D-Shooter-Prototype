@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,9 +21,14 @@ public class PlayerAim : MonoBehaviour
     [Tooltip("A small visible cursor object to show the aiming position.")]
     [SerializeField] private Transform aimObject;
 
+    [Header("Aim Visual - Laser")]
+    [Tooltip("Laser pointer coming from the weapon, to help with aiming.")]
+    [SerializeField] private LineRenderer aimLaser;
+
+    [SerializeField] private float laserTipLength = 0.5f;
+
     private Vector2 aimInput;
     private RaycastHit lastKnownRayHit;
-
 
     private void Start()
     {
@@ -33,6 +39,7 @@ public class PlayerAim : MonoBehaviour
     private void Update()
     {
         AssignAimObject();
+        UpdateAimLaser();
     }
 
     #region Initializations
@@ -66,6 +73,19 @@ public class PlayerAim : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void UpdateAimLaser()
+    {
+        Transform gunPoint = player.weapon.GunPoint();
+        Vector3 laserDirection = player.weapon.BulletDirection();
+        float gunRange = 4f; // Temporary distance.
+
+        Vector3 endPoint = gunPoint.position + laserDirection * gunRange;
+
+        aimLaser.SetPosition(0, gunPoint.position);
+        aimLaser.SetPosition(1, endPoint);
+        aimLaser.SetPosition(2, endPoint + laserDirection * laserTipLength);
+    }
 
     private void AssignInputEvents()
     {

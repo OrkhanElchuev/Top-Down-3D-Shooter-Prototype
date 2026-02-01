@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerAim aim { get; private set; }
     public PlayerMovement movement { get; private set; }
     public PlayerWeaponManager weapon { get; private set; }
+    public WeaponVisualManager weaponVisuals { get; private set; }
 
 
     private void Awake()
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
         aim = GetComponent<PlayerAim>();
         movement = GetComponent<PlayerMovement>();
         weapon = GetComponent<PlayerWeaponManager>();
+        weaponVisuals = GetComponent<WeaponVisualManager>();
     }
 
     #region OnEnable / OnDisable

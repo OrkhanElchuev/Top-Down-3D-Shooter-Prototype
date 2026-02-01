@@ -8,6 +8,8 @@ using UnityEngine;
 public class WeaponVisualManager : MonoBehaviour
 {
     // REFERENCES
+    [SerializeField] private PlayerWeaponManager weaponManager;
+
     [Header("Weapons List")]
     [SerializeField] private Transform[] weaponTransforms;
 
@@ -49,7 +51,10 @@ public class WeaponVisualManager : MonoBehaviour
         }
 
         DeactivateAllGuns();
-        weaponTransform.gameObject.SetActive(true);        
+        weaponTransform.gameObject.SetActive(true); 
+
+        WeaponVisual visual = weaponTransform.GetComponent<WeaponVisual>();
+        weaponManager.SetCurrentWeaponVisual(visual);       
     }
 
     private void DeactivateAllGuns()

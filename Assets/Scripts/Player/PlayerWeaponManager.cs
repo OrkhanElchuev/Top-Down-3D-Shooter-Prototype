@@ -99,6 +99,11 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponSlots.Add(newWeapon);
     }
 
+    public void SetCurrentWeaponVisual(WeaponVisual visual)
+    {
+        currentWeapon.weaponVisual = visual;
+    }
+
     #endregion Public Methods
 
     #region Private Methods
@@ -106,6 +111,8 @@ public class PlayerWeaponManager : MonoBehaviour
     private void Fire()
     {
         if (!currentWeapon.CanShoot()) return;
+
+        Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
 
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));

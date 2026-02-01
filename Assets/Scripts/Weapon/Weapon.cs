@@ -19,7 +19,7 @@ public class Weapon
     public int totalReserveAmmo;
     public int magazineCapacity;
 
-
+    [HideInInspector] public WeaponVisual weaponVisual;
 
     public bool CanShoot()
     {
@@ -40,10 +40,7 @@ public class Weapon
     public bool CanReload()
     {
         if (ammoInMagazine == magazineCapacity) return false;
-
-        if (totalReserveAmmo > 0) return true;
-        
-        return false;
+        return totalReserveAmmo > 0; 
     }
 
     public void ReloadAmmo()
@@ -51,15 +48,9 @@ public class Weapon
         // Return the leftover ammo into the total reserve ammo.
         totalReserveAmmo += ammoInMagazine;
 
-        int ammoToReload = magazineCapacity;
-
-        if (ammoToReload > totalReserveAmmo)
-            ammoToReload = totalReserveAmmo;
+        int ammoToReload = Mathf.Min(magazineCapacity, totalReserveAmmo);
         
         totalReserveAmmo -= ammoToReload;
         ammoInMagazine = ammoToReload;
-
-        if (totalReserveAmmo < 0)
-            totalReserveAmmo = 0;
     }
 }

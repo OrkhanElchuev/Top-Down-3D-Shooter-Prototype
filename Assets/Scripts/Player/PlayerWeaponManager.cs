@@ -10,6 +10,8 @@ public class PlayerWeaponManager : MonoBehaviour
     // CONST VALUES
     // Name of the trigger parameter used by the firing animation.
     private const string FIRE = "Fire";
+    // Default speed for bullet. To be used in a Mass Formula for a bullet to have dynamic impact.
+    private const float REFERENCE_BULLET_SPEED = 20f;
 
     // BULLET
     [Header("Bullet Settings")]
@@ -66,8 +68,8 @@ public class PlayerWeaponManager : MonoBehaviour
         direction.y = 0;
 
         // Rotate weapon holder toward the aim position.
-        // weaponHolder.LookAt(aim);
-        // gunPoint.LookAt(aim);
+        weaponHolder.LookAt(aim);
+        gunPoint.LookAt(aim);
 
         return direction;
     }
@@ -80,10 +82,13 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
-        // Apply forward velocity to the bullet.
-        newBullet.GetComponent<Rigidbody>().linearVelocity = BulletDirection() * bulletSpeed;
-        Destroy(newBullet, bulletDestroyDelay); 
+        Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
+        // Update the mass of the bullet depending on the speed of it and apply forward velocity.
+        rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
+        rbNewBullet.linearVelocity = BulletDirection() * bulletSpeed;
+        
+        Destroy(newBullet, bulletDestroyDelay); 
         // Trigget Firing animation.
         GetComponentInChildren<Animator>().SetTrigger(FIRE);
     }

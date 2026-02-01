@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class WeaponVisual : MonoBehaviour
+public class WeaponModel : MonoBehaviour
 {
     [SerializeField] private Transform gunPoint;
 
+    public WeaponType weaponType;
     public Transform GunPoint => gunPoint;
 }

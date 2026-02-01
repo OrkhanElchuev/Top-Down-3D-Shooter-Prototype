@@ -19,7 +19,7 @@ public class Weapon
     public int totalReserveAmmo;
     public int magazineCapacity;
 
-    [HideInInspector] public WeaponVisual weaponVisual;
+    [HideInInspector] public WeaponModel weaponVisual;
 
     public bool CanShoot()
     {

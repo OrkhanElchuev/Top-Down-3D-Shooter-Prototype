@@ -8,21 +8,26 @@ using UnityEngine;
 public class WeaponVisualManager : MonoBehaviour
 {
     // REFERENCES
+    [Header("References")]
     [SerializeField] private PlayerWeaponManager weaponManager;
 
-    [Header("Weapons List")]
-    [SerializeField] private Transform[] weaponTransforms;
+    private Player player;
 
-    [Header("Weapon Types")]
-    [SerializeField] private Transform pistol;
-    [SerializeField] private Transform revolver;
-    [SerializeField] private Transform rifle;
-    [SerializeField] private Transform shotgun;
-    [SerializeField] private Transform sniper;
+    [Header("Weapons List")]
+    [SerializeField] private WeaponModel[] weaponModels;
+
+    private void Awake()
+    {
+        // Cache the Player reference early so it's ready before Start/Update.
+        player = GetComponent<Player>();
+
+        // Auto-find weapon models under this object.
+        weaponModels = GetComponentsInChildren<WeaponModel>(true);
+    }
 
     private void Start()
     {
-        ActivateThisWeapon(pistol);
+        ActivateCurrentWeaponVisuals();
     }
 
     private void Update()
@@ -30,41 +35,87 @@ public class WeaponVisualManager : MonoBehaviour
         ChooseWeaponBasedOnKeyInput();
     }
 
-    #region Private Methods
+    #region Public Methods
 
-    private void ChooseWeaponBasedOnKeyInput()
+    /// <summary>
+    /// Returns the WeaponModel that matches the player's currently equipped weapon type.
+    /// </summary>
+    public WeaponModel CurrentWeaponModel()
     {
-        // If "1, 2, 3, 4, 5" keys are pressed.
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateThisWeapon(pistol);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateThisWeapon(revolver);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) ActivateThisWeapon(rifle);
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) ActivateThisWeapon(shotgun);
-        else if (Input.GetKeyDown(KeyCode.Alpha5)) ActivateThisWeapon(sniper);
+        if (player == null || player.weapon == null) return null;
+        if (weaponModels == null || weaponModels.Length == 0) return null;
+
+        // Get the weapon type of the player's currently equipped weapon.
+        WeaponType weaponType = player.weapon.CurrentWeapon().weaponType;
+
+        // Loop though all available weapon models.
+        for (int i = 0; i < weaponModels.Length; i++)
+        {   
+            // If there is a match return it as a current weapon type.
+            if (weaponModels[i] != null && weaponModels[i].weaponType == weaponType)
+                return weaponModels[i];
+        }
+
+        return null;
     }
 
-    private void ActivateThisWeapon(Transform weaponTransform)
+    public void RefreshVisuals()
     {
-        if (weaponTransform == null)
+        ActivateCurrentWeaponVisuals();
+    }
+
+    #endregion
+
+    #region Private Methods
+        private void ChooseWeaponBasedOnKeyInput()
+        {
+            // If "1, 2, 3, 4, 5" keys are pressed.
+            if (Input.GetKeyDown(KeyCode.Alpha1)) EquipSlotAndRefresh(0);
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) EquipSlotAndRefresh(1);
+            //else if (Input.GetKeyDown(KeyCode.Alpha3)) EquipSlotAndRefresh(2);
+            //else if (Input.GetKeyDown(KeyCode.Alpha4)) EquipSlotAndRefresh(3);
+            //else if (Input.GetKeyDown(KeyCode.Alpha5)) EquipSlotAndRefresh(4);
+        }
+
+    private void EquipSlotAndRefresh(int slotIndex)
+    {
+        // Equip the weapon slot.
+        weaponManager.EquipWeapon(slotIndex);
+
+        // After equipping, enable the correct visual.
+        ActivateCurrentWeaponVisuals();
+    }
+
+    private void ActivateCurrentWeaponVisuals()
+    {
+        if (weaponModels == null || weaponModels.Length == 0)
         {
             Debug.Log("Tried to activate a weapon, but the reference is missing.", this);
             return;
         }
 
         DeactivateAllGuns();
-        weaponTransform.gameObject.SetActive(true); 
 
-        WeaponVisual visual = weaponTransform.GetComponent<WeaponVisual>();
-        weaponManager.SetCurrentWeaponVisual(visual);       
+        WeaponModel current = CurrentWeaponModel();
+        if (current == null)
+        {
+            Debug.LogWarning("No WeaponModel matches the currently equipped WeaponType.", this);
+            return;
+        }
+
+        // Enable only the current weapon model.
+        current.gameObject.SetActive(true);
+
+        // Inform the weapon manager which visual is active.
+        weaponManager.SetCurrentWeaponVisual(current);      
     }
 
     private void DeactivateAllGuns()
     {
-        if (weaponTransforms == null) return;
-
-        for (int i = 0; i < weaponTransforms.Length; i++)
+        for (int i = 0; i < weaponModels.Length; i++)
         {
-            if (weaponTransforms[i] != null)
-                weaponTransforms[i].gameObject.SetActive(false);
+            if (weaponModels[i] != null)
+                weaponModels[i].gameObject.SetActive(false);
         }
     }
     #endregion

@@ -35,7 +35,6 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Transform that visually rotates the weapon toward the aim point.")]
     [SerializeField] private Transform weaponHolder;
 
-
     // INVENTORY SLOTS
     [Header("Inventory")]
     [Tooltip("Weapon Slots that can hold a single weapon per slot. Can be dynamically updated.")]
@@ -48,6 +47,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     // REFERENCES
     [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private WeaponVisualManager visualManager;
+
     private Player player;
 
     private void Start()
@@ -68,7 +69,15 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void InitInitialWeaponAmmo()
     {
-        currentWeapon.ammoInMagazine = currentWeapon.totalReserveAmmo;
+        // Determine how many bullets we can load into the magazine.
+        // We cannot exceed the magazine capacity or the available reserve ammo.
+        int load = Mathf.Min(currentWeapon.magazineCapacity, currentWeapon.totalReserveAmmo);
+
+        // Fill the magazine with the calculated amount.
+        currentWeapon.ammoInMagazine = load;
+
+        // Remove the loaded bullets from the reserve ammo.
+        currentWeapon.totalReserveAmmo -= load;
     }
 
     #endregion
@@ -76,6 +85,8 @@ public class PlayerWeaponManager : MonoBehaviour
     #region Public Methods
 
     public Transform GunPoint() => gunPoint;
+    
+    public Weapon CurrentWeapon() => currentWeapon;
 
     public Vector3 BulletDirection()
     {
@@ -103,7 +114,7 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponSlots.Add(newWeapon);
     }
 
-    public void SetCurrentWeaponVisual(WeaponVisual visual)
+    public void SetCurrentWeaponVisual(WeaponModel visual)
     {
         currentWeapon.weaponVisual = visual;
     }
@@ -131,19 +142,26 @@ public class PlayerWeaponManager : MonoBehaviour
         GetComponentInChildren<Animator>().SetTrigger(FIRE);
     }
 
-    private void EquipWeapon (int i)
+    public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
+
+    public void EquipWeapon (int i)
     {
+        if (i < 0 || i >= weaponSlots.Count) return;
+        
         currentWeapon = weaponSlots[i];
+
+        // Update the active weapon model in the player's hands
+        if (visualManager != null)
+        visualManager.RefreshVisuals();
     }
 
     private void DropWeapon()
     {
-        if (weaponSlots.Count <= 1) return;
+        if (HasOnlyOneWeapon()) return;
 
         weaponSlots.Remove(currentWeapon);
-
-        // Assign current weapon to the only weapon that's left.
-        currentWeapon = weaponSlots[0];
+        // Equip current weapon to the only weapon that's left.
+        EquipWeapon(0);
     }
 
     /// <summary>

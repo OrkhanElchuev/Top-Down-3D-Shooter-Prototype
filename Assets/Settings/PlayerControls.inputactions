@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "Player_Controls",
+    "name": "PlayerControls",
     "maps": [
         {
             "name": "Character",
@@ -37,6 +37,33 @@
                     "name": "Run",
                     "type": "Button",
                     "id": "851efb3c-91e2-4aed-a868-edd9fdf24055",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Equip Slot 1",
+                    "type": "Button",
+                    "id": "9b3d1407-1222-4835-84ba-bc4c82c9f28c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Equip Slot 2",
+                    "type": "Button",
+                    "id": "70b01d17-db1d-4c60-a052-1aeb6b40b4f9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drop Current Weapon",
+                    "type": "Button",
+                    "id": "39ca265d-e96a-481c-bdce-56a9d87e8332",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -129,6 +156,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3f5a325-910a-488d-b052-469c2aff5dea",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equip Slot 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52bb67af-4ec2-4618-ab00-1ebab89fde33",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equip Slot 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f520b666-8360-4d17-a649-e312944b2d96",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drop Current Weapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

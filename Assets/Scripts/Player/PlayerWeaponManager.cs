@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -33,6 +34,13 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Transform that visually rotates the weapon toward the aim point.")]
     [SerializeField] private Transform weaponHolder;
 
+
+    // INVENTORY SLOTS
+    [Header("Inventory")]
+    [Tooltip("Weapon Slots that can hold a single weapon per slot. Can be dynamically updated.")]
+    [SerializeField] private List<Weapon> weaponSlots;
+
+
     // REFERENCES
     [SerializeField] private Weapon currentWeapon;
     private Player player;
@@ -41,9 +49,7 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         InitPlayer();
         InitInitialWeaponAmmo();
-
-        // Subscribe to fire input event.
-        player.controls.Character.Fire.performed += ctx => Fire();
+        AssignInputEvents();
     }
 
     #region Initializations
@@ -91,7 +97,7 @@ public class PlayerWeaponManager : MonoBehaviour
             Debug.Log("Out of ammo.");
             return;
         } 
-        
+
         currentWeapon.ammo--;
 
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
@@ -105,6 +111,22 @@ public class PlayerWeaponManager : MonoBehaviour
         Destroy(newBullet, bulletDestroyDelay); 
         // Trigget Firing animation.
         GetComponentInChildren<Animator>().SetTrigger(FIRE);
+    }
+
+    private void EquipWeapon (int i)
+    {
+        currentWeapon = weaponSlots[i];
+    }
+
+    private void AssignInputEvents()
+    {
+        PlayerControls controls = player.controls;
+
+        // Subscribe to fire input event.
+        controls.Character.Fire.performed += ctx => Fire();
+
+        controls.Character.EquipSlot1.performed += ctx => EquipWeapon(0);
+        controls.Character.EquipSlot2.performed += ctx => EquipWeapon(1);
     }
 
     #endregion

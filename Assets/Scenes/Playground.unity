@@ -1969,6 +1969,10 @@ PrefabInstance:
       propertyPath: bulletSpeed
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.maxAmmo
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6061303007356992538, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
     m_RemovedGameObjects: []

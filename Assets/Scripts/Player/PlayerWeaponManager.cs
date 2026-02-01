@@ -27,17 +27,20 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Time to destroy the bullet object after firing.")]
     [SerializeField] private float bulletDestroyDelay = 5f;
 
+
     // AIM / VISUAL REFERENCES
     [Header("Weapon Settings")]
     [Tooltip("Transform that visually rotates the weapon toward the aim point.")]
     [SerializeField] private Transform weaponHolder;
 
     // REFERENCES
+    [SerializeField] private Weapon currentWeapon;
     private Player player;
 
     private void Start()
     {
         InitPlayer();
+        InitInitialWeaponAmmo();
 
         // Subscribe to fire input event.
         player.controls.Character.Fire.performed += ctx => Fire();
@@ -45,13 +48,16 @@ public class PlayerWeaponManager : MonoBehaviour
 
     #region Initializations
 
-
-
     private void InitPlayer()
     {
         player = GetComponent<Player>();
         if (player == null)
             Debug.Log("Player Component is Missing!", this);
+    }
+
+    private void InitInitialWeaponAmmo()
+    {
+        currentWeapon.ammo = currentWeapon.maxAmmo;
     }
 
     #endregion
@@ -80,6 +86,14 @@ public class PlayerWeaponManager : MonoBehaviour
     
     private void Fire()
     {
+        if (currentWeapon.ammo <= 0)
+        {
+            Debug.Log("Out of ammo.");
+            return;
+        } 
+        
+        currentWeapon.ammo--;
+
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();

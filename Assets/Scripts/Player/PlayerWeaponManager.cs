@@ -64,7 +64,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void InitInitialWeaponAmmo()
     {
-        currentWeapon.ammo = currentWeapon.maxAmmo;
+        currentWeapon.ammoInMagazine = currentWeapon.totalReserveAmmo;
     }
 
     #endregion
@@ -144,6 +144,12 @@ public class PlayerWeaponManager : MonoBehaviour
         controls.Character.EquipSlot1.performed += ctx => EquipWeapon(0);
         controls.Character.EquipSlot2.performed += ctx => EquipWeapon(1);
         controls.Character.DropCurrentWeapon.performed += ctx => DropWeapon();
+        
+        controls.Character.Reload.performed += ctx =>
+        {
+            if (currentWeapon.CanReload())
+                currentWeapon.ReloadAmmo();
+        };
     }
 
     #endregion

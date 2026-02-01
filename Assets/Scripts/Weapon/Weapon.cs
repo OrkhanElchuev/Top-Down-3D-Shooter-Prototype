@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum WeaponType
 {
     Pistol,
@@ -12,8 +14,11 @@ public enum WeaponType
 public class Weapon 
 {
     public WeaponType weaponType;
-    public int ammo;
-    public int maxAmmo;
+
+    public int ammoInMagazine;
+    public int totalReserveAmmo;
+    public int magazineCapacity;
+
 
 
     public bool CanShoot()
@@ -23,12 +28,38 @@ public class Weapon
 
     public bool HaveEnoughAmmo()
     {
-        if (ammo > 0)
+        if (ammoInMagazine > 0)
         {
-            ammo--;
+            ammoInMagazine--;
             return true;
         }
 
         return false;
+    }
+
+    public bool CanReload()
+    {
+        if (ammoInMagazine == magazineCapacity) return false;
+
+        if (totalReserveAmmo > 0) return true;
+        
+        return false;
+    }
+
+    public void ReloadAmmo()
+    {
+        // Return the leftover ammo into the total reserve ammo.
+        totalReserveAmmo += ammoInMagazine;
+
+        int ammoToReload = magazineCapacity;
+
+        if (ammoToReload > totalReserveAmmo)
+            ammoToReload = totalReserveAmmo;
+        
+        totalReserveAmmo -= ammoToReload;
+        ammoInMagazine = ammoToReload;
+
+        if (totalReserveAmmo < 0)
+            totalReserveAmmo = 0;
     }
 }

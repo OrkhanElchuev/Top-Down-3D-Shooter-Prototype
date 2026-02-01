@@ -14,4 +14,21 @@ public class Weapon
     public WeaponType weaponType;
     public int ammo;
     public int maxAmmo;
+
+
+    public bool CanShoot()
+    {
+        return HaveEnoughAmmo();
+    }
+
+    public bool HaveEnoughAmmo()
+    {
+        if (ammo > 0)
+        {
+            ammo--;
+            return true;
+        }
+
+        return false;
+    }
 }

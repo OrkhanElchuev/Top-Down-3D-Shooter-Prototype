@@ -13,6 +13,7 @@ public class PlayerWeaponManager : MonoBehaviour
     private const string FIRE = "Fire";
     // Default speed for bullet. To be used in a Mass Formula for a bullet to have dynamic impact.
     private const float REFERENCE_BULLET_SPEED = 20f;
+    private const int MAX_WEAPON_SLOTS_ALLOWED = 2;
 
     // BULLET
     [Header("Bullet Settings")]
@@ -86,19 +87,25 @@ public class PlayerWeaponManager : MonoBehaviour
         return direction;
     }
 
+    public void PickupWeapon(Weapon newWeapon)
+    {
+        // Check if Player has an empty slot to pickup another weapon.
+        if (weaponSlots.Count >= MAX_WEAPON_SLOTS_ALLOWED) 
+        {
+            Debug.Log("No More Available Weapon Slots");
+            return;
+        }
+
+        weaponSlots.Add(newWeapon);
+    }
+
     #endregion Public Methods
 
     #region Private Methods
     
     private void Fire()
     {
-        if (currentWeapon.ammo <= 0)
-        {
-            Debug.Log("Out of ammo.");
-            return;
-        } 
-
-        currentWeapon.ammo--;
+        if (!currentWeapon.CanShoot()) return;
 
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
@@ -118,15 +125,25 @@ public class PlayerWeaponManager : MonoBehaviour
         currentWeapon = weaponSlots[i];
     }
 
+    private void DropWeapon()
+    {
+        if (weaponSlots.Count <= 1) return;
+
+        weaponSlots.Remove(currentWeapon);
+
+        // Assign current weapon to the only weapon that's left.
+        currentWeapon = weaponSlots[0];
+    }
+
     private void AssignInputEvents()
     {
         PlayerControls controls = player.controls;
 
-        // Subscribe to fire input event.
         controls.Character.Fire.performed += ctx => Fire();
 
         controls.Character.EquipSlot1.performed += ctx => EquipWeapon(0);
         controls.Character.EquipSlot2.performed += ctx => EquipWeapon(1);
+        controls.Character.DropCurrentWeapon.performed += ctx => DropWeapon();
     }
 
     #endregion

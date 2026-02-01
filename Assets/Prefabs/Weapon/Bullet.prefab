@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed3c7423f6dfac49adaffa7ac067421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  bulletHitVFX: {fileID: 860266556794819458, guid: d7ebbe81a8e3e2349948aac3309c74ca, type: 3}
 --- !u!96 &4887833034570214521
 TrailRenderer:
   serializedVersion: 4

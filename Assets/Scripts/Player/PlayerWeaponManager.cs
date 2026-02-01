@@ -49,6 +49,8 @@ public class PlayerWeaponManager : MonoBehaviour
     [SerializeField] private Weapon currentWeapon;
     [SerializeField] private WeaponVisualManager visualManager;
 
+    private bool isReloading;
+
     private Player player;
 
     private void Start()
@@ -80,6 +82,28 @@ public class PlayerWeaponManager : MonoBehaviour
         currentWeapon.totalReserveAmmo -= load;
     }
 
+    /// <summary>
+    /// Builds a Weapon data object from a WeaponModel (Inspector values).
+    /// Call this when a weapon is picked up.
+    /// </summary>
+    private Weapon CreateWeaponFromModel(WeaponModel model)
+    {
+        return new Weapon
+        {
+            weaponType = model.weaponType,
+            magazineCapacity = model.magazineCapacity,
+
+            // Clamp starting ammo so it can never exceed capacity.
+            ammoInMagazine = Mathf.Min(model.startingAmmoInMagazine, model.magazineCapacity),
+
+            totalReserveAmmo = model.startingReserveAmmo,
+            reloadTime = model.reloadTime,
+
+            // Link to the model so we can use its GunPoint.
+            weaponVisual = model
+        };
+    }
+
     #endregion
 
     #region Public Methods
@@ -92,7 +116,9 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         Transform aim = player.aim.Aim();
         // Calculate direction from the gun to the aim point.
-        Vector3 direction = (aim.position - gunPoint.position).normalized;
+        Transform activeGunPoint = currentWeapon.weaponVisual.GunPoint;
+
+        Vector3 direction = (aim.position - activeGunPoint.position).normalized;
         direction.y = 0;
 
         // Rotate weapon holder toward the aim position.
@@ -102,7 +128,7 @@ public class PlayerWeaponManager : MonoBehaviour
         return direction;
     }
 
-    public void PickupWeapon(Weapon newWeapon)
+    public void PickupWeapon(WeaponModel model)
     {
         // Check if Player has an empty slot to pickup another weapon.
         if (weaponSlots.Count >= MAX_WEAPON_SLOTS_ALLOWED) 
@@ -111,7 +137,13 @@ public class PlayerWeaponManager : MonoBehaviour
             return;
         }
 
+        // Create weapon data from the picked weapon model.
+        Weapon newWeapon = CreateWeaponFromModel(model);
+
         weaponSlots.Add(newWeapon);
+
+        // Auto-equip the newly picked weapon.
+        EquipWeapon(weaponSlots.Count - 1);
     }
 
     public void SetCurrentWeaponVisual(WeaponModel visual)
@@ -125,6 +157,9 @@ public class PlayerWeaponManager : MonoBehaviour
     
     private void Fire()
     {
+        // Don't allow shooting while a reload is in progress
+        if (isReloading) return;
+
         if (!currentWeapon.CanShoot()) return;
 
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
@@ -186,14 +221,30 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void TryReload()
     {
-        // Only reload if it is actually allowed.
-        if (!currentWeapon.CanReload())
-            return;
+        // Prevent reload spam
+        if (isReloading) return;
 
+        // Only reload if it is actually allowed.
+        if (!currentWeapon.CanReload()) return;
+
+        // Start reload timing (per weapon)
+        StartCoroutine(ReloadRoutine());
+    }
+
+    private System.Collections.IEnumerator ReloadRoutine()
+    {
+        isReloading = true;
+
+        // Play reload VFX at the start
+        PlayReloadVFX();
+
+        // Wait based on the currently equipped weapon's reload time.
+        yield return new WaitForSeconds(currentWeapon.reloadTime);
+
+        // Refill ammo after the delay.
         currentWeapon.ReloadAmmo();
 
-        // Only play VFX when the reload actually happens.
-        PlayReloadVFX();
+        isReloading = false;
     }
 
     private void AssignInputEvents()

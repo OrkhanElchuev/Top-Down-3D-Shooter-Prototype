@@ -18,6 +18,7 @@ public class Weapon
     public int ammoInMagazine;
     public int totalReserveAmmo;
     public int magazineCapacity;
+    public float reloadTime;
 
     [HideInInspector] public WeaponModel weaponVisual;
 

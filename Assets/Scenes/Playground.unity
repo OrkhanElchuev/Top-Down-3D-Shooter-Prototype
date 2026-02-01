@@ -1225,6 +1225,17 @@ Transform:
   - {fileID: 98943109}
   m_Father: {fileID: 553173428}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &816983528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+  m_PrefabInstance: {fileID: 2923028835820183798}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,16 +1777,64 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: reloadTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: magazineCapacity
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingReserveAmmo
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingAmmoInMagazine
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502198374126663698, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: reloadTime
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2502198374126663698, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2502198374126663698, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: magazineCapacity
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502198374126663698, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingReserveAmmo
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502198374126663698, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingAmmoInMagazine
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785478875461509954, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: reloadTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3785478875461509954, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785478875461509954, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: magazineCapacity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785478875461509954, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingReserveAmmo
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785478875461509954, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingAmmoInMagazine
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5081278519617349581, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: aimObject
@@ -1786,8 +1845,28 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: reloadTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: magazineCapacity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingReserveAmmo
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: startingAmmoInMagazine
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524366123522618729, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: reloadTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: reloadVFX
@@ -1798,20 +1877,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6175483848142992033}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.reloadTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.weaponType
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.ammoInMagazine
-      value: 40
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.magazineCapacity
-      value: 40
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.totalReserveAmmo
-      value: 80
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].reloadTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].reloadTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1886,6 +1977,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8132701771794657717, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
+      propertyPath: weaponModel
+      value: 
+      objectReference: {fileID: 816983528}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

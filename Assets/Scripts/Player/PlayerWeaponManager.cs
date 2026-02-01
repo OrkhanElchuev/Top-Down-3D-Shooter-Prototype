@@ -41,6 +41,10 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Weapon Slots that can hold a single weapon per slot. Can be dynamically updated.")]
     [SerializeField] private List<Weapon> weaponSlots;
 
+    // VFX
+    [Header("Reload VFX")]
+    [Tooltip("Visual effect played around the player when reloading")]
+    [SerializeField] private GameObject reloadVFX;
 
     // REFERENCES
     [SerializeField] private Weapon currentWeapon;
@@ -142,6 +146,38 @@ public class PlayerWeaponManager : MonoBehaviour
         currentWeapon = weaponSlots[0];
     }
 
+    /// <summary>
+    /// Spawns a reload visual effect around the player.
+    /// </summary>
+    private void PlayReloadVFX()
+    {
+        if (reloadVFX == null) return;
+
+        // Position the effect relative to the player.
+        Vector3 spawnPosition = transform.position;
+
+        // Spawn the VFX with no rotation.
+        GameObject vfx = Instantiate(reloadVFX, spawnPosition, Quaternion.identity);
+
+        // Parent it to the player so it follows during reload
+        vfx.transform.SetParent(transform);
+
+        // Destroy after the particle finishes.
+        Destroy(vfx, 2f);
+    }
+
+    private void TryReload()
+    {
+        // Only reload if it is actually allowed.
+        if (!currentWeapon.CanReload())
+            return;
+
+        currentWeapon.ReloadAmmo();
+
+        // Only play VFX when the reload actually happens.
+        PlayReloadVFX();
+    }
+
     private void AssignInputEvents()
     {
         PlayerControls controls = player.controls;
@@ -152,11 +188,7 @@ public class PlayerWeaponManager : MonoBehaviour
         controls.Character.EquipSlot2.performed += ctx => EquipWeapon(1);
         controls.Character.DropCurrentWeapon.performed += ctx => DropWeapon();
         
-        controls.Character.Reload.performed += ctx =>
-        {
-            if (currentWeapon.CanReload())
-                currentWeapon.ReloadAmmo();
-        };
+        controls.Character.Reload.performed += ctx => TryReload();
     }
 
     #endregion

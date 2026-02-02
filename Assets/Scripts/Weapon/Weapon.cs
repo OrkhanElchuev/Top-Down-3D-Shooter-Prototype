@@ -18,22 +18,29 @@ public class Weapon
     public int ammoInMagazine;
     public int totalReserveAmmo;
     public int magazineCapacity;
-    public float reloadTime;
+    public float reloadTime = 1f;
+
+    [Space]
+    [Tooltip("Bullets per Second.")]
+    public float fireRate = 1f; 
+    private float lastShootTime;
 
     [HideInInspector] public WeaponModel weaponVisual;
 
     public bool CanShoot()
     {
-        return HaveEnoughAmmo();
+        if (HaveEnoughAmmo() && ReadyToFire())
+        {
+            ammoInMagazine--;
+            return true;
+        }
+        return false;
     }
 
     public bool HaveEnoughAmmo()
     {
         if (ammoInMagazine > 0)
-        {
-            ammoInMagazine--;
             return true;
-        }
 
         return false;
     }
@@ -53,5 +60,17 @@ public class Weapon
         
         totalReserveAmmo -= ammoToReload;
         ammoInMagazine = ammoToReload;
+    }
+
+    private bool ReadyToFire()
+    {
+        // Interval between each bullet = Fire rate.
+        if (Time.time > lastShootTime + 1 / fireRate)
+        {
+            lastShootTime = Time.time;
+            return true;
+        }
+
+        return false;
     }
 }

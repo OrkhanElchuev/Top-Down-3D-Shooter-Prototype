@@ -15,6 +15,10 @@ public class PlayerWeaponManager : MonoBehaviour
     private const float REFERENCE_BULLET_SPEED = 20f;
     private const int MAX_WEAPON_SLOTS_ALLOWED = 2;
 
+    // REFERENCES
+    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private WeaponVisualManager visualManager;
+
     // BULLET
     [Header("Bullet Settings")]
     [Tooltip("Bullet prefab that will be instantiated when firing.")]
@@ -45,10 +49,6 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Visual effect played around the player when reloading")]
     [SerializeField] private GameObject reloadVFX;
 
-    // REFERENCES
-    [SerializeField] private Weapon currentWeapon;
-    [SerializeField] private WeaponVisualManager visualManager;
-
     private bool isReloading;
 
     private Player player;
@@ -58,6 +58,8 @@ public class PlayerWeaponManager : MonoBehaviour
         InitPlayer();
         InitInitialWeaponAmmo();
         AssignInputEvents();
+
+        Invoke("EquipStartingWeapon", .1f);
     }
 
     #region Initializations
@@ -103,6 +105,8 @@ public class PlayerWeaponManager : MonoBehaviour
             weaponVisual = model
         };
     }
+
+    private void EquipStartingWeapon() => EquipWeapon(0);
 
     #endregion
 

@@ -7,19 +7,28 @@ using UnityEngine;
 /// </summary>
 
 public class Bullet : MonoBehaviour
-{
-    // REFERENCES
-    private Rigidbody rb => GetComponent<Rigidbody>();
-    
+{    
     [Header("VFX Settings")]
     [SerializeField] private GameObject bulletHitVFX;
 
     private float destroyDelayOfVFX = 1f;
 
+    private Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         CreateHitFX(collision);
-        Destroy(gameObject);
+
+        // Reset velocity before returning.
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        ObjectPooling.instance.ReturnBullet(gameObject);
     }
 
     /// <summary>

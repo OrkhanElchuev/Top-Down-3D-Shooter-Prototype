@@ -9,20 +9,30 @@ public enum WeaponType
     Sniper
 }
 
+public enum ShootType
+{
+    Auto,
+    Single
+}
+
 
 [System.Serializable] // Make this class visible in the Unity Inspector.
 public class Weapon 
 {
+    [Header("Weapon Type")]
     public WeaponType weaponType;
 
+    [Header("Ammo Settings")]
     public int ammoInMagazine;
     public int totalReserveAmmo;
     public int magazineCapacity;
     public float reloadTime = 1f;
 
     [Space]
+    [Header("Shooting Settings")]
     [Tooltip("Bullets per Second.")]
     public float fireRate = 1f; 
+    public ShootType shootType;
     private float lastShootTime;
 
     [HideInInspector] public WeaponModel weaponVisual;

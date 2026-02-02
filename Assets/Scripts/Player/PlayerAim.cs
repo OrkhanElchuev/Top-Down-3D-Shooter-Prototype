@@ -78,6 +78,11 @@ public class PlayerAim : MonoBehaviour
 
     private void UpdateAimVisuals()
     {
+        WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
+
+        weaponModel.transform.LookAt(aimObject);
+        weaponModel.GunPoint.LookAt(aimObject);
+
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
 

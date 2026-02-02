@@ -163,16 +163,19 @@ public class PlayerWeaponManager : MonoBehaviour
         if (!currentWeapon.CanShoot()) return;
 
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
+        GameObject newBullet = ObjectPooling.instance.GetBullet();
+
+        newBullet.transform.position = gunPoint.position;
+        newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
 
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
-        GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
+        // GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
         // Update the mass of the bullet depending on the speed of it and apply forward velocity.
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
         rbNewBullet.linearVelocity = BulletDirection() * bulletSpeed;
         
-        Destroy(newBullet, bulletDestroyDelay); 
         // Trigget Firing animation.
         GetComponentInChildren<Animator>().SetTrigger(FIRE);
     }

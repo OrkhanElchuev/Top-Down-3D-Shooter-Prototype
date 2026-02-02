@@ -186,9 +186,12 @@ public class PlayerWeaponManager : MonoBehaviour
         // GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
+        // Apply Spread effect to weapons.
+        Vector3 bulletsDirection = currentWeapon.ApplyShootingSpread(BulletDirection());
+
         // Update the mass of the bullet depending on the speed of it and apply forward velocity.
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
-        rbNewBullet.linearVelocity = BulletDirection() * bulletSpeed;
+        rbNewBullet.linearVelocity = bulletsDirection * bulletSpeed;
         
         // Trigget Firing animation.
         GetComponentInChildren<Animator>().SetTrigger(FIRE);

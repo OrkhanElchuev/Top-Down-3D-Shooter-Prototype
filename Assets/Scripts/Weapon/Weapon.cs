@@ -35,7 +35,41 @@ public class Weapon
     public ShootType shootType;
     private float lastShootTime;
 
+    [Header("Recoil / Spread")]
+    private float baseSpread = 1f;
+    private float currentSpread = 2f;
+    public float maxSpread = 3f;
+    public float spreadIncreaseRate = 0.15f;
+
+    private float lastSpreadUpdateTime;
+    private float spreadCooldown = 0.5f;
+
     [HideInInspector] public WeaponModel weaponVisual;
+
+    public Vector3 ApplyShootingSpread(Vector3 originalDirection)
+    {
+        // If shooting continues the spread increases too.
+        UpdateSpread();
+        float randomizedValue = Random.Range(-currentSpread, currentSpread);
+        Quaternion spreadRotation = Quaternion.Euler(randomizedValue, randomizedValue, randomizedValue);
+        
+        return spreadRotation * originalDirection;
+    }
+
+    private void IncreaseSpread()
+    {
+        currentSpread = Mathf.Clamp(currentSpread + spreadIncreaseRate, baseSpread, maxSpread);
+    }
+
+    private void UpdateSpread()
+    {
+        if (Time.time > lastSpreadUpdateTime + spreadCooldown)
+            currentSpread = baseSpread;
+        else
+            IncreaseSpread();
+
+        lastSpreadUpdateTime = Time.time;
+    }
 
     public bool CanShoot()
     {

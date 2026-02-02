@@ -48,21 +48,30 @@ public class Weapon
 
     public Vector3 ApplyShootingSpread(Vector3 originalDirection)
     {
-        // If shooting continues the spread increases too.
+        // Update the current spread value based on firing timing.
         UpdateSpread();
+
+        // Generate a random angle within the current spread range in all directions.
         float randomizedValue = Random.Range(-currentSpread, currentSpread);
+
+        // Slightly tilt the shot direction.
         Quaternion spreadRotation = Quaternion.Euler(randomizedValue, randomizedValue, randomizedValue);
         
         return spreadRotation * originalDirection;
     }
 
+    // Increases the current spread while clamping it
+    // so it never goes below baseSpread or above maxSpread.
     private void IncreaseSpread()
     {
         currentSpread = Mathf.Clamp(currentSpread + spreadIncreaseRate, baseSpread, maxSpread);
     }
 
+    // Handles whether spread should reset or continue increasing.
     private void UpdateSpread()
     {
+        // If enough time has passed since the last shot,
+        // reset spread back to the base value.
         if (Time.time > lastSpreadUpdateTime + spreadCooldown)
             currentSpread = baseSpread;
         else

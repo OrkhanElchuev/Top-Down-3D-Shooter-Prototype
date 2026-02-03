@@ -1,19 +1,7 @@
 using UnityEngine;
 
-public enum WeaponType
-{
-    Pistol,
-    Revolver,
-    Rifle,
-    Shotgun,
-    Sniper
-}
-
-public enum ShootType
-{
-    Auto,
-    Single
-}
+public enum WeaponType { Pistol, Revolver, Rifle, Shotgun, Sniper }
+public enum ShootType { Auto, Single }
 
 
 [System.Serializable] // Make this class visible in the Unity Inspector.
@@ -22,7 +10,10 @@ public class Weapon
     [Header("Weapon Settings")]
     public WeaponType weaponType;
     public ShootType shootType;
+
     public bool burstAvailable;
+
+    // Burst runtime state
     private bool burstActive;
     public float burstFireDelay { get; private set; }
     private int burstBulletsPerShot;
@@ -36,9 +27,11 @@ public class Weapon
 
     // SHOOTING SETTINGS
     public int bulletsPerShot { get; private set; }
+
     private float fireRate = 1f; 
     private float defaultFireRate;
     private float lastShootTime;
+
     public float gunDistance { get; private set; }
 
     // SPREAD SETTINGS
@@ -90,12 +83,11 @@ public class Weapon
         // Update the current spread value based on firing timing.
         UpdateSpread();
 
-        // Generate a random angle within the current spread range in all directions.
-        float randomizedValue = Random.Range(-currentSpread, currentSpread);
+        // Use separate yaw/pitch so distribution isn't biased.
+        float yaw = Random.Range(-currentSpread, currentSpread);
+        float pitch = Random.Range(-currentSpread, currentSpread);
 
-        // Slightly tilt the shot direction.
-        Quaternion spreadRotation = Quaternion.Euler(randomizedValue, randomizedValue, randomizedValue);
-        
+        Quaternion spreadRotation = Quaternion.Euler(pitch, yaw, 0f);
         return spreadRotation * originalDirection;
     }
 
@@ -182,8 +174,11 @@ public class Weapon
 
     private bool ReadyToFire()
     {
+        // Protect against fireRate <= 0
+        float interval = 1f / Mathf.Max(0.0001f, fireRate);
+
         // Interval between each bullet = Fire rate.
-        if (Time.time > lastShootTime + 1 / fireRate)
+        if (Time.time > lastShootTime + interval)
         {
             lastShootTime = Time.time;
             return true;

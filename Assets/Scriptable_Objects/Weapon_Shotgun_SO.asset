@@ -17,9 +17,9 @@ MonoBehaviour:
   shootType: 1
   fireRate: 2
   bulletsPerShot: 5
-  ammoInMagazine: 20
-  totalReserveAmmo: 80
-  magazineCapacity: 20
+  ammoInMagazine: 30
+  totalReserveAmmo: 90
+  magazineCapacity: 30
   baseSpread: 20
   maxSpread: 20
   spreadIncreaseRate: 0.15

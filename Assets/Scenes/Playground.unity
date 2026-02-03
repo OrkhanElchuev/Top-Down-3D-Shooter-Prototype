@@ -2396,6 +2396,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.gunDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.currentSpread
       value: 0.5
       objectReference: {fileID: 0}
@@ -2458,6 +2462,14 @@ PrefabInstance:
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponSlots.Array.data[1].weaponType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].gunDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].gunDistance
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponSlots.Array.data[0].spreadAmount

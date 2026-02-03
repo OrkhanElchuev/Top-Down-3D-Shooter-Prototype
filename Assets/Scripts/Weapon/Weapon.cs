@@ -49,6 +49,11 @@ public class Weapon
     public float maxSpread = 3f;
     public float spreadIncreaseRate = 0.15f;
 
+    [Header("Gun Shot Distance")]
+    [Range(2, 15)]
+    public float gunDistance = 4f;
+
+
     private float lastSpreadUpdateTime;
     private float spreadCooldown = 0.5f;
 

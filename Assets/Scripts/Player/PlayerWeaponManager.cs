@@ -195,7 +195,7 @@ public class PlayerWeaponManager : MonoBehaviour
     private void FireSingleBullet()
     {
         currentWeapon.ammoInMagazine--;
-        
+
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
         GameObject newBullet = ObjectPooling.instance.GetBullet();
 
@@ -205,6 +205,9 @@ public class PlayerWeaponManager : MonoBehaviour
         // Spawn a bullet at the gun point, rotated to face the same direction as the weapon.
         // GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
+
+        Bullet bulleScript = newBullet.GetComponent<Bullet>();
+        bulleScript.BulletSetup(currentWeapon.gunDistance);
 
         // Apply Spread effect to weapons.
         Vector3 bulletsDirection = currentWeapon.ApplyShootingSpread(BulletDirection());
@@ -240,10 +243,10 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         SetWeaponReady(false);
 
-        for (int i = 0; i <= currentWeapon.bulletsPerShot; i++)
+        for (int i = 0; i < currentWeapon.bulletsPerShot; i++)
         {
+            if (!currentWeapon.HaveEnoughAmmo()) break;
             FireSingleBullet();
-
             yield return new WaitForSeconds(currentWeapon.burstFireDelay);
 
             if (i >= currentWeapon.bulletsPerShot)

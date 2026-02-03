@@ -194,6 +194,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void FireSingleBullet()
     {
+        currentWeapon.ammoInMagazine--;
+        
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
         GameObject newBullet = ObjectPooling.instance.GetBullet();
 

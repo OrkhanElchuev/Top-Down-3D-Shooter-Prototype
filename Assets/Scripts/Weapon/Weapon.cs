@@ -90,7 +90,16 @@ public class Weapon
 
     #region Burst Mode Methods
 
-    public bool BurstActivated() => burstActive;
+    public bool BurstActivated()
+    {
+        if (weaponType == WeaponType.Shotgun)
+        {
+            burstFireDelay = 0;
+            return true;
+        }
+
+        return burstActive;
+    }
 
     public void ToggleBurst()
     {
@@ -113,15 +122,7 @@ public class Weapon
 
     #endregion
 
-    public bool CanShoot()
-    {
-        if (HaveEnoughAmmo() && ReadyToFire())
-        {
-            ammoInMagazine--;
-            return true;
-        }
-        return false;
-    }
+    public bool CanShoot() => HaveEnoughAmmo() && ReadyToFire();
 
     public bool HaveEnoughAmmo()
     {

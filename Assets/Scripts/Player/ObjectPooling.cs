@@ -6,12 +6,9 @@ public class ObjectPooling : MonoBehaviour
 {
     public static ObjectPooling instance;
 
-    [Header("Bullet Settings")]
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private int poolSize = 20;
-    [SerializeField] private Transform poolParent;
 
-    private Queue<GameObject> bulletPool = new();
+    private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
 
     private void Awake()
     {
@@ -21,39 +18,52 @@ public class ObjectPooling : MonoBehaviour
             return;
         }
         instance = this;
-
-        // If no parent was assigned, create one for cleanliness.
-        if (poolParent == null)
-            poolParent = transform;
-
-        CreateInitialPool();
     }
 
-    public GameObject GetBullet()
+    public GameObject GetObject(GameObject prefab)
     {
-        // If we ran out, grow the pool instead of failing.
-        if (bulletPool.Count == 0)
-            AddBulletToPool();
+        if (poolDictionary.ContainsKey(prefab) == false)
+            InitializeNewPool(prefab);
 
-        GameObject bullet = bulletPool.Dequeue();
+        if (poolDictionary[prefab].Count == 0)
+            CreateNewObject(prefab);
+
+        GameObject objectToGet = poolDictionary[prefab].Dequeue();
 
         // Reset physics state so old movement doesn't carry over.
-        ResetRBPhysics(bullet);
-        ResetVisuals(bullet);
-        bullet.SetActive(true);
+        ResetRBPhysics(objectToGet);
+        ResetVisuals(objectToGet);
 
-        return bullet;
+        objectToGet.SetActive(true);
+        objectToGet.transform.parent = null;
+
+        return objectToGet;
     }
 
-    public void ReturnBullet(GameObject bullet)
+    public void ReturnObject(GameObject objectToReturn, float delay = 0.01f)
+    {
+        StartCoroutine(DelayReturn(delay, objectToReturn));
+    } 
+        
+    public IEnumerator DelayReturn(float delay, GameObject objectToReturn)
+    {
+        yield return new WaitForSeconds(delay);
+
+        ReturnToPool(objectToReturn);
+    }
+
+    private void ReturnToPool(GameObject objectToReturn)
     {
         // Reset physics again just to be safe.
-        ResetRBPhysics(bullet);
-        ResetVisuals(bullet);
-        bullet.SetActive(false);
-        bullet.transform.SetParent(poolParent);
+        ResetRBPhysics(objectToReturn);
+        ResetVisuals(objectToReturn);
         
-        bulletPool.Enqueue(bullet);
+        GameObject originalPrefab = objectToReturn.GetComponent<PooledObject>().originalPrefab;
+
+        objectToReturn.SetActive(false);
+        objectToReturn.transform.parent = transform;
+
+        poolDictionary[originalPrefab].Enqueue(objectToReturn);
     }
 
     private static void ResetRBPhysics(GameObject bullet)
@@ -66,19 +76,23 @@ public class ObjectPooling : MonoBehaviour
         }
     }
 
-    private void CreateInitialPool()
+    private void InitializeNewPool(GameObject prefab)
     {
+        poolDictionary[prefab] = new Queue<GameObject>();
+        
         for (int i = 0; i < poolSize; i++)
         {
-            AddBulletToPool();
+            CreateNewObject(prefab);
         }
     }
 
-    private void AddBulletToPool()
+    private void CreateNewObject(GameObject prefab)
     {
-        GameObject newBullet = Instantiate(bulletPrefab, poolParent);
-        newBullet.SetActive(false);
-        bulletPool.Enqueue(newBullet);
+        GameObject newObject = Instantiate(prefab, transform);
+        newObject.AddComponent<PooledObject>().originalPrefab = prefab;
+        newObject.SetActive(false);
+
+        poolDictionary[prefab].Enqueue(newObject);
     }
 
     private static void ResetVisuals(GameObject bullet)

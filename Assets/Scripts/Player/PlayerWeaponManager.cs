@@ -194,7 +194,7 @@ public class PlayerWeaponManager : MonoBehaviour
         currentWeapon.ammoInMagazine--;
 
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
-        GameObject newBullet = ObjectPooling.instance.GetBullet();
+        GameObject newBullet = ObjectPooling.instance.GetObject(bulletPrefab);
 
         newBullet.transform.position = gunPoint.position;
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);

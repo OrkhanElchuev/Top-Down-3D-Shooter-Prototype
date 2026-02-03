@@ -14,7 +14,6 @@ public class Bullet : MonoBehaviour
     [Header("VFX Settings")]
     [SerializeField] private GameObject bulletHitVFX;
 
-    private float destroyDelayOfVFX = 1f;
     private Vector3 startPosition;
     private float flyDistance;
     private float extraDistance = 1;
@@ -32,7 +31,7 @@ public class Bullet : MonoBehaviour
     private void DisableBulletAtLaserTip()
     {
         if (Vector3.Distance(startPosition, transform.position) > flyDistance)
-            ObjectPooling.instance.ReturnBullet(gameObject);
+            ReturnBullet();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,9 +41,10 @@ public class Bullet : MonoBehaviour
         // Reset velocity before returning.
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
-        ObjectPooling.instance.ReturnBullet(gameObject);
+        ReturnBullet();
     }
+
+    private void ReturnBullet() => ObjectPooling.instance.ReturnObject(gameObject);
 
     public void BulletSetup(float flyDistance)
     {
@@ -56,7 +56,6 @@ public class Bullet : MonoBehaviour
     /// <summary>
     /// Spawn a hit visual effect at the point where collision happened.
     /// </summary>
-    /// <param name="collision"></param>
     private void CreateHitFX(Collision collision)
     {
         // Make sure the collision actually has contact points.
@@ -65,9 +64,10 @@ public class Bullet : MonoBehaviour
             // Take the first contact point of the collision. (Point of 2 colliders colliding).
             ContactPoint contact = collision.contacts[0];
             // Instantiate the hit VFX at the contact point, make it face away from the surface.
-            GameObject newHitFX = Instantiate(bulletHitVFX, contact.point, Quaternion.LookRotation(contact.normal));
+            GameObject newHitFX = ObjectPooling.instance.GetObject(bulletHitVFX);
+            newHitFX.transform.position = contact.point;
 
-            Destroy(newHitFX, destroyDelayOfVFX);
+            ObjectPooling.instance.ReturnObject(newHitFX, 1);
         }
     }
 }

@@ -22,6 +22,10 @@ public class Weapon
     [Header("Weapon Type")]
     public WeaponType weaponType;
 
+    [Header("BUrst Fire")]
+    public int bulletsPerShot;
+    public float burstFireDelay = 0.1f;
+
     [Header("Ammo Settings")]
     public int ammoInMagazine;
     public int totalReserveAmmo;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Handles weapon behavior for the player, including
@@ -176,6 +177,14 @@ public class PlayerWeaponManager : MonoBehaviour
         if (currentWeapon.shootType == ShootType.Single)
             isShooting = false;
 
+        StartCoroutine(BurstFire());
+
+        // Trigget Firing animation.
+        GetComponentInChildren<Animator>().SetTrigger(FIRE);
+    }
+
+    private void FireSingleBullet()
+    {
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
         GameObject newBullet = ObjectPooling.instance.GetBullet();
 
@@ -192,9 +201,6 @@ public class PlayerWeaponManager : MonoBehaviour
         // Update the mass of the bullet depending on the speed of it and apply forward velocity.
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
         rbNewBullet.linearVelocity = bulletsDirection * bulletSpeed;
-        
-        // Trigget Firing animation.
-        GetComponentInChildren<Animator>().SetTrigger(FIRE);
     }
 
     public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
@@ -217,6 +223,21 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponSlots.Remove(currentWeapon);
         // Equip current weapon to the only weapon that's left.
         EquipWeapon(0);
+    }
+
+    private IEnumerator BurstFire()
+    {
+        SetWeaponReady(false);
+
+        for (int i = 0; i <= currentWeapon.bulletsPerShot; i++)
+        {
+            FireSingleBullet();
+
+            yield return new WaitForSeconds(currentWeapon.burstFireDelay);
+
+            if (i >= currentWeapon.bulletsPerShot)
+                SetWeaponReady(true);
+        }
     }
 
     /// <summary>
@@ -252,7 +273,7 @@ public class PlayerWeaponManager : MonoBehaviour
         StartCoroutine(ReloadRoutine());
     }
 
-    private System.Collections.IEnumerator ReloadRoutine()
+    private IEnumerator ReloadRoutine()
     {
         isReloading = true;
 

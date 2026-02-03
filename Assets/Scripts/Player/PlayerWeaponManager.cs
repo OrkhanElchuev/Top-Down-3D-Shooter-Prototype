@@ -17,6 +17,7 @@ public class PlayerWeaponManager : MonoBehaviour
     private const int MAX_WEAPON_SLOTS_ALLOWED = 2;
 
     // REFERENCES
+    [SerializeField] private WeaponDataSO weaponDataSO;
     [SerializeField] private Weapon currentWeapon;
     [SerializeField] private WeaponVisualManager visualManager;
 
@@ -93,30 +94,6 @@ public class PlayerWeaponManager : MonoBehaviour
         currentWeapon.totalReserveAmmo -= load;
     }
 
-    /// <summary>
-    /// Builds a Weapon data object from a WeaponModel (Inspector values).
-    /// Call this when a weapon is picked up.
-    /// </summary>
-    private Weapon CreateWeaponFromModel(WeaponModel model)
-    {
-        return new Weapon
-        {
-            weaponType = model.weaponType,
-            magazineCapacity = model.magazineCapacity,
-
-            // Clamp starting ammo so it can never exceed capacity.
-            ammoInMagazine = Mathf.Min(model.startingAmmoInMagazine, model.magazineCapacity),
-
-            totalReserveAmmo = model.startingReserveAmmo,
-            reloadTime = model.reloadTime,
-
-            // Link to the model so we can use its GunPoint.
-            weaponVisual = model
-        };
-    }
-
-    private void EquipStartingWeapon() => EquipWeapon(0);
-
     #endregion
 
     #region Public Methods
@@ -141,7 +118,7 @@ public class PlayerWeaponManager : MonoBehaviour
         return direction;
     }
 
-    public void PickupWeapon(WeaponModel model)
+    public void PickupWeapon(WeaponDataSO newWeaponDataSO)
     {
         // Check if Player has an empty slot to pickup another weapon.
         if (weaponSlots.Count >= MAX_WEAPON_SLOTS_ALLOWED) 
@@ -150,10 +127,7 @@ public class PlayerWeaponManager : MonoBehaviour
             return;
         }
 
-        // Create weapon data from the picked weapon model.
-        Weapon newWeapon = CreateWeaponFromModel(model);
-
-        weaponSlots.Add(newWeapon);
+        weaponSlots.Add(new Weapon(newWeaponDataSO));
 
         // Auto-equip the newly picked weapon.
         EquipWeapon(weaponSlots.Count - 1);
@@ -162,6 +136,19 @@ public class PlayerWeaponManager : MonoBehaviour
     public void SetCurrentWeaponVisual(WeaponModel visual)
     {
         currentWeapon.weaponVisual = visual;
+    }
+
+    public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
+
+    public void EquipWeapon (int i)
+    {
+        if (i < 0 || i >= weaponSlots.Count) return;
+
+        currentWeapon = weaponSlots[i];
+
+        // Update the active weapon model in the player's hands
+        if (visualManager != null)
+        visualManager.RefreshVisuals();
     }
 
     #endregion Public Methods
@@ -214,17 +201,10 @@ public class PlayerWeaponManager : MonoBehaviour
         rbNewBullet.linearVelocity = bulletsDirection * bulletSpeed;
     }
 
-    public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
-
-    public void EquipWeapon (int i)
+    private void EquipStartingWeapon()
     {
-        if (i < 0 || i >= weaponSlots.Count) return;
-
-        currentWeapon = weaponSlots[i];
-
-        // Update the active weapon model in the player's hands
-        if (visualManager != null)
-        visualManager.RefreshVisuals();
+        weaponSlots[0] = new Weapon(weaponDataSO);
+        EquipWeapon(0);
     }
 
     private void DropWeapon()
@@ -292,7 +272,7 @@ public class PlayerWeaponManager : MonoBehaviour
         PlayReloadVFX();
 
         // Wait based on the currently equipped weapon's reload time.
-        yield return new WaitForSeconds(currentWeapon.reloadTime);
+        yield return new WaitForSeconds(currentWeapon.reloadSpeed);
 
         // Refill ammo after the delay.
         currentWeapon.ReloadAmmo();

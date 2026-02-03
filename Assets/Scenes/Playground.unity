@@ -2112,9 +2112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db7732627a942c4f8584c85f2bbaa3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPooling
-  bulletPrefab: {fileID: 3022830310450304800, guid: ea4b76f2b9c0a974aaa90f0521636e60, type: 3}
   poolSize: 20
-  poolParent: {fileID: 1876128637}
 --- !u!1 &2052060905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,12 +2370,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3473676945179321117, guid: f45bd5611f5337e4f9a3ee1569589df7, type: 3}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f2cf4635aa508754c82263874a3d1e62, type: 2}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: visualManager
       value: 
       objectReference: {fileID: 6175483848142992033}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponSlots.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.shootType
@@ -2616,6 +2618,10 @@ PrefabInstance:
       propertyPath: weaponModel
       value: 
       objectReference: {fileID: 816983528}
+    - target: {fileID: 8132701771794657717, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
+      propertyPath: weaponDataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f723cde1682d2544884c6d93aa3b319, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -177,13 +177,19 @@ public class PlayerWeaponManager : MonoBehaviour
         if (isReloading) return;
         if (!currentWeapon.CanShoot()) return;
 
+        // Trigget Firing animation.
+        GetComponentInChildren<Animator>().SetTrigger(FIRE);
+
         if (currentWeapon.shootType == ShootType.Single)
             isShooting = false;
 
-        StartCoroutine(BurstFire());
+        if (currentWeapon.BurstActivated())
+        {
+            StartCoroutine(BurstFire());                
+            return; 
+        }
 
-        // Trigget Firing animation.
-        GetComponentInChildren<Animator>().SetTrigger(FIRE);
+        FireSingleBullet();
     }
 
     private void FireSingleBullet()

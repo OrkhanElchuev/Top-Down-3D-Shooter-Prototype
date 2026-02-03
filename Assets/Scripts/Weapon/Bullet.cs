@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     private float destroyDelayOfVFX = 1f;
     private Vector3 startPosition;
     private float flyDistance;
+    private float extraDistance = 1;
 
     private void Awake()
     {
@@ -25,9 +26,14 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        DisableBulletAtLaserTip();
+    }
+
+    private void DisableBulletAtLaserTip()
+    {
         if (Vector3.Distance(startPosition, transform.position) > flyDistance)
             ObjectPooling.instance.ReturnBullet(gameObject);
-    }  
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -43,7 +49,8 @@ public class Bullet : MonoBehaviour
     public void BulletSetup(float flyDistance)
     {
         startPosition = transform.position;
-        this.flyDistance = flyDistance;
+        // extraDistance is created to make bullet fly a bit further than the tip of the laser.
+        this.flyDistance = flyDistance + extraDistance;
     }
 
     /// <summary>

@@ -78,10 +78,15 @@ public class PlayerAim : MonoBehaviour
 
     private void UpdateAimVisuals()
     {
+        WeaponModel weaponModel = player.weaponVisuals.CurrentWeaponModel();
+
+        weaponModel.transform.LookAt(aimObject);
+        weaponModel.GunPoint.LookAt(aimObject);
+
         Transform gunPoint = player.weapon.GunPoint();
         Vector3 laserDirection = player.weapon.BulletDirection();
 
-        float gunRange = laserLength;
+        float gunRange = player.weapon.CurrentWeapon().gunDistance;
         float laserTipLength = 0.5f;
 
         // Calculate the main endpoint of the laser beam.

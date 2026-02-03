@@ -2277,7 +2277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: reloadTime
-      value: 1.5
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 1462540924590482917, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
@@ -2345,7 +2345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: reloadTime
-      value: 2
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 7062466912999954781, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponType
@@ -2365,7 +2365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7524366123522618729, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: reloadTime
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: reloadVFX
@@ -2376,12 +2376,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6175483848142992033}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.shootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.baseSpread
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.reloadTime
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.weaponType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.gunDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: currentWeapon.currentSpread
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: currentWeapon.ammoInMagazine
@@ -2396,11 +2416,127 @@ PrefabInstance:
       value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].fireRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].maxSpread
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].shootType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].maxSpread
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].shootType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].baseSpread
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponSlots.Array.data[0].reloadTime
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].weaponType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].baseSpread
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
       propertyPath: weaponSlots.Array.data[1].reloadTime
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].weaponType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].gunDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].gunDistance
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].spreadAmount
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].spreadAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].currentSpread
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstFireRate
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].currentSpread
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].bulletsPerShot
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].burstAvailable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].ammoInMagazine
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].bulletsPerShot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstAvailable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstFireDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].defaultFireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].defaultFireRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].magazineCapacity
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].totalReserveAmmo
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[0].burstBulletsPerShot
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101926443498839364, guid: 2c5265e67e981f94d8484697a1d17d32, type: 3}
+      propertyPath: weaponSlots.Array.data[1].burstBulletsPerShot
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []

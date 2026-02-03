@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Handles weapon behavior for the player, including
@@ -14,6 +15,10 @@ public class PlayerWeaponManager : MonoBehaviour
     // Default speed for bullet. To be used in a Mass Formula for a bullet to have dynamic impact.
     private const float REFERENCE_BULLET_SPEED = 20f;
     private const int MAX_WEAPON_SLOTS_ALLOWED = 2;
+
+    // REFERENCES
+    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private WeaponVisualManager visualManager;
 
     // BULLET
     [Header("Bullet Settings")]
@@ -45,11 +50,9 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Visual effect played around the player when reloading")]
     [SerializeField] private GameObject reloadVFX;
 
-    // REFERENCES
-    [SerializeField] private Weapon currentWeapon;
-    [SerializeField] private WeaponVisualManager visualManager;
-
     private bool isReloading;
+    private bool isWeaponReady;
+    private bool isShooting;
 
     private Player player;
 
@@ -58,6 +61,14 @@ public class PlayerWeaponManager : MonoBehaviour
         InitPlayer();
         InitInitialWeaponAmmo();
         AssignInputEvents();
+
+        Invoke("EquipStartingWeapon", .1f);
+    }
+
+    private void Update()
+    {
+        if (isShooting)
+            Shoot();
     }
 
     #region Initializations
@@ -104,6 +115,8 @@ public class PlayerWeaponManager : MonoBehaviour
         };
     }
 
+    private void EquipStartingWeapon() => EquipWeapon(0);
+
     #endregion
 
     #region Public Methods
@@ -111,6 +124,10 @@ public class PlayerWeaponManager : MonoBehaviour
     public Transform GunPoint() => gunPoint;
     
     public Weapon CurrentWeapon() => currentWeapon;
+
+    public void SetWeaponReady(bool ready) => isWeaponReady = ready;
+
+    public bool WeaponReady() => isWeaponReady;
 
     public Vector3 BulletDirection()
     {
@@ -120,10 +137,6 @@ public class PlayerWeaponManager : MonoBehaviour
 
         Vector3 direction = (aim.position - activeGunPoint.position).normalized;
         direction.y = 0;
-
-        // Rotate weapon holder toward the aim position.
-        weaponHolder.LookAt(aim);
-        gunPoint.LookAt(aim);
 
         return direction;
     }
@@ -155,12 +168,30 @@ public class PlayerWeaponManager : MonoBehaviour
 
     #region Private Methods
     
-    private void Fire()
+    private void Shoot()
     {
         // Don't allow shooting while a reload is in progress
         if (isReloading) return;
-
         if (!currentWeapon.CanShoot()) return;
+
+        // Trigget Firing animation.
+        GetComponentInChildren<Animator>().SetTrigger(FIRE);
+
+        if (currentWeapon.shootType == ShootType.Single)
+            isShooting = false;
+
+        if (currentWeapon.BurstActivated())
+        {
+            StartCoroutine(BurstFire());                
+            return; 
+        }
+
+        FireSingleBullet();
+    }
+
+    private void FireSingleBullet()
+    {
+        currentWeapon.ammoInMagazine--;
 
         Transform gunPoint = currentWeapon.weaponVisual.GunPoint;
         GameObject newBullet = ObjectPooling.instance.GetBullet();
@@ -172,12 +203,15 @@ public class PlayerWeaponManager : MonoBehaviour
         // GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
+        Bullet bulleScript = newBullet.GetComponent<Bullet>();
+        bulleScript.BulletSetup(currentWeapon.gunDistance);
+
+        // Apply Spread effect to weapons.
+        Vector3 bulletsDirection = currentWeapon.ApplyShootingSpread(BulletDirection());
+
         // Update the mass of the bullet depending on the speed of it and apply forward velocity.
         rbNewBullet.mass = REFERENCE_BULLET_SPEED / bulletSpeed;
-        rbNewBullet.linearVelocity = BulletDirection() * bulletSpeed;
-        
-        // Trigget Firing animation.
-        GetComponentInChildren<Animator>().SetTrigger(FIRE);
+        rbNewBullet.linearVelocity = bulletsDirection * bulletSpeed;
     }
 
     public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
@@ -185,7 +219,7 @@ public class PlayerWeaponManager : MonoBehaviour
     public void EquipWeapon (int i)
     {
         if (i < 0 || i >= weaponSlots.Count) return;
-        
+
         currentWeapon = weaponSlots[i];
 
         // Update the active weapon model in the player's hands
@@ -200,6 +234,21 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponSlots.Remove(currentWeapon);
         // Equip current weapon to the only weapon that's left.
         EquipWeapon(0);
+    }
+
+    private IEnumerator BurstFire()
+    {
+        SetWeaponReady(false);
+
+        for (int i = 0; i < currentWeapon.bulletsPerShot; i++)
+        {
+            if (!currentWeapon.HaveEnoughAmmo()) break;
+            FireSingleBullet();
+            yield return new WaitForSeconds(currentWeapon.burstFireDelay);
+
+            if (i >= currentWeapon.bulletsPerShot)
+                SetWeaponReady(true);
+        }
     }
 
     /// <summary>
@@ -226,15 +275,16 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         // Prevent reload spam
         if (isReloading) return;
-
         // Only reload if it is actually allowed.
         if (!currentWeapon.CanReload()) return;
+
+        SetWeaponReady(false);
 
         // Start reload timing (per weapon)
         StartCoroutine(ReloadRoutine());
     }
 
-    private System.Collections.IEnumerator ReloadRoutine()
+    private IEnumerator ReloadRoutine()
     {
         isReloading = true;
 
@@ -247,6 +297,7 @@ public class PlayerWeaponManager : MonoBehaviour
         // Refill ammo after the delay.
         currentWeapon.ReloadAmmo();
 
+        SetWeaponReady(true);
         isReloading = false;
     }
 
@@ -254,13 +305,16 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         PlayerControls controls = player.controls;
 
-        controls.Character.Fire.performed += ctx => Fire();
+        controls.Character.Fire.performed += ctx => isShooting = true;
+        controls.Character.Fire.canceled += ctx => isShooting = false;
 
         controls.Character.EquipSlot1.performed += ctx => EquipWeapon(0);
         controls.Character.EquipSlot2.performed += ctx => EquipWeapon(1);
         controls.Character.DropCurrentWeapon.performed += ctx => DropWeapon();
         
         controls.Character.Reload.performed += ctx => TryReload();
+
+        controls.Character.ToggleWeaponBurst.performed += ctx => currentWeapon.ToggleBurst();
     }
 
     #endregion

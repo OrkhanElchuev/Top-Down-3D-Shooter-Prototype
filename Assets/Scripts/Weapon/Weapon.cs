@@ -22,9 +22,12 @@ public class Weapon
     [Header("Weapon Type")]
     public WeaponType weaponType;
 
-    [Header("BUrst Fire")]
-    public int bulletsPerShot;
+    [Header("Burst Fire")]
+    public bool burstAvailable;
+    public bool burstActive;
     public float burstFireDelay = 0.1f;
+    public int burstModeBulletsPerShot;
+    public float burstModeFireRate;
 
     [Header("Ammo Settings")]
     public int ammoInMagazine;
@@ -35,12 +38,13 @@ public class Weapon
     [Space]
     [Header("Shooting Settings")]
     [Tooltip("Bullets per Second.")]
+    public int bulletsPerShot;
     public float fireRate = 1f; 
     public ShootType shootType;
     private float lastShootTime;
 
     [Header("Recoil / Spread")]
-    private float baseSpread = 1f;
+    public float baseSpread = 1f;
     private float currentSpread = 2f;
     public float maxSpread = 3f;
     public float spreadIncreaseRate = 0.15f;
@@ -83,6 +87,20 @@ public class Weapon
 
         lastSpreadUpdateTime = Time.time;
     }
+
+    #region Burst Mode Methods
+
+    public bool BurstActivated() => burstActive;
+
+    public void ToggleBurst()
+    {
+        if (burstAvailable == false)
+            return;
+
+        burstActive = !burstActive;
+    }
+    
+    #endregion
 
     public bool CanShoot()
     {

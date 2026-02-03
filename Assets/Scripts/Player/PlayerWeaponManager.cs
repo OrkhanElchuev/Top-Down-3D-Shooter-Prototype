@@ -69,6 +69,9 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         if (isShooting)
             Shoot();
+
+        if (Input.GetKeyDown(KeyCode.T))
+            currentWeapon.ToggleBurst();
     }
 
     #region Initializations

@@ -149,6 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  mesh: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &24031713
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -753,6 +755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  mesh: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &334147361
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2412,6 +2416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  mesh: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &1432959052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2569,6 +2575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  mesh: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &1572379071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2861,6 +2869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  mesh: {fileID: 0}
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &2049530607
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,75 +1,93 @@
 using UnityEngine;
 
-public enum WeaponType
-{
-    Pistol,
-    Revolver,
-    Rifle,
-    Shotgun,
-    Sniper
-}
-
-public enum ShootType
-{
-    Auto,
-    Single
-}
+public enum WeaponType { Pistol, Revolver, Rifle, Shotgun, Sniper }
+public enum ShootType { Auto, Single }
 
 
 [System.Serializable] // Make this class visible in the Unity Inspector.
 public class Weapon 
 {
-    [Header("Weapon Type")]
+    [Header("Weapon Settings")]
     public WeaponType weaponType;
+    public ShootType shootType;
 
-    [Header("Burst Fire")]
     public bool burstAvailable;
-    public bool burstActive;
-    public float burstFireDelay = 0.1f;
-    public int burstBulletsPerShot;
-    public float burstFireRate;
+
+    // Burst runtime state
+    private bool burstActive;
+    public float burstFireDelay { get; private set; }
+    private int burstBulletsPerShot;
+    private float burstFireRate;
 
     [Header("Ammo Settings")]
     public int ammoInMagazine;
     public int totalReserveAmmo;
     public int magazineCapacity;
-    public float reloadTime = 1f;
+    public float reloadSpeed = 1f;
 
-    [Space]
-    [Header("Shooting Settings")]
-    public int bulletsPerShot;
-    public float fireRate = 1f; 
-    public ShootType shootType;
-    public float defaultFireRate;
+    // SHOOTING SETTINGS
+    public int bulletsPerShot { get; private set; }
+
+    private float fireRate = 1f; 
+    private float defaultFireRate;
     private float lastShootTime;
 
-    [Header("Recoil / Spread")]
-    public float baseSpread = 1f;
+    public float gunDistance { get; private set; }
+
+    // SPREAD SETTINGS
+    private float baseSpread = 1f;
     private float currentSpread = 2f;
-    public float maxSpread = 3f;
-    public float spreadIncreaseRate = 0.15f;
-
-    [Header("Gun Shot Distance")]
-    [Range(2, 15)]
-    public float gunDistance = 4f;
-
-
+    private float maxSpread = 3f;
+    private float spreadIncreaseRate = 0.15f;
+    private float spreadCooldown = 1f;
     private float lastSpreadUpdateTime;
-    private float spreadCooldown = 0.5f;
 
     [HideInInspector] public WeaponModel weaponVisual;
+
+    public Weapon(WeaponDataSO weaponDataSO)
+    {
+        // WEAPON TYPE SETTINGS
+        weaponType = weaponDataSO.weaponType;
+
+        // SHOOT SETTINGS
+        fireRate = weaponDataSO.fireRate;
+        shootType = weaponDataSO.shootType;
+        bulletsPerShot = weaponDataSO.bulletsPerShot;
+
+        // SPREAD SETTING
+        baseSpread = weaponDataSO.baseSpread;
+        maxSpread = weaponDataSO.maxSpread;
+        spreadIncreaseRate = weaponDataSO.spreadIncreaseRate;
+
+        // WEAPON SETTINGS
+        reloadSpeed = weaponDataSO.reloadSpeed;
+        gunDistance = weaponDataSO.gunDistance;
+
+        // AMMO SETTINGS
+        ammoInMagazine = weaponDataSO.ammoInMagazine;
+        totalReserveAmmo = weaponDataSO.totalReserveAmmo;
+        magazineCapacity = weaponDataSO.magazineCapacity;
+        
+        // BURST SETTINGS
+        burstAvailable = weaponDataSO.burstAvailable;
+        burstActive = weaponDataSO.burstActive;
+        burstBulletsPerShot = weaponDataSO.burstBulletsPerShot;
+        burstFireRate = weaponDataSO.burstFireRate;
+        burstFireDelay = weaponDataSO.burstFireDelay;
+
+        defaultFireRate = fireRate;
+    }
 
     public Vector3 ApplyShootingSpread(Vector3 originalDirection)
     {
         // Update the current spread value based on firing timing.
         UpdateSpread();
 
-        // Generate a random angle within the current spread range in all directions.
-        float randomizedValue = Random.Range(-currentSpread, currentSpread);
+        // Use separate yaw/pitch so distribution isn't biased.
+        float yaw = Random.Range(-currentSpread, currentSpread);
+        float pitch = Random.Range(-currentSpread, currentSpread);
 
-        // Slightly tilt the shot direction.
-        Quaternion spreadRotation = Quaternion.Euler(randomizedValue, randomizedValue, randomizedValue);
-        
+        Quaternion spreadRotation = Quaternion.Euler(pitch, yaw, 0f);
         return spreadRotation * originalDirection;
     }
 
@@ -156,8 +174,11 @@ public class Weapon
 
     private bool ReadyToFire()
     {
+        // Protect against fireRate <= 0
+        float interval = 1f / Mathf.Max(0.0001f, fireRate);
+
         // Interval between each bullet = Fire rate.
-        if (Time.time > lastShootTime + 1 / fireRate)
+        if (Time.time > lastShootTime + interval)
         {
             lastShootTime = Time.time;
             return true;

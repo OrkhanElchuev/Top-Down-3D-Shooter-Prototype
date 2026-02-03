@@ -10,18 +10,17 @@ using System.Collections;
 public class PlayerWeaponManager : MonoBehaviour
 {
     // CONST VALUES
-    // Name of the trigger parameter used by the firing animation.
     private const string FIRE = "Fire";
-    // Default speed for bullet. To be used in a Mass Formula for a bullet to have dynamic impact.
     private const float REFERENCE_BULLET_SPEED = 20f;
     private const int MAX_WEAPON_SLOTS_ALLOWED = 2;
 
-    // REFERENCES
+    [Header("Starting Weapon")]
     [SerializeField] private WeaponDataSO weaponDataSO;
+
+    [Header("Runtime")]
     [SerializeField] private Weapon currentWeapon;
     [SerializeField] private WeaponVisualManager visualManager;
-
-    // BULLET
+    
     [Header("Bullet Settings")]
     [Tooltip("Bullet prefab that will be instantiated when firing.")]
     [SerializeField] private GameObject bulletPrefab;

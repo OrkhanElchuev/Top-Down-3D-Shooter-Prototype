@@ -79,7 +79,6 @@ public class WeaponDataSO : ScriptableObject
     [Range(4, 10)]
     public float gunDistance = 4f;
 
-
     private void OnValidate()
     {
         // Prevent obviously invalid data combos.

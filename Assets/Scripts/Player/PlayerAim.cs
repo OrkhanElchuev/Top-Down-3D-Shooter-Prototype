@@ -25,7 +25,6 @@ public class PlayerAim : MonoBehaviour
     [Header("Aim Visual - Laser")]
     [Tooltip("Laser pointer coming from the weapon, to help with aiming.")]
     [SerializeField] private LineRenderer aimLaser;
-    [SerializeField] private float laserLength = 5f;
 
     private Vector2 mouseInput;
     private RaycastHit lastKnownRayHit;

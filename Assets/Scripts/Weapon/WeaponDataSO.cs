@@ -76,7 +76,7 @@ public class WeaponDataSO : ScriptableObject
     public float reloadSpeed = 1f;
 
     [Tooltip("How far the bullet travels.")]
-    [Range(4, 10)]
+    [Range(4, 15)]
     public float gunDistance = 4f;
 
     private void OnValidate()

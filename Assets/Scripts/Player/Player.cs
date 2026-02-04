@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public PlayerMovement movement { get; private set; }
     public PlayerWeaponManager weapon { get; private set; }
     public WeaponVisualManager weaponVisuals { get; private set; }
+    public PlayerInteraction playerInteraction { get; private set; }
 
 
     private void Awake()
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         weapon = GetComponent<PlayerWeaponManager>();
         weaponVisuals = GetComponent<WeaponVisualManager>();
+        playerInteraction = GetComponent<PlayerInteraction>();
     }
 
     #region OnEnable / OnDisable

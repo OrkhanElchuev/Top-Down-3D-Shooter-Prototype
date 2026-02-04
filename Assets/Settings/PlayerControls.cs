@@ -172,6 +172,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""36bc0ed7-5630-441b-b043-ace6e76b3e70"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -317,6 +326,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Toggle Weapon Burst"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e60c211-5ef9-491a-991e-202dbbf46cdb"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -334,6 +354,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Character_DropCurrentWeapon = m_Character.FindAction("Drop Current Weapon", throwIfNotFound: true);
         m_Character_Reload = m_Character.FindAction("Reload", throwIfNotFound: true);
         m_Character_ToggleWeaponBurst = m_Character.FindAction("Toggle Weapon Burst", throwIfNotFound: true);
+        m_Character_Interaction = m_Character.FindAction("Interaction", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -423,6 +444,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_DropCurrentWeapon;
     private readonly InputAction m_Character_Reload;
     private readonly InputAction m_Character_ToggleWeaponBurst;
+    private readonly InputAction m_Character_Interaction;
     /// <summary>
     /// Provides access to input actions defined in input action map "Character".
     /// </summary>
@@ -470,6 +492,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Character/ToggleWeaponBurst".
         /// </summary>
         public InputAction @ToggleWeaponBurst => m_Wrapper.m_Character_ToggleWeaponBurst;
+        /// <summary>
+        /// Provides access to the underlying input action "Character/Interaction".
+        /// </summary>
+        public InputAction @Interaction => m_Wrapper.m_Character_Interaction;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -523,6 +549,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleWeaponBurst.started += instance.OnToggleWeaponBurst;
             @ToggleWeaponBurst.performed += instance.OnToggleWeaponBurst;
             @ToggleWeaponBurst.canceled += instance.OnToggleWeaponBurst;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         /// <summary>
@@ -561,6 +590,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleWeaponBurst.started -= instance.OnToggleWeaponBurst;
             @ToggleWeaponBurst.performed -= instance.OnToggleWeaponBurst;
             @ToggleWeaponBurst.canceled -= instance.OnToggleWeaponBurst;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         /// <summary>
@@ -664,5 +696,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleWeaponBurst(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteraction(InputAction.CallbackContext context);
     }
 }

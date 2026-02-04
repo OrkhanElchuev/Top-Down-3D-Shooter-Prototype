@@ -29,4 +29,4 @@ MonoBehaviour:
   burstFireRate: 0
   burstFireDelay: 0.1
   reloadSpeed: 2
-  gunDistance: 5
+  gunDistance: 7

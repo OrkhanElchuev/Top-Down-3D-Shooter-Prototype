@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: 'Revolver '
   weaponType: 1
-  fireRate: 2.5
   shootType: 1
+  fireRate: 2.5
   bulletsPerShot: 1
   ammoInMagazine: 6
   totalReserveAmmo: 36
@@ -29,4 +29,4 @@ MonoBehaviour:
   burstFireRate: 0
   burstFireDelay: 0.1
   reloadSpeed: 2
-  gunDistance: 7
+  gunDistance: 8

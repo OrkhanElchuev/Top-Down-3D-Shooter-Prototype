@@ -11,9 +11,8 @@ public class Interactable : MonoBehaviour
     [Tooltip("Material applied when this interactable is highlighted.")]
     [SerializeField] private Material highlightMaterial;
     
-    private Material defaultMaterial;
-    private MeshRenderer mesh;
-
+    protected Material defaultMaterial;
+    protected MeshRenderer mesh;
 
     private void Start()
     {
@@ -35,10 +34,6 @@ public class Interactable : MonoBehaviour
     /// <summary>
     /// Enables or disables the highlight visual for this interactable.
     /// </summary>
-    /// <param name="active">
-    /// If true, applies the highlight material.
-    /// If false, restores the default material.
-    /// </param>
     public void HighlightActive(bool active)
     {
         if (active)
@@ -50,6 +45,12 @@ public class Interactable : MonoBehaviour
     public virtual void Interaction()
     {
         Debug.Log("Interacted with " + gameObject.name);
+    }
+
+    protected void UpdateMeshAndMaterial(MeshRenderer newMesh)
+    {
+        mesh = newMesh;
+        defaultMaterial = newMesh.material;
     }
 
     protected virtual void OnTriggerEnter(Collider other)

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: Tech-9
   weaponType: 0
-  fireRate: 3.5
   shootType: 1
+  fireRate: 3.5
   bulletsPerShot: 1
   ammoInMagazine: 18
   totalReserveAmmo: 56
@@ -29,4 +29,4 @@ MonoBehaviour:
   burstFireRate: 0
   burstFireDelay: 0.1
   reloadSpeed: 1
-  gunDistance: 7
+  gunDistance: 8

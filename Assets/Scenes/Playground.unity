@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  mesh: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &24031713
 BoxCollider:
@@ -737,7 +736,7 @@ GameObject:
   - component: {fileID: 334147361}
   - component: {fileID: 334147360}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Switcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -755,7 +754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  mesh: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &334147361
 BoxCollider:
@@ -1763,6 +1761,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952928812}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &973608907 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1302847839838121367, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
+  m_PrefabInstance: {fileID: 9171601717467147850}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &973608911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973608907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8ea601f2f636b489d656a01de4ff88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupWeapon
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
+  weaponDataSO: {fileID: 11400000, guid: 4f723cde1682d2544884c6d93aa3b319, type: 2}
 --- !u!1 &1121170859
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1808,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1432959053}
@@ -2396,28 +2413,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1432959053}
   - component: {fileID: 1432959052}
-  - component: {fileID: 1432959051}
+  - component: {fileID: 1432959054}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Ammo_Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1432959051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432959050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  mesh: {fileID: 0}
-  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &1432959052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2448,13 +2451,26 @@ Transform:
   m_GameObject: {fileID: 1432959050}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.094, y: 0.92, z: 1.764926}
+  m_LocalPosition: {x: 3.335, y: 0.92, z: 1.764926}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1121170860}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1432959054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432959050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447c1b613f08e8f4597f9eccbe358bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupAmmo
+  highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!1 &1541153800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,7 +2591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  mesh: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &1572379071
 BoxCollider:
@@ -2869,7 +2884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec91710472c7ed4c820b20cb16046e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  mesh: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
 --- !u!65 &2049530607
 BoxCollider:
@@ -3438,10 +3452,14 @@ PrefabInstance:
       propertyPath: weaponDataSO
       value: 
       objectReference: {fileID: 11400000, guid: 715a6623827d6934f8890f63cf221533, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8132701771794657717, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1302847839838121367, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 973608911}
   m_SourcePrefab: {fileID: 100100000, guid: 773fb6bc55f943b45877a13cf6cfcb83, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

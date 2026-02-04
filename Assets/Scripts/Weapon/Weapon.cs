@@ -44,6 +44,8 @@ public class Weapon
 
     [HideInInspector] public WeaponModel weaponVisual;
 
+    public WeaponDataSO weaponDataSO { get; private set; } // Default weapon data
+
     public Weapon(WeaponDataSO weaponDataSO)
     {
         // WEAPON TYPE SETTINGS
@@ -76,6 +78,8 @@ public class Weapon
         burstFireDelay = weaponDataSO.burstFireDelay;
 
         defaultFireRate = fireRate;
+
+        this.weaponDataSO = weaponDataSO;
     }
 
     public Vector3 ApplyShootingSpread(Vector3 originalDirection)

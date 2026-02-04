@@ -123,10 +123,8 @@ public class PlayerWeaponManager : MonoBehaviour
     /// or replaces the currently equipped weapon if slots are full.
     /// </summary>
     /// <param name="newWeaponDataSO">Weapon data from the picked-up weapon.</param>
-    public void PickupWeapon(WeaponDataSO newWeaponDataSO)
+    public void PickupWeapon(Weapon newWeapon)
     {
-        Weapon newWeapon = new Weapon(newWeaponDataSO);
-
         // If we already own this weapon type,
         // add the picked-up magazine ammo to the reserve and exit
         if (WeaponInSlots(newWeapon.weaponType) != null)

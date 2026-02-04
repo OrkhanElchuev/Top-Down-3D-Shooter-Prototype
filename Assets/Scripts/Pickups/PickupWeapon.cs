@@ -5,26 +5,37 @@ public class PickupWeapon : Interactable
 {
     private PlayerWeaponManager weaponManager;
     [SerializeField] private WeaponDataSO weaponDataSO;
+    [SerializeField] private Weapon weapon;
     [SerializeField] private WeaponModel[] models;
 
     private void Start()
     {
-        UpdateGameObject();
+        weapon = new Weapon(weaponDataSO);
+        SetupGameObject();
     }
 
     public override void Interaction()
     {
-        weaponManager.PickupWeapon(weaponDataSO);
+        weaponManager.PickupWeapon(weapon);
+        ObjectPooling.instance.ReturnObject(gameObject);
     }
 
     [ContextMenu("Update Item Model")]    
-    public void UpdateGameObject()
+    public void SetupGameObject()
     {
         gameObject.name = "Pickup Weapon - " + weaponDataSO.weaponType.ToString();
-        UpdateItemModel();
+        SetupWeaponModel();
     }
 
-    public void UpdateItemModel()
+    public void SetupPickupWeapon(Weapon weapon, Transform transform)
+    {
+        this.weapon = weapon;
+        weaponDataSO = weapon.weaponDataSO;
+
+        this.transform.position = transform.position + new Vector3(0, 0.75f, 0);
+    }
+
+    public void SetupWeaponModel()
     {
         foreach (WeaponModel model in models)
         {

@@ -8,6 +8,10 @@ public class ObjectPooling : MonoBehaviour
 
     [SerializeField] private int poolSize = 20;
 
+    [Header("To Initialize")]
+    [SerializeField] private GameObject weaponPickup;
+    //[SerializeField] private GameObject ammoPickup;
+
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
 
     private void Awake()
@@ -20,6 +24,12 @@ public class ObjectPooling : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        InitializeNewPool(weaponPickup);
+        //InitializeNewPool(ammoPickup);
+    }
+
     public GameObject GetObject(GameObject prefab)
     {
         if (poolDictionary.ContainsKey(prefab) == false)
@@ -30,8 +40,6 @@ public class ObjectPooling : MonoBehaviour
 
         GameObject objectToGet = poolDictionary[prefab].Dequeue();
 
-        // Reset physics state so old movement doesn't carry over.
-        ResetRBPhysics(objectToGet);
         ResetVisuals(objectToGet);
 
         objectToGet.SetActive(true);
@@ -54,8 +62,6 @@ public class ObjectPooling : MonoBehaviour
 
     private void ReturnToPool(GameObject objectToReturn)
     {
-        // Reset physics again just to be safe.
-        ResetRBPhysics(objectToReturn);
         ResetVisuals(objectToReturn);
         
         GameObject originalPrefab = objectToReturn.GetComponent<PooledObject>().originalPrefab;
@@ -64,16 +70,6 @@ public class ObjectPooling : MonoBehaviour
         objectToReturn.transform.parent = transform;
 
         poolDictionary[originalPrefab].Enqueue(objectToReturn);
-    }
-
-    private static void ResetRBPhysics(GameObject bullet)
-    {
-        if (bullet.TryGetComponent(out Rigidbody rb))
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.Sleep();
-        }
     }
 
     private void InitializeNewPool(GameObject prefab)
@@ -97,7 +93,7 @@ public class ObjectPooling : MonoBehaviour
 
     private static void ResetVisuals(GameObject bullet)
     {
-        // Clear trails.
+        // Clear trails
         if (bullet.TryGetComponent(out TrailRenderer trail))
             trail.Clear();
     }

@@ -22,7 +22,7 @@ public class Interactable : MonoBehaviour
             mesh = GetComponentInChildren<MeshRenderer>();
 
         // Store the default material so we can revert later
-        defaultMaterial = mesh.material;
+        defaultMaterial = mesh.sharedMaterial;
     }
 
     private void Update()
@@ -50,7 +50,7 @@ public class Interactable : MonoBehaviour
     protected void UpdateMeshAndMaterial(MeshRenderer newMesh)
     {
         mesh = newMesh;
-        defaultMaterial = newMesh.material;
+        defaultMaterial = newMesh.sharedMaterial;
     }
 
     protected virtual void OnTriggerEnter(Collider other)

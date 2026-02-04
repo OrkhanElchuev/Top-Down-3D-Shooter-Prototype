@@ -9,9 +9,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerInteraction : MonoBehaviour
 {
-    [Tooltip("All interactables currently within the player's trigger range.")]
-    public List<Interactable> interactables;
-
+    private List<Interactable> interactables = new List<Interactable>();
     private Interactable closestInteractable;
 
     private void Start()
@@ -24,7 +22,12 @@ public class PlayerInteraction : MonoBehaviour
     private void InteractWithClosest()
     {
         closestInteractable?.Interaction();
+        interactables.Remove(closestInteractable);
+
+        UpdateClosestInteractable();
     }
+
+    public List<Interactable> GetInteractables() => interactables;
 
     /// <summary>
     /// Determines which interactable is closest to the player and

@@ -62,7 +62,7 @@ public class Interactable : MonoBehaviour
         if (playerInteraction == null)
             return;
         // Register this interactable with the player
-        playerInteraction.interactables.Add(this);
+        playerInteraction.GetInteractables().Add(this);
         // Recalculate which interactable is closest
         playerInteraction.UpdateClosestInteractable();
     }
@@ -76,7 +76,7 @@ public class Interactable : MonoBehaviour
         if (playerInteraction == null)
             return;
         // Remove this interactable from the player's list
-        playerInteraction.interactables.Remove(this);
+        playerInteraction.GetInteractables().Remove(this);
         // Recalculate which interactable is closest
         playerInteraction.UpdateClosestInteractable();
     }

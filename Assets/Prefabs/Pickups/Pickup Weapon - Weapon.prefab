@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 502861968044720375}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.031099975, z: 0.202}
+  m_LocalPosition: {x: 0, y: 0, z: 0.202}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -304,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 4619677697726937703}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0311, z: 0.2619}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2619}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -364,8 +364,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0.52, z: 0}
 --- !u!114 &213013717521139728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +380,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupWeapon
   highlightMaterial: {fileID: 2100000, guid: 2419e099522a90146a2373ae0e386f0f, type: 2}
   weaponDataSO: {fileID: 11400000, guid: 4f723cde1682d2544884c6d93aa3b319, type: 2}
+  weapon:
+    weaponType: 0
+    shootType: 0
+    burstAvailable: 0
+    ammoInMagazine: 0
+    totalReserveAmmo: 0
+    magazineCapacity: 0
+    reloadSpeed: 0
+    weaponVisual: {fileID: 0}
   models:
   - {fileID: 5246732425452469371}
   - {fileID: 439723261163612532}
@@ -424,7 +433,7 @@ Transform:
   m_GameObject: {fileID: 5486382963738350879}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0136, z: 0.3736}
+  m_LocalPosition: {x: 0, y: 0, z: 0.3736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -592,7 +601,7 @@ Transform:
   m_GameObject: {fileID: 8205611879037635023}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.031099975, z: 0.7097}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7097}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

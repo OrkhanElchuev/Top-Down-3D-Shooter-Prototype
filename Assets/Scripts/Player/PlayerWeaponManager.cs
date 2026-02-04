@@ -117,19 +117,49 @@ public class PlayerWeaponManager : MonoBehaviour
         return direction;
     }
 
+    /// <summary>
+    /// Handles picking up a weapon from the world.
+    /// Adds ammo if the weapon already exists, otherwise places it into a slot
+    /// or replaces the currently equipped weapon if slots are full.
+    /// </summary>
+    /// <param name="newWeaponDataSO">Weapon data from the picked-up weapon.</param>
     public void PickupWeapon(WeaponDataSO newWeaponDataSO)
     {
-        // Check if Player has an empty slot to pickup another weapon.
-        if (weaponSlots.Count >= MAX_WEAPON_SLOTS_ALLOWED) 
+        Weapon newWeapon = new Weapon(newWeaponDataSO);
+
+        // If we already own this weapon type,
+        // add the picked-up magazine ammo to the reserve and exit
+        if (WeaponInSlots(newWeapon.weaponType) != null)
         {
-            Debug.Log("No More Available Weapon Slots");
+            WeaponInSlots(newWeapon.weaponType).totalReserveAmmo += newWeapon.ammoInMagazine;
             return;
         }
 
-        weaponSlots.Add(new Weapon(newWeaponDataSO));
+        // If weapon slots are full AND the picked weapon is different
+        // from the currently equipped weapon, replace the current weapon
+        if (weaponSlots.Count >= MAX_WEAPON_SLOTS_ALLOWED && newWeapon.weaponType != currentWeapon.weaponType) 
+        {
+            int weaponIndex = weaponSlots.IndexOf(currentWeapon);
+            // Replace current weapon with the newly picked one
+            weaponSlots[weaponIndex] = newWeapon;
+            EquipWeapon(weaponIndex);
+            return;
+        }
 
-        // Auto-equip the newly picked weapon.
+        weaponSlots.Add(newWeapon);
+        // Auto-equip the newly picked weapon
         EquipWeapon(weaponSlots.Count - 1);
+    }
+
+    public Weapon WeaponInSlots(WeaponType weaponType)
+    {
+        foreach (Weapon weapon in weaponSlots)
+        {
+            if (weapon.weaponType == weaponType)
+                return weapon;
+        }
+
+        return null;
     }
 
     public void SetCurrentWeaponVisual(WeaponModel visual)

@@ -12,7 +12,7 @@ public class EnemyStateMachine
 
     public void ChangeState(EnemyState newState)
     {
-        currentState.Update();
+        currentState.Exit();
         currentState = newState;
         currentState.Enter();
     }

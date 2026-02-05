@@ -26,7 +26,7 @@ public class IdleStateMelee : EnemyState
         base.Update();
 
         if (stateTimer < 0)
-            Debug.Log("I should change the state");
+            stateMachine.ChangeState(enemy.moveState);
     }
 }
 

@@ -2475,6 +2475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPooling
   poolSize: 10
   weaponPickup: {fileID: 5216808791647194018, guid: f22e976cd5c303d4088d1a63f9b4efb6, type: 3}
+  ammoPickup: {fileID: 6307865831250977170, guid: dc03743fb8d0a1444928783a16069888, type: 3}
 --- !u!1 &2052060905
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,8 @@ public class PickupAmmo : Interactable
 
             AddBulletsToWeapon(weapon, ammo.amount);
         }
+
+        ObjectPooling.instance.ReturnObject(gameObject);
     }
 
     protected override void OnTriggerEnter(Collider other)

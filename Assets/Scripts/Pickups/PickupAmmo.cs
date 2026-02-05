@@ -8,28 +8,26 @@ using UnityEngine;
 public enum AmmoBoxType { smallBox, bigBox }
 
 /// <summary>
+/// Defines ammo ranges for a specific weapon type.
+/// Used by ammo boxes to distribute bullets.
+/// </summary>
+[System.Serializable]
+public struct AmmoData
+{
+    public WeaponType weaponType;
+    [Range(10, 100)] public int minAmount;
+    [Range(10, 100)] public int maxAmount;
+}
+
+/// <summary>
 /// Ammo pickup interactable.
 /// When collected, distributes random ammo amounts to the player's
 /// currently owned weapons based on the box type.
 /// </summary>
 public class PickupAmmo : Interactable
 {
-    private PlayerWeaponManager weaponManager;
-
     [Tooltip("Defines whether this ammo pickup is a small or big box.")]
     [SerializeField] private AmmoBoxType boxType;
-    
-    /// <summary>
-    /// Defines ammo ranges for a specific weapon type.
-    /// Used by ammo boxes to distribute bullets.
-    /// </summary>
-    [System.Serializable]
-    public struct AmmoData
-    {
-        public WeaponType weaponType;
-        [Range(10, 100)] public int minAmount;
-        [Range(10, 100)] public int maxAmount;
-    }
 
     [Header("Ammo Distribution")]
 
@@ -72,15 +70,6 @@ public class PickupAmmo : Interactable
 
         // Return ammo box to object pool
         ObjectPooling.instance.ReturnObject(gameObject);
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-
-        // Cache player weapon manager reference
-        if (weaponManager == null)
-            weaponManager = other.GetComponent<PlayerWeaponManager>();
     }
 
     /// <summary>

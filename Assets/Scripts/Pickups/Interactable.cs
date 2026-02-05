@@ -10,7 +10,8 @@ public class Interactable : MonoBehaviour
 {
     [Tooltip("Material applied when this interactable is highlighted.")]
     [SerializeField] private Material highlightMaterial;
-    
+
+    protected PlayerWeaponManager weaponManager;
     protected Material defaultMaterial;
     protected MeshRenderer mesh;
 
@@ -55,6 +56,10 @@ public class Interactable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        // Cache player weapon manager reference
+        if (weaponManager == null)
+            weaponManager = other.GetComponent<PlayerWeaponManager>();
+            
         // Try to get the PlayerInteraction component from the entering object
         PlayerInteraction playerInteraction = other.GetComponent<PlayerInteraction>();
 

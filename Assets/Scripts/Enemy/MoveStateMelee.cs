@@ -5,6 +5,8 @@ public class MoveStateMelee : EnemyState
     private EnemyMelee enemy;
     private Vector3 destination;
 
+    private float stoppingOffset = 0.05f;
+
     public MoveStateMelee(Enemy enemyBase, EnemyStateMachine stateMachine, string animationBoolName) : base(enemyBase, stateMachine, animationBoolName)
     {
         enemy = enemyBase as EnemyMelee;
@@ -27,7 +29,7 @@ public class MoveStateMelee : EnemyState
     {
         base.Update();
 
-        if (enemy.agent.remainingDistance <= 1f)
+        if (enemy.agent.remainingDistance <= enemy.agent.stoppingDistance + stoppingOffset)
             stateMachine.ChangeState(enemy.idleState);
     }
 }

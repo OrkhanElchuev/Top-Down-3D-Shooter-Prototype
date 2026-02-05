@@ -31,10 +31,6 @@ public class PlayerWeaponManager : MonoBehaviour
     [Tooltip("Speed at which the bullet travels forward.")]
     [SerializeField] private float bulletSpeed;
 
-    [Tooltip("Time to destroy the bullet object after firing.")]
-    [SerializeField] private float bulletDestroyDelay = 5f;
-
-
     // AIM / VISUAL REFERENCES
     [Header("Weapon Settings")]
     [Tooltip("Transform that visually rotates the weapon toward the aim point.")]

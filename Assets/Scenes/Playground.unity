@@ -2184,7 +2184,7 @@ GameObject:
   - component: {fileID: 904190068}
   - component: {fileID: 904190067}
   - component: {fileID: 904190066}
-  - component: {fileID: 904190065}
+  - component: {fileID: 904190071}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2192,20 +2192,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &904190065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904190064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba61972502424a84f91ecab5e233db79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  agent: {fileID: 904190066}
-  target: {fileID: 1061615952}
 --- !u!195 &904190066
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2321,6 +2307,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904190071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904190064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a9ae6b4c4e89d43b1d2e2964f473e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMelee
+  idleTime: 4
+  stateTimer: 0
 --- !u!1 &949846976
 GameObject:
   m_ObjectHideFlags: 0

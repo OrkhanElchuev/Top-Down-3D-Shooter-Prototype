@@ -21,7 +21,7 @@ public class ObjectPooling : MonoBehaviour
 
     [Header("To Initialize")]
     [SerializeField] private GameObject weaponPickup;
-    //[SerializeField] private GameObject ammoPickup;
+    [SerializeField] private GameObject ammoPickup;
     
     // Maps each prefab to its pool of inactive instances
     private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
@@ -41,7 +41,7 @@ public class ObjectPooling : MonoBehaviour
     {
         // Pre-create pools for known prefabs
         InitializeNewPool(weaponPickup);
-        //InitializeNewPool(ammoPickup);
+        InitializeNewPool(ammoPickup);
     }
 
     /// <summary>

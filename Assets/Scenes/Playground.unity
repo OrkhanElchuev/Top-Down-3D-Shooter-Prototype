@@ -1121,6 +1121,7 @@ MonoBehaviour:
   - {fileID: 855918910}
   - {fileID: 51067835}
   - {fileID: 1053500496}
+  turnSpeed: 3.5
   stateTimer: 0
 --- !u!4 &358564679
 Transform:

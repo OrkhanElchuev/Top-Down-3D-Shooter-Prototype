@@ -1,0 +1,69 @@
+using System;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.InputSystem;
+
+public class Enemy : MonoBehaviour
+{
+    [Header("Idle Settings")]
+    public float idleTime;
+
+    [Header("Move Settings")]
+    public float moveSpeed;
+    [SerializeField] private Transform[] patrolPoints;
+
+    public float turnSpeed;
+
+    private int currentPatrolIndex;
+
+    public Animator animator { get; private set; }
+    public NavMeshAgent agent { get; private set; }
+    public EnemyStateMachine stateMachine { get; private set; }
+
+    protected virtual void Awake()
+    {
+        stateMachine = new EnemyStateMachine();
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+    }
+
+    protected virtual void Start()
+    {
+        InitializePatrolPoints();
+    }
+
+    protected virtual void Update()
+    {
+        
+    }
+
+    public Vector3 GetPatrolDestination()
+    {
+        Vector3 destination = patrolPoints[currentPatrolIndex].transform.position;
+
+        currentPatrolIndex++;
+
+        if (currentPatrolIndex >= patrolPoints.Length)
+            currentPatrolIndex = 0;
+        
+        return destination;
+    }
+
+    public Quaternion FaceTarget(Vector3 target)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+        Vector3 currentEulerAngles = transform.rotation.eulerAngles;
+
+        float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
+
+        return Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
+    }
+
+    private void InitializePatrolPoints()
+    {
+        foreach (Transform t in patrolPoints)
+        {
+            t.parent = null;
+        }
+    }
+}

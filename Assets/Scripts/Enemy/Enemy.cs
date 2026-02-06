@@ -11,9 +11,12 @@ public class Enemy : MonoBehaviour
     [Header("Move Settings")]
     public float moveSpeed;
     [SerializeField] private Transform[] patrolPoints;
-
     public float turnSpeed;
 
+    [Header("Behaviour Settings")]
+    public Transform playerTransform;
+    public float aggressionRange;
+    
     private int currentPatrolIndex;
 
     public Animator animator { get; private set; }
@@ -59,11 +62,19 @@ public class Enemy : MonoBehaviour
         return Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
     }
 
+    public bool PlayerInAggressionRange() => Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
+
     private void InitializePatrolPoints()
     {
         foreach (Transform t in patrolPoints)
         {
             t.parent = null;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, aggressionRange);
     }
 }

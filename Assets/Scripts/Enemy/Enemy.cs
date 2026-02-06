@@ -63,6 +63,7 @@ public class Enemy : MonoBehaviour
     }
 
     public bool PlayerInAggressionRange() => Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
 
     private void InitializePatrolPoints()
     {

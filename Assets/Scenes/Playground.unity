@@ -1116,15 +1116,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMelee
   idleTime: 3
-  moveSpeed: 0
   patrolPoints:
   - {fileID: 855918910}
   - {fileID: 51067835}
   - {fileID: 1053500496}
+  moveSpeed: 1.5
+  chaseSpeed: 3.5
   turnSpeed: 3.5
   playerTransform: {fileID: 6175483848142992031}
   aggressionRange: 4
-  stateTimer: 0
 --- !u!4 &358564679
 Transform:
   m_ObjectHideFlags: 0

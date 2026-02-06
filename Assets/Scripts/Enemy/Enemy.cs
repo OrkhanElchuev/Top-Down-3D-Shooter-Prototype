@@ -9,10 +9,12 @@ public class Enemy : MonoBehaviour
     public float idleTime;
 
     [Header("Move Settings")]
-    public float moveSpeed;
     [SerializeField] private Transform[] patrolPoints;
+    public float moveSpeed;
+    public float chaseSpeed;
     public float turnSpeed;
-
+    
+    
     [Header("Behaviour Settings")]
     public Transform playerTransform;
     public float aggressionRange;

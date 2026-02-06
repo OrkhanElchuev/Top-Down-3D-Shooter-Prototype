@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMelee : Enemy
 {
-    public float stateTimer;
+    private float stateTimer;
 
     public IdleStateMelee idleState { get; private set; }
     public MoveStateMelee moveState { get; private set; }

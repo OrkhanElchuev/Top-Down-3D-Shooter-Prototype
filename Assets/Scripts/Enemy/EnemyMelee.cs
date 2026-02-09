@@ -51,4 +51,13 @@ public class EnemyMelee : Enemy
     }
 
     #endregion
+
+    #region Overrides
+
+    public override void GetHit()
+    {
+        Debug.Log("Enemy melee got hit");
+    }
+
+    #endregion
 }

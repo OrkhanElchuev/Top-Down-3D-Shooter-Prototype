@@ -34,6 +34,13 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    #region Inspector: Attack Settings
+
+    [Header("Attack Settings")]
+    public float attackRange;
+
+    #endregion
+
     #region Inspector: Behaviour Settings
 
     [Header("Behaviour Settings")]
@@ -144,8 +151,15 @@ public class Enemy : MonoBehaviour
 
     #endregion
     
+    #region Attack
+    
+    public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
+
+    #endregion
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, aggressionRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

@@ -1123,6 +1123,7 @@ MonoBehaviour:
   moveSpeed: 1.5
   chaseSpeed: 3.5
   turnSpeed: 3.5
+  attackRange: 1.8
   playerTransform: {fileID: 6175483848142992031}
   aggressionRange: 4
 --- !u!4 &358564679

@@ -44,6 +44,9 @@ public class ChaseStateMelee : EnemyState
     {
         base.Update();
 
+        if (enemy.PlayerInAttackRange())
+            stateMachine.ChangeState(enemy.attackState);
+
         // Rotate along the chase path for smoother cornering.
         enemy.transform.rotation = enemy.FaceTarget(GetNextPathPoint());
 

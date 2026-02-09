@@ -17,4 +17,7 @@ public class EnemyAnimationEvents : MonoBehaviour
 
     // Called from an Animation Event to signal the current state's trigger.
     public void AnimationTrigger() => enemy.AnimationTrigger();
+
+    public void StartManualMovement() => enemy.ActivateManualMovement(true);
+    public void StopManualMovement() => enemy.ActivateManualMovement(false);
 }

@@ -14,6 +14,7 @@ public class EnemyMelee : Enemy
     public MoveStateMelee moveState { get; private set; }
     public RecoveryStateMelee recoveryState { get; private set; }
     public ChaseStateMelee chaseState { get; private set; }
+    public AttackStateMelee attackState { get; private set; }
 
     #endregion
 
@@ -28,6 +29,7 @@ public class EnemyMelee : Enemy
         moveState = new MoveStateMelee(this, stateMachine, "Move");
         recoveryState = new RecoveryStateMelee(this, stateMachine, "Recovery");
         chaseState = new ChaseStateMelee(this, stateMachine, "Chase");
+        attackState = new AttackStateMelee(this, stateMachine, "Attack");
     }
 
     protected override void Start()

@@ -5310,6 +5310,7 @@ GameObject:
   - component: {fileID: 1278801299405573272}
   - component: {fileID: 5142859901661173474}
   - component: {fileID: 5142859901661173475}
+  - component: {fileID: 5142859901661173476}
   m_Layer: 0
   m_Name: Enemy_Char_1
   m_TagString: Untagged
@@ -7093,6 +7094,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b88d9672215f547b38afd20524c173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationEvents
+--- !u!136 &5142859901661173476
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942432070589535778}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.81, z: 0}
 --- !u!4 &5175662875819482651
 Transform:
   m_ObjectHideFlags: 0

@@ -96,6 +96,15 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    #region Damage and Death
+
+    public virtual void GetHit()
+    {
+        Debug.Log(gameObject.name + " got hit");
+    }
+
+    #endregion
+
     #region Patrol
     
     /// <summary>

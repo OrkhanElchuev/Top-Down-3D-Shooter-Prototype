@@ -15,6 +15,7 @@ public class EnemyMelee : Enemy
     public RecoveryStateMelee recoveryState { get; private set; }
     public ChaseStateMelee chaseState { get; private set; }
     public AttackStateMelee attackState { get; private set; }
+    public DeadStateMelee deadState { get; private set; }
 
     #endregion
 
@@ -30,6 +31,7 @@ public class EnemyMelee : Enemy
         recoveryState = new RecoveryStateMelee(this, stateMachine, "Recovery");
         chaseState = new ChaseStateMelee(this, stateMachine, "Chase");
         attackState = new AttackStateMelee(this, stateMachine, "Attack");
+        deadState = new DeadStateMelee(this, stateMachine, "Idle"); // Idle is just a placeholder, no enemy death animation.
     }
 
     protected override void Start()
@@ -46,6 +48,15 @@ public class EnemyMelee : Enemy
         
         // Let the active state run its per-frame logic.
         stateMachine.currentState.Update();
+    }
+
+    #endregion
+
+    #region Overrides
+
+    public override void GetHit()
+    {
+        Debug.Log("Enemy melee got hit");
     }
 
     #endregion

@@ -32,12 +32,15 @@ public class Enemy : MonoBehaviour
     [Tooltip("How quickly the enemy rotates to face its target direction.")]
     public float turnSpeed;
 
+    private bool manualMovement;
+
     #endregion
 
     #region Inspector: Attack Settings
 
     [Header("Attack Settings")]
     public float attackRange;
+    public float attackMoveSpeed;
 
     #endregion
 
@@ -123,7 +126,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Rotation / Targeting
+    #region Rotation / Targeting / Movement
 
     /// <summary>
     /// Returns a smoothed rotation that turns toward <paramref name="target"/> on the Y axis.
@@ -139,6 +142,9 @@ public class Enemy : MonoBehaviour
         return Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
     }
 
+    public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
+    public bool manualMovementActive() => manualMovement;
+
     #endregion
 
     #region Detection / Animation
@@ -152,7 +158,7 @@ public class Enemy : MonoBehaviour
     #endregion
     
     #region Attack
-    
+
     public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
 
     #endregion

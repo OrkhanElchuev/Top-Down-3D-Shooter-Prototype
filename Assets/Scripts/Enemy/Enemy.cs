@@ -55,6 +55,12 @@ public class Enemy : MonoBehaviour
 
     #endregion
     
+    #region Health Settings
+
+    [SerializeField] protected int healthPoints = 25;
+
+    #endregion
+
     #region Private State
 
     private int currentPatrolIndex;
@@ -100,7 +106,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void GetHit()
     {
-        Debug.Log(gameObject.name + " got hit");
+        healthPoints--;
     }
 
     #endregion

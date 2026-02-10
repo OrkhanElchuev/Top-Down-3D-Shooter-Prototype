@@ -56,7 +56,10 @@ public class EnemyMelee : Enemy
 
     public override void GetHit()
     {
-        Debug.Log("Enemy melee got hit");
+        base.GetHit();
+        
+        if (healthPoints <= 0)
+            stateMachine.ChangeState(deadState);
     }
 
     #endregion

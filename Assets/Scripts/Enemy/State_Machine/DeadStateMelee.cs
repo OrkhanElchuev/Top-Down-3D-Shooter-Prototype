@@ -12,7 +12,11 @@ public class DeadStateMelee : EnemyState
     public override void Enter()
     {
         base.Enter();
+        DisableInteraction();
+    }
 
+    private void DisableInteraction()
+    {
         enemy.animator.enabled = false;
         enemy.agent.isStopped = true;
     }

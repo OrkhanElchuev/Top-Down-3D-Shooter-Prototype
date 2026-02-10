@@ -61,8 +61,9 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Private State
+    #region Private Variables
 
+    private Vector3[] patrolPointsPositions;
     private int currentPatrolIndex;
 
     #endregion
@@ -153,7 +154,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public Vector3 GetPatrolDestination()
     {
-        Vector3 destination = patrolPoints[currentPatrolIndex].transform.position;
+        Vector3 destination = patrolPointsPositions[currentPatrolIndex];
 
         currentPatrolIndex++;
 
@@ -168,9 +169,12 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void InitializePatrolPoints()
     {
-        foreach (Transform t in patrolPoints)
+        patrolPointsPositions = new Vector3[patrolPoints.Length];
+
+        for (int i = 0; i < patrolPoints.Length; i++)
         {
-            t.parent = null;
+            patrolPointsPositions[i] = patrolPoints[i].position;
+            patrolPoints[i].gameObject.SetActive(false);
         }
     }
 

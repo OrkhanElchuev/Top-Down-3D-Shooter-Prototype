@@ -39,7 +39,7 @@ public class RecoveryStateMelee : EnemyState
         base.Update();
 
         // Keep facing the player while in recovery state.
-        enemy.transform.rotation = enemy.FaceTarget(enemy.playerTransform.position);
+        enemy.FaceTarget(enemy.playerTransform.position);
 
         // Wait for animation event to indicate recovery is done.
         if (triggerCalled)

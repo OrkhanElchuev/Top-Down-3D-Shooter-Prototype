@@ -61,8 +61,9 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Private State
+    #region Private Variables
 
+    private Vector3[] patrolPointsPositions;
     private int currentPatrolIndex;
 
     #endregion
@@ -77,6 +78,8 @@ public class Enemy : MonoBehaviour
 
     // Finite state machine controlling enemy behavior.
     public EnemyStateMachine stateMachine { get; private set; }
+
+    public bool inBattleMode { get; private set; }
 
     #endregion
 
@@ -102,25 +105,56 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Damage and Death
+    #region Helper Methods
 
     public virtual void GetHit()
     {
+        EnterBattleMode();
+
         if (healthPoints >= 0)
             healthPoints--;
             
     }
 
+    public virtual void EnterBattleMode()
+    {
+        inBattleMode = true;
+    }
+
+    protected bool ShouldEnterBattleMode()
+    {
+        bool inAggressionRange = Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
+
+        if (inAggressionRange && !inBattleMode)
+        {
+            EnterBattleMode();
+            return true;
+        }
+        return false;
+    }
+
+    public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
+
+    // Called by animation event script to forward events to the active state.
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, aggressionRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     #endregion
 
-    #region Patrol
+    #region Movemen / Targeting 
     
     /// <summary>
     /// Returns the next patrol point position and advances the patrol index (loops at the end).
     /// </summary>
     public Vector3 GetPatrolDestination()
     {
-        Vector3 destination = patrolPoints[currentPatrolIndex].transform.position;
+        Vector3 destination = patrolPointsPositions[currentPatrolIndex];
 
         currentPatrolIndex++;
 
@@ -135,54 +169,31 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void InitializePatrolPoints()
     {
-        foreach (Transform t in patrolPoints)
+        patrolPointsPositions = new Vector3[patrolPoints.Length];
+
+        for (int i = 0; i < patrolPoints.Length; i++)
         {
-            t.parent = null;
+            patrolPointsPositions[i] = patrolPoints[i].position;
+            patrolPoints[i].gameObject.SetActive(false);
         }
     }
 
-    #endregion
-
-    #region Rotation / Targeting / Movement
-
     /// <summary>
-    /// Returns a smoothed rotation that turns toward <paramref name="target"/> on the Y axis.
+    /// Smooth rotation that turns toward <paramref name="target"/> on the Y axis.
     /// </summary>
     /// <param name="target">World-space position to face.</param>
-    public Quaternion FaceTarget(Vector3 target)
+    public void FaceTarget(Vector3 target)
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
         Vector3 currentEulerAngles = transform.rotation.eulerAngles;
 
         float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
 
-        return Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
+        transform.rotation = Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
     }
 
     public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
     public bool manualMovementActive() => manualMovement;
 
     #endregion
-
-    #region Detection / Animation
-
-    // Returns true if the player is within aggressionRange.
-    public bool PlayerInAggressionRange() => Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
-
-    // Called by animation event script to forward events to the active state.
-    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
-
-    #endregion
-    
-    #region Attack
-
-    public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
-
-    #endregion
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, aggressionRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
 }

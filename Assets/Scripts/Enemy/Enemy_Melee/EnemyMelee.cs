@@ -76,11 +76,11 @@ public class EnemyMelee : Enemy
 
     #region Overrides
 
-    public override void GetHit()
+    public override void Die()
     {
-        base.GetHit();
-        
-        if (healthPoints <= 0)
+        base.Die();
+
+        if (stateMachine.currentState != deadState)
             stateMachine.ChangeState(deadState);
     }
 

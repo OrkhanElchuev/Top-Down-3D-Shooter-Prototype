@@ -54,12 +54,6 @@ public class Enemy : MonoBehaviour
     public float aggressionRange;
 
     #endregion
-    
-    #region Health Settings
-
-    public int healthPoints = 25;
-
-    #endregion
 
     #region Private Variables
 
@@ -81,6 +75,8 @@ public class Enemy : MonoBehaviour
 
     public bool inBattleMode { get; private set; }
 
+    public EnemyHealth health { get; private set; }
+
     #endregion
 
     #region Unity Lifecycle
@@ -91,6 +87,7 @@ public class Enemy : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        health = GetComponent<EnemyHealth>();
     }
 
     protected virtual void Start()
@@ -109,7 +106,16 @@ public class Enemy : MonoBehaviour
 
     public virtual void GetHit()
     {
+        health.ReduceHealth();
+        if(health.ShouldDie())
+            Die();
+            
         EnterBattleMode();
+    }
+
+    public virtual void Die()
+    {
+        
     }
 
     public virtual void EnterBattleMode()
@@ -143,7 +149,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Movemen / Targeting 
+    #region Movement / Targeting 
     
     /// <summary>
     /// Returns the next patrol point position and advances the patrol index (loops at the end).

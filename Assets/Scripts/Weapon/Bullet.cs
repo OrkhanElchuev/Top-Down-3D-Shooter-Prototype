@@ -45,11 +45,6 @@ public class Bullet : MonoBehaviour
 
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         damageable?.TakeDamage();
-
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-
-        if (enemy != null)
-            enemy.GetHit();
     }
 
     private void ReturnBullet() => ObjectPooling.instance.ReturnObject(gameObject);

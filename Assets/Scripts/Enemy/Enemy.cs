@@ -78,6 +78,8 @@ public class Enemy : MonoBehaviour
     // Finite state machine controlling enemy behavior.
     public EnemyStateMachine stateMachine { get; private set; }
 
+    public bool inBattleMode { get; private set; }
+
     #endregion
 
     #region Unity Lifecycle
@@ -102,18 +104,49 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Damage and Death
+    #region Helper Methods
 
     public virtual void GetHit()
     {
+        EnterBattleMode();
+        
         if (healthPoints >= 0)
             healthPoints--;
             
     }
 
+    public virtual void EnterBattleMode()
+    {
+        inBattleMode = true;
+    }
+
+    protected bool ShouldEnterBattleMode()
+    {
+        bool inAggressionRange = Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
+
+        if (inAggressionRange && !inBattleMode)
+        {
+            EnterBattleMode();
+            return true;
+        }
+        return false;
+    }
+
+    public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
+
+    // Called by animation event script to forward events to the active state.
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, aggressionRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     #endregion
 
-    #region Patrol
+    #region Movemen / Targeting 
     
     /// <summary>
     /// Returns the next patrol point position and advances the patrol index (loops at the end).
@@ -141,10 +174,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Rotation / Targeting / Movement
-
     /// <summary>
     /// Returns a smoothed rotation that turns toward <paramref name="target"/> on the Y axis.
     /// </summary>
@@ -163,26 +192,4 @@ public class Enemy : MonoBehaviour
     public bool manualMovementActive() => manualMovement;
 
     #endregion
-
-    #region Detection / Animation
-
-    // Returns true if the player is within aggressionRange.
-    public bool PlayerInAggressionRange() => Vector3.Distance(transform.position, playerTransform.position) < aggressionRange;
-
-    // Called by animation event script to forward events to the active state.
-    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
-
-    #endregion
-    
-    #region Attack
-
-    public bool PlayerInAttackRange() => Vector3.Distance(transform.position, playerTransform.position) < attackRange;
-
-    #endregion
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, aggressionRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
 }

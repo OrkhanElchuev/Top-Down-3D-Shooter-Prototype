@@ -50,13 +50,6 @@ public class MoveStateMelee : EnemyState
     {
         base.Update();
 
-        // Player spotted -> switch to recovery before chasing.
-        if (enemy.PlayerInAggressionRange())
-        {
-            stateMachine.ChangeState(enemy.recoveryState);
-            return;
-        }
-
         // Smoothly rotate in the direction of the next path corner.
         enemy.transform.rotation = enemy.FaceTarget(GetNextPathPoint());
 

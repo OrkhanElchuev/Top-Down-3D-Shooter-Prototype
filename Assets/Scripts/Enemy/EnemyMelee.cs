@@ -45,9 +45,31 @@ public class EnemyMelee : Enemy
     protected override void Update()
     {
         base.Update();
-        
         // Let the active state run its per-frame logic.
         stateMachine.currentState.Update();
+
+        if (ShouldEnterBattleMode())
+        {
+            EnterBattleMode();
+        }
+    }
+
+    #endregion
+
+    #region Optimization
+
+    private float GetAnimationClipDuration(string clipName)
+    {
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == clipName)
+                return clip.length;
+        }
+
+        Debug.Log(clipName + " animation not found!");
+        return 0;
     }
 
     #endregion
@@ -60,6 +82,15 @@ public class EnemyMelee : Enemy
         
         if (healthPoints <= 0)
             stateMachine.ChangeState(deadState);
+    }
+
+    public override void EnterBattleMode()
+    {
+        if (inBattleMode)
+            return;
+
+        base.EnterBattleMode();
+        stateMachine.ChangeState(recoveryState);
     }
 
     #endregion

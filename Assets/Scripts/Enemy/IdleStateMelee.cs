@@ -37,13 +37,6 @@ public class IdleStateMelee : EnemyState
     {
         base.Update();
 
-        // If the player is detected, prepare to chase (via recovery state).
-        if (enemy.PlayerInAggressionRange())
-        {
-            stateMachine.ChangeState(enemy.recoveryState);
-            return;
-        }
-
         // Timer ended -> start moving to next patrol point.
         if (stateTimer < 0f)
             stateMachine.ChangeState(enemy.moveState);

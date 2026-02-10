@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
     
     #region Health Settings
 
-    [SerializeField] protected int healthPoints = 25;
+    public int healthPoints = 25;
 
     #endregion
 
@@ -110,10 +110,6 @@ public class Enemy : MonoBehaviour
     public virtual void GetHit()
     {
         EnterBattleMode();
-
-        if (healthPoints >= 0)
-            healthPoints--;
-            
     }
 
     public virtual void EnterBattleMode()

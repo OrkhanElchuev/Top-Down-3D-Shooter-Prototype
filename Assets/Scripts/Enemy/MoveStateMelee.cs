@@ -51,7 +51,7 @@ public class MoveStateMelee : EnemyState
         base.Update();
 
         // Smoothly rotate in the direction of the next path corner.
-        enemy.transform.rotation = enemy.FaceTarget(GetNextPathPoint());
+        enemy.FaceTarget(GetNextPathPoint());
 
         // Close enough to destination -> go idle.
         if (enemy.agent.remainingDistance <= enemy.agent.stoppingDistance + stoppingOffset)

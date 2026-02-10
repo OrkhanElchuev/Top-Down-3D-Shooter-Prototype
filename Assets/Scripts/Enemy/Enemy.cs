@@ -109,7 +109,7 @@ public class Enemy : MonoBehaviour
     public virtual void GetHit()
     {
         EnterBattleMode();
-        
+
         if (healthPoints >= 0)
             healthPoints--;
             
@@ -175,17 +175,17 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a smoothed rotation that turns toward <paramref name="target"/> on the Y axis.
+    /// Smooth rotation that turns toward <paramref name="target"/> on the Y axis.
     /// </summary>
     /// <param name="target">World-space position to face.</param>
-    public Quaternion FaceTarget(Vector3 target)
+    public void FaceTarget(Vector3 target)
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
         Vector3 currentEulerAngles = transform.rotation.eulerAngles;
 
         float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
 
-        return Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
+        transform.rotation = Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
     }
 
     public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;

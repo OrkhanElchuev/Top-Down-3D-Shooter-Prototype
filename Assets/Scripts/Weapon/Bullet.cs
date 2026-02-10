@@ -36,17 +36,20 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Reset velocity before returning.
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        
+        CreateHitFX(collision);
+        ReturnBullet();
+
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        damageable?.TakeDamage();
+
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
 
         if (enemy != null)
             enemy.GetHit();
-
-        CreateHitFX(collision);
-
-        // Reset velocity before returning.
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        ReturnBullet();
     }
 
     private void ReturnBullet() => ObjectPooling.instance.ReturnObject(gameObject);

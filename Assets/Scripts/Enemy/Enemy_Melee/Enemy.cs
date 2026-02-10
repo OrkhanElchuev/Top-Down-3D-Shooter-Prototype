@@ -193,7 +193,7 @@ public class Enemy : MonoBehaviour
     }
 
     public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
-    public bool manualMovementActive() => manualMovement;
+    public bool ManualMovementActive() => manualMovement;
 
     #endregion
 }

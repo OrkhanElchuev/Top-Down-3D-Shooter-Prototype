@@ -106,7 +106,9 @@ public class Enemy : MonoBehaviour
 
     public virtual void GetHit()
     {
-        healthPoints--;
+        if (healthPoints >= 0)
+            healthPoints--;
+            
     }
 
     #endregion

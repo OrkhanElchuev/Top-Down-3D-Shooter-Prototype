@@ -107,9 +107,10 @@ public class Enemy : MonoBehaviour
     public virtual void GetHit()
     {
         health.ReduceHealth();
+        
         if(health.ShouldDie())
             Die();
-            
+
         EnterBattleMode();
     }
 

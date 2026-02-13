@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class Bullet : MonoBehaviour
     private Vector3 startPosition;
     private float flyDistance;
     private float extraDistance = 1;
+    private int bulletDamage;
 
     private void Awake()
     {
@@ -36,26 +38,25 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-
-        if (enemy != null)
-            enemy.GetHit();
-
-        CreateHitFX(collision);
-
         // Reset velocity before returning.
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        
+        CreateHitFX(collision);
         ReturnBullet();
+
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        damageable?.TakeDamage(bulletDamage);
     }
 
     private void ReturnBullet() => ObjectPooling.instance.ReturnObject(gameObject);
 
-    public void BulletSetup(float flyDistance)
+    public void BulletSetup(float flyDistance, int bulletDamage)
     {
         startPosition = transform.position;
         // extraDistance is created to make bullet fly a bit further than the tip of the laser.
         this.flyDistance = flyDistance + extraDistance;
+        this.bulletDamage = bulletDamage;
     }
 
     /// <summary>

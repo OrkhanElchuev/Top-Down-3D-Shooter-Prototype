@@ -31,12 +31,11 @@ public class AttackStateMelee : EnemyState
     {
         base.Update();
 
-        if (enemy.manualMovementActive())
+        if (enemy.ManualMovementActive())
         {
             enemy.transform.position = 
                 Vector3.MoveTowards(enemy.transform.position, attackDirection, enemy.attackMoveSpeed * Time.deltaTime);
         }
-
 
         if (triggerCalled)
             stateMachine.ChangeState(enemy.recoveryState);

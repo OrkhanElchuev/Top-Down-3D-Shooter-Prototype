@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 
 public class Enemy : MonoBehaviour
 {
+    public LayerMask whatIsPlayer; 
+
     #region Inspector: Idle Settings
 
     [Header("Idle Settings")]
@@ -54,12 +56,6 @@ public class Enemy : MonoBehaviour
     public float aggressionRange;
 
     #endregion
-    
-    #region Health Settings
-
-    [SerializeField] protected int healthPoints = 25;
-
-    #endregion
 
     #region Private Variables
 
@@ -81,6 +77,8 @@ public class Enemy : MonoBehaviour
 
     public bool inBattleMode { get; private set; }
 
+    public EnemyHealth health { get; private set; }
+
     #endregion
 
     #region Unity Lifecycle
@@ -91,6 +89,7 @@ public class Enemy : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        health = GetComponent<EnemyHealth>();
     }
 
     protected virtual void Start()
@@ -107,13 +106,19 @@ public class Enemy : MonoBehaviour
 
     #region Helper Methods
 
-    public virtual void GetHit()
+    public virtual void GetHit(int damage)
     {
-        EnterBattleMode();
+        health.ReduceHealth(damage);
+        
+        if(health.ShouldDie())
+            Die();
 
-        if (healthPoints >= 0)
-            healthPoints--;
-            
+        EnterBattleMode();
+    }
+
+    public virtual void Die()
+    {
+        
     }
 
     public virtual void EnterBattleMode()
@@ -147,7 +152,7 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    #region Movemen / Targeting 
+    #region Movement / Targeting 
     
     /// <summary>
     /// Returns the next patrol point position and advances the patrol index (loops at the end).
@@ -193,7 +198,7 @@ public class Enemy : MonoBehaviour
     }
 
     public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
-    public bool manualMovementActive() => manualMovement;
+    public bool ManualMovementActive() => manualMovement;
 
     #endregion
 }

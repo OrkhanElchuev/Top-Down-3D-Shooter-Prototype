@@ -21,6 +21,9 @@ public class WeaponDataSO : ScriptableObject
 
     [Tooltip("How many bullets are spawned per shot action.")]
     public int bulletsPerShot = 1;
+    
+    [Tooltip("Damage that the bullet can inflict.")]
+    public int bulletDamage = 1;
 
     // ------------------------
 

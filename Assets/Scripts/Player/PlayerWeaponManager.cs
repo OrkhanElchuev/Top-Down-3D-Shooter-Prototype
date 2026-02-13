@@ -214,7 +214,7 @@ public class PlayerWeaponManager : MonoBehaviour
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
 
         Bullet bulleScript = newBullet.GetComponent<Bullet>();
-        bulleScript.BulletSetup(currentWeapon.gunDistance);
+        bulleScript.BulletSetup(currentWeapon.gunDistance, currentWeapon.bulletDamage);
 
         // Apply Spread effect to weapons.
         Vector3 bulletsDirection = currentWeapon.ApplyShootingSpread(BulletDirection());

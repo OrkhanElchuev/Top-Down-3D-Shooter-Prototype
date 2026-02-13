@@ -9,10 +9,12 @@ using UnityEngine;
 public class EnemyAnimationEvents : MonoBehaviour
 {
     private Enemy enemy;
+    private EnemyMelee enemyMelee;
 
     private void Awake()
     {
         enemy = GetComponentInParent<Enemy>();
+        enemyMelee = GetComponentInParent<EnemyMelee>();
     }
 
     // Called from an Animation Event to signal the current state's trigger.
@@ -20,4 +22,14 @@ public class EnemyAnimationEvents : MonoBehaviour
 
     public void StartManualMovement() => enemy.ActivateManualMovement(true);
     public void StopManualMovement() => enemy.ActivateManualMovement(false);
+
+    public void StartMeleeAttackCheck()
+    {
+        enemyMelee?.EnableAttackCheck(true);
+    }
+
+    public void FinishMeleeAttackCheck()
+    {
+        enemyMelee?.EnableAttackCheck(false);
+    }
 }

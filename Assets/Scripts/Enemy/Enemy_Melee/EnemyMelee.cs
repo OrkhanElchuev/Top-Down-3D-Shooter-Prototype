@@ -1,3 +1,4 @@
+using System.Data;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
@@ -19,11 +20,15 @@ public class EnemyMelee : Enemy
 
     #endregion
 
+    private EnemyWeaponModel currentWeapon;
+    private bool isAttackReady;
+
     #region Unity Lifecycle
 
     protected override void Awake()
     {
         base.Awake();
+        CacheCurrentWeapon();
 
         // Instantiate all states once, then switch between them.
         idleState = new IdleStateMelee(this, stateMachine, "Idle");
@@ -56,23 +61,23 @@ public class EnemyMelee : Enemy
 
     #endregion
 
-    #region Optimization
-
-    private float GetAnimationClipDuration(string clipName)
+    private void CacheCurrentWeapon()
     {
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        currentWeapon = GetComponentInChildren<EnemyWeaponModel>();
 
-        foreach (AnimationClip clip in clips)
-        {
-            if (clip.name == clipName)
-                return clip.length;
-        }
-
-        Debug.Log(clipName + " animation not found!");
-        return 0;
+        if (currentWeapon == null)
+            Debug.LogError("No weapon found!");
     }
 
-    #endregion
+    public void EnableAttackCheck(bool enable)
+    {
+        if (currentWeapon == null) return;
+
+        if (enable)
+            currentWeapon.EnableDamage();
+        else
+            currentWeapon.DisableDamage();
+    }
 
     #region Overrides
 

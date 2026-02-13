@@ -37,6 +37,9 @@ public class PlayerAim : MonoBehaviour
 
     private void Update()
     {
+        if (player.health.isDead)
+            return;
+
         AssignAimObject();
         UpdateAimVisuals();
     }

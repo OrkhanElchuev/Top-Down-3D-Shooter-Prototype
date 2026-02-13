@@ -1,16 +1,29 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : HealthManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Player player; 
+
+    public bool isDead { get; private set; }
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+    
+        player = GetComponentInParent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ReduceHealth()
     {
-        
+        base.ReduceHealth();
+
+        if (ShouldDie())
+            Die();
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        player.animator.enabled = false;
     }
 }

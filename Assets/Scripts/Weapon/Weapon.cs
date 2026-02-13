@@ -10,6 +10,7 @@ public class Weapon
     [Header("Weapon Settings")]
     public WeaponType weaponType;
     public ShootType shootType;
+    public int bulletDamage;
 
     public bool burstAvailable;
 
@@ -55,6 +56,7 @@ public class Weapon
         fireRate = weaponDataSO.fireRate;
         shootType = weaponDataSO.shootType;
         bulletsPerShot = weaponDataSO.bulletsPerShot;
+        bulletDamage = weaponDataSO.bulletDamage;
 
         // SPREAD SETTING
         baseSpread = weaponDataSO.baseSpread;

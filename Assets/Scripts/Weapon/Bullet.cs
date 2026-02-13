@@ -18,6 +18,7 @@ public class Bullet : MonoBehaviour
     private Vector3 startPosition;
     private float flyDistance;
     private float extraDistance = 1;
+    private int bulletDamage;
 
     private void Awake()
     {
@@ -45,16 +46,17 @@ public class Bullet : MonoBehaviour
         ReturnBullet();
 
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-        damageable?.TakeDamage();
+        damageable?.TakeDamage(bulletDamage);
     }
 
     private void ReturnBullet() => ObjectPooling.instance.ReturnObject(gameObject);
 
-    public void BulletSetup(float flyDistance)
+    public void BulletSetup(float flyDistance, int bulletDamage)
     {
         startPosition = transform.position;
         // extraDistance is created to make bullet fly a bit further than the tip of the laser.
         this.flyDistance = flyDistance + extraDistance;
+        this.bulletDamage = bulletDamage;
     }
 
     /// <summary>

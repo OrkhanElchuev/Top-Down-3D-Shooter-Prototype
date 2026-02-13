@@ -6,4 +6,5 @@ using UnityEngine;
 public class EnemyMeleeWeaponSO : ScriptableObject
 {    
     public float turnSpeed = 10;
+    public int damageAmount = 1;
 }

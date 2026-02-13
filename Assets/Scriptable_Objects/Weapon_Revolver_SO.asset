@@ -17,6 +17,7 @@ MonoBehaviour:
   shootType: 1
   fireRate: 2.5
   bulletsPerShot: 1
+  bulletDamage: 8
   ammoInMagazine: 6
   totalReserveAmmo: 36
   magazineCapacity: 6

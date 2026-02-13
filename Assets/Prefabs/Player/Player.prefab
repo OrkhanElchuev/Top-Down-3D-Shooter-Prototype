@@ -325,6 +325,7 @@ MonoBehaviour:
   currentWeapon:
     weaponType: 0
     shootType: 1
+    bulletDamage: 0
     burstAvailable: 0
     ammoInMagazine: 12
     totalReserveAmmo: 36
@@ -339,6 +340,7 @@ MonoBehaviour:
   weaponSlots:
   - weaponType: 3
     shootType: 1
+    bulletDamage: 0
     burstAvailable: 1
     ammoInMagazine: 12
     totalReserveAmmo: 36
@@ -401,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d426874090275d40ac2b106fd7d442c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 20
+  maxHealth: 100
   currentHealth: 0
 --- !u!114 &2442114177869736712
 MonoBehaviour:

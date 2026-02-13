@@ -497,6 +497,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a9ae6b4c4e89d43b1d2e2964f473e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMelee
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 256
   idleTime: 3
   patrolPoints:
   - {fileID: 163956858644611343}
@@ -578,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69af4812be08461409e38ad19c1c1b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 5
+  maxHealth: 100
   currentHealth: 0
 --- !u!1 &2138061743713573644
 GameObject:
@@ -1775,6 +1778,8 @@ GameObject:
   - component: {fileID: 2542821758100212594}
   - component: {fileID: 3269411028811470554}
   - component: {fileID: 6485170457969433981}
+  - component: {fileID: 4585028958582167957}
+  - component: {fileID: 8780219593545425929}
   m_Layer: 0
   m_Name: weap_enemy_axe_2
   m_TagString: Untagged
@@ -1854,6 +1859,40 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4585028958582167957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6524217310038151602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062d2f928124c274980c83ca35864310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWeaponModel
+  weaponSO: {fileID: 11400000, guid: 92581f6d393799643ac3c22c4e471be1, type: 2}
+--- !u!135 &8780219593545425929
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6524217310038151602}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0.0000053959147, y: 0.15, z: -0.0043063806}
 --- !u!1 &6614336242036203556
 GameObject:
   m_ObjectHideFlags: 0

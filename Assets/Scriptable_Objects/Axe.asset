@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMeleeWeaponSO
   turnSpeed: 10
+  damageAmount: 2

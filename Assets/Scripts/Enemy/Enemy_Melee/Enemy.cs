@@ -106,9 +106,9 @@ public class Enemy : MonoBehaviour
 
     #region Helper Methods
 
-    public virtual void GetHit()
+    public virtual void GetHit(int damage)
     {
-        health.ReduceHealth();
+        health.ReduceHealth(damage);
         
         if(health.ShouldDie())
             Die();

@@ -27,7 +27,7 @@ public class EnemyWeaponModel : MonoBehaviour
 
         if (other.TryGetComponent<IDamageable>(out var damageable))
         {
-            damageable.TakeDamage();
+            damageable.TakeDamage(weaponSO.damageAmount);
             DisableDamage(); // prevents multi-hit per swing
         }
     }

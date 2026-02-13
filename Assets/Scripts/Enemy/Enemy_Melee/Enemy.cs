@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 
 public class Enemy : MonoBehaviour
 {
+    public LayerMask whatIsPlayer; 
+
     #region Inspector: Idle Settings
 
     [Header("Idle Settings")]

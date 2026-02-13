@@ -229,6 +229,9 @@ GameObject:
   - component: {fileID: 9101926443498839364}
   - component: {fileID: 2038955864167137793}
   - component: {fileID: 5081278519617349581}
+  - component: {fileID: 7801028102084906478}
+  - component: {fileID: 264138937613808678}
+  - component: {fileID: 2442114177869736712}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -291,8 +294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   gravityValue: 9.81
-  walkSpeed: 1.8
-  runSpeed: 3.3
+  walkSpeed: 2.5
+  runSpeed: 5
   turnSpeed: 25
 --- !u!114 &1719236485301594142
 MonoBehaviour:
@@ -318,28 +321,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7f56f0d60834243a8154f3803401ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeaponManager
-  bulletPrefab: {fileID: 3022830310450304800, guid: ea4b76f2b9c0a974aaa90f0521636e60, type: 3}
-  gunPoint: {fileID: 2265861767261148590}
-  bulletSpeed: 40
-  bulletDestroyDelay: 5
-  weaponHolder: {fileID: 3893459610507737295}
-  weaponSlots:
-  - weaponType: 0
+  weaponDataSO: {fileID: 11400000, guid: f2cf4635aa508754c82263874a3d1e62, type: 2}
+  currentWeapon:
+    weaponType: 0
+    shootType: 1
+    burstAvailable: 0
     ammoInMagazine: 12
     totalReserveAmmo: 36
     magazineCapacity: 12
+    reloadSpeed: 0
     weaponVisual: {fileID: 0}
-  - weaponType: 1
-    ammoInMagazine: 6
-    totalReserveAmmo: 12
-    magazineCapacity: 6
+  visualManager: {fileID: 2038955864167137793}
+  bulletPrefab: {fileID: 3022830310450304800, guid: ea4b76f2b9c0a974aaa90f0521636e60, type: 3}
+  gunPoint: {fileID: 2265861767261148590}
+  bulletSpeed: 40
+  weaponHolder: {fileID: 3893459610507737295}
+  weaponSlots:
+  - weaponType: 3
+    shootType: 1
+    burstAvailable: 1
+    ammoInMagazine: 12
+    totalReserveAmmo: 36
+    magazineCapacity: 12
+    reloadSpeed: 0
     weaponVisual: {fileID: 0}
-  currentWeapon:
-    weaponType: 0
-    ammoInMagazine: 0
-    totalReserveAmmo: 0
-    magazineCapacity: 0
-    weaponVisual: {fileID: 0}
+  reloadVFX: {fileID: 3473676945179321117, guid: f45bd5611f5337e4f9a3ee1569589df7, type: 3}
 --- !u!114 &2038955864167137793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,17 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   weaponManager: {fileID: 9101926443498839364}
-  weaponTransforms:
-  - {fileID: 1656167109565546444}
-  - {fileID: 6171049140659195465}
-  - {fileID: 3292842055974594851}
-  - {fileID: 6351066676272377255}
-  - {fileID: 1502099961015123247}
-  pistol: {fileID: 1656167109565546444}
-  revolver: {fileID: 6171049140659195465}
-  rifle: {fileID: 3292842055974594851}
-  shotgun: {fileID: 6351066676272377255}
-  sniper: {fileID: 1502099961015123247}
+  weaponModels: []
 --- !u!114 &5081278519617349581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,7 +377,44 @@ MonoBehaviour:
     m_Bits: 2240
   aimObject: {fileID: 0}
   aimLaser: {fileID: 8699420627992138574}
-  laserLength: 5
+--- !u!114 &7801028102084906478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082713332298229751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b600c3034057f45a14cc44de2ec5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+--- !u!114 &264138937613808678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082713332298229751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d426874090275d40ac2b106fd7d442c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 20
+  currentHealth: 0
+--- !u!114 &2442114177869736712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082713332298229751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3b5cd118c52c64e9da61bd4ce8c989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
 --- !u!1 &6796556640923569159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,6 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
+  weaponType: 3
   gunPoint: {fileID: 5774788371832505120}
 --- !u!4 &1502099961015123247 stripped
 Transform:
@@ -1078,6 +1112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
+  weaponType: 1
   gunPoint: {fileID: 4972584574300510557}
 --- !u!4 &6171049140659195465 stripped
 Transform:
@@ -1106,6 +1141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
+  weaponType: 4
   gunPoint: {fileID: 4148619288597361746}
 --- !u!1 &8010519615630584677 stripped
 GameObject:
@@ -1124,6 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
+  weaponType: 2
   gunPoint: {fileID: 5882138658735630505}
 --- !u!4 &8265512999363161582 stripped
 Transform:
@@ -1147,4 +1184,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a1b03291b7a104698a4d493887a3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponVisual
+  weaponType: 0
   gunPoint: {fileID: 2265861767261148590}

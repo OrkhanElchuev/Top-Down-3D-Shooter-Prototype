@@ -459,6 +459,8 @@ GameObject:
   - component: {fileID: 4087126220384191844}
   - component: {fileID: 754111046311962623}
   - component: {fileID: 4017642474702503794}
+  - component: {fileID: 6672799711860166969}
+  - component: {fileID: 6442223876287778719}
   m_Layer: 0
   m_Name: Enemy_Melee
   m_TagString: Untagged
@@ -507,7 +509,6 @@ MonoBehaviour:
   attackMoveSpeed: 3.5
   playerTransform: {fileID: 0}
   aggressionRange: 4
-  healthPoints: 25
 --- !u!195 &754111046311962623
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -553,6 +554,32 @@ CapsuleCollider:
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6672799711860166969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126931925976178895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d665c71d555824b44ba6dc23c2a74066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitbox
+--- !u!114 &6442223876287778719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126931925976178895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af4812be08461409e38ad19c1c1b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 5
+  currentHealth: 0
 --- !u!1 &2138061743713573644
 GameObject:
   m_ObjectHideFlags: 0

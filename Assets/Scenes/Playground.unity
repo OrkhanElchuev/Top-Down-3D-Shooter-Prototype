@@ -4061,6 +4061,7 @@ MonoBehaviour:
   - {fileID: 7580262391644077629, guid: f2176f7a3923d3a4eadaa513aca59442, type: 3}
   - {fileID: 3101788027966598817, guid: fbf7dc8216080a146b76a9f6d756e557, type: 3}
   nextSnapPoint: {fileID: 696345901}
+  generationDelay: 0.5
 --- !u!4 &1897678276
 Transform:
   m_ObjectHideFlags: 0

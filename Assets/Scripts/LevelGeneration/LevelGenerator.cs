@@ -3,12 +3,28 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    [Header("Generation Settings")]
     [SerializeField] private List<Transform> levelParts;
     [SerializeField] private SnapPoint nextSnapPoint;
+    [SerializeField] private float generationDelay;
+
+    private float delayTimer;
+    private List<Transform> currentLevelParts;
 
     private void Start()
     {
-        GenerateNextLevelPart();
+        currentLevelParts = new List<Transform>(levelParts);
+    }
+
+    private void Update()
+    {
+        delayTimer -= Time.deltaTime;
+
+        if (delayTimer < 0)
+        {
+            delayTimer = generationDelay;
+            GenerateNextLevelPart();
+        }
     }
 
     [ContextMenu("Create next Level Part")]
@@ -23,11 +39,11 @@ public class LevelGenerator : MonoBehaviour
 
     private Transform ChooseRandomLevelPart()
     {
-        int randomIndex = Random.Range(0, levelParts.Count);
+        int randomIndex = Random.Range(0, currentLevelParts.Count);
 
-        Transform chosenPart = levelParts[randomIndex];
+        Transform chosenPart = currentLevelParts[randomIndex];
 
-        levelParts.RemoveAt(randomIndex);
+        // currentLevelParts.RemoveAt(randomIndex);
 
         return chosenPart;
     }

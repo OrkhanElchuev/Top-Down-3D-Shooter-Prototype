@@ -5,11 +5,14 @@ public class LevelGenerator : MonoBehaviour
 {
     [Header("Generation Settings")]
     [SerializeField] private List<Transform> levelParts;
+    [SerializeField] private Transform lastLevelPart;
     [SerializeField] private SnapPoint nextSnapPoint;
     [SerializeField] private float generationDelay;
 
     private float delayTimer;
     private List<Transform> currentLevelParts;
+
+    private bool generationEnded;
 
     private void Start()
     {
@@ -22,12 +25,29 @@ public class LevelGenerator : MonoBehaviour
 
         if (delayTimer < 0)
         {
-            delayTimer = generationDelay;
-            GenerateNextLevelPart();
+            if (currentLevelParts.Count > 0)
+            {
+                delayTimer = generationDelay;
+                GenerateNextLevelPart();
+            }
+
+            else if (generationEnded == false)
+            {
+                FinishGeneration();
+            }
         }
     }
 
-    [ContextMenu("Create next Level Part")]
+    private void FinishGeneration()
+    {
+        generationEnded = true;
+
+        Transform finalLevelPart = Instantiate(lastLevelPart);
+        LevelPart levelPartScript = finalLevelPart.GetComponent<LevelPart>();
+
+        levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+    }
+
     private void GenerateNextLevelPart()
     {
         Transform newPart = Instantiate(ChooseRandomLevelPart());
@@ -43,7 +63,7 @@ public class LevelGenerator : MonoBehaviour
 
         Transform chosenPart = currentLevelParts[randomIndex];
 
-        // currentLevelParts.RemoveAt(randomIndex);
+        currentLevelParts.RemoveAt(randomIndex);
 
         return chosenPart;
     }

@@ -5,12 +5,29 @@ public class LevelPart : MonoBehaviour
 {
     public SnapPoint GetEntrancePoint() => GetSnapPointOfType(SnapPointType.Enter);
     public SnapPoint GetExitPoint() => GetSnapPointOfType(SnapPointType.Exit);
-    
+
     public void SnapAndAlignPartTo(SnapPoint targetSnapPoint)
     {
         SnapPoint entrancePoint = GetEntrancePoint();
 
+        // Align first, then snap the position.
+        AlignTo(entrancePoint, targetSnapPoint); 
         SnapTo(entrancePoint, targetSnapPoint);
+    }
+
+    private void AlignTo(SnapPoint ownSnapPoint, SnapPoint targetSnapPoint)
+    {
+        // Calculate the rotation offset between the level part's current rotation
+        // and it's own snap point's rotation.
+        var rotationOffset = ownSnapPoint.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y;
+
+        // Level part's rotation matches the target snap point's rotation.
+        transform.rotation = targetSnapPoint.transform.rotation;
+        // Rotate the level part by 180 degrees, since snap points are facing
+        // opposite directions.
+        transform.Rotate(0, 180, 0);
+        // Apply previously calculated offset.
+        transform.Rotate(0, -rotationOffset, 0);
     }
 
     private void SnapTo(SnapPoint ownSnapPoint, SnapPoint targetSnapPoint)

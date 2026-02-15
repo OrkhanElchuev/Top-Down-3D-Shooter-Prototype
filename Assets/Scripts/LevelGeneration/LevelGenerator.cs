@@ -6,6 +6,10 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private List<Transform> levelParts;
     [SerializeField] private SnapPoint nextSnapPoint;
 
+    private void Start()
+    {
+        GenerateNextLevelPart();
+    }
 
     [ContextMenu("Create next Level Part")]
     private void GenerateNextLevelPart()

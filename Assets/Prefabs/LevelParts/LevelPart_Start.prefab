@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5198087571626442496}
   - component: {fileID: 7803866204637994942}
   - component: {fileID: 4064129708830477020}
+  - component: {fileID: 4406268873279018805}
   m_Layer: 6
   m_Name: LevelPart_Start
   m_TagString: Untagged
@@ -147,6 +148,18 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
+--- !u!114 &4406268873279018805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028574831949111352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9307239dab0319841bf2a05912a07b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelPart
 --- !u!1 &8395818611800237002
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +172,9 @@ GameObject:
   - component: {fileID: 7329448821493577873}
   - component: {fileID: 2962519632941307037}
   - component: {fileID: 2848831258808247231}
+  - component: {fileID: 3469476099559346552}
   m_Layer: 6
-  m_Name: Waypoint
+  m_Name: SnapPoint - Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,3 +273,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3469476099559346552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8395818611800237002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea85eaf60df11f24eaba6ee0b48b262d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SnapPoint
+  pointType: 1

@@ -6,10 +6,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private List<Transform> levelParts;
     [SerializeField] private SnapPoint nextSnapPoint;
 
+
     [ContextMenu("Create next Level Part")]
     private void GenerateNextLevelPart()
     {
         Transform newPart = Instantiate(ChooseRandomLevelPart());
+        LevelPart levelPartScript = newPart.GetComponent<LevelPart>();
+
+        levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+        nextSnapPoint = levelPartScript.GetExitPoint();
     }
 
     private Transform ChooseRandomLevelPart()

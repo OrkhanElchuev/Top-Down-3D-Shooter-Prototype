@@ -14,18 +14,20 @@ public class LevelGenerator : MonoBehaviour
 
     private SnapPoint defaultSnapPoint;
     private List<Transform> currentLevelParts;
-    private List<Transform> generatedLevelParts;
+    private List<Transform> generatedLevelParts = new List<Transform>();
 
 
     private void Start()
     {
         defaultSnapPoint = nextSnapPoint;
-        generatedLevelParts = new List<Transform>();
-        currentLevelParts = new List<Transform>(levelParts);
+        InitializeGeneration();
     }
 
     private void Update()
     {
+        if (generationEnded)
+            return;
+
         delayTimer -= Time.deltaTime;
 
         if (delayTimer < 0)
@@ -35,7 +37,6 @@ public class LevelGenerator : MonoBehaviour
                 delayTimer = generationDelay;
                 GenerateNextLevelPart();
             }
-
             else if (generationEnded == false)
             {
                 FinishGeneration();
@@ -50,12 +51,17 @@ public class LevelGenerator : MonoBehaviour
         generationEnded = false;
         currentLevelParts = new List<Transform>(levelParts);
 
+        DestroyOldLevelParts();
+    }
+
+    private void DestroyOldLevelParts()
+    {
         foreach (Transform item in generatedLevelParts)
         {
             Destroy(item.gameObject);
         }
 
-        generatedLevelParts.Clear();
+        generatedLevelParts = new List<Transform>();
     }
 
     private void FinishGeneration()
@@ -64,6 +70,7 @@ public class LevelGenerator : MonoBehaviour
         GenerateNextLevelPart();
     }
 
+    [ContextMenu("Create Next Level Part")]
     private void GenerateNextLevelPart()
     {
         Transform newPart = null;
@@ -75,14 +82,13 @@ public class LevelGenerator : MonoBehaviour
 
         generatedLevelParts.Add(newPart);
 
-        // Transform newPart = Instantiate(ChooseRandomLevelPart());
         LevelPart levelPartScript = newPart.GetComponent<LevelPart>();
-
         levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
 
         if (levelPartScript.IntersectionDetected())
         {
-            Debug.LogWarning("Intersection between levels");
+            InitializeGeneration();
+            return;
         }
 
         nextSnapPoint = levelPartScript.GetExitPoint();

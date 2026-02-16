@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 8995105610074951469}
   - component: {fileID: 8264133403696594762}
   m_Layer: 6
-  m_Name: SnapPoint - Exit
+  m_Name: SnapPoint - Enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea85eaf60df11f24eaba6ee0b48b262d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapPoint
-  pointType: 1
+  pointType: 0
 --- !u!1 &5440584188775392580
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 3108767421749797121}
   - component: {fileID: 9123432196512497829}
   m_Layer: 6
-  m_Name: SnapPoint - Enter
+  m_Name: SnapPoint - Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea85eaf60df11f24eaba6ee0b48b262d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapPoint
-  pointType: 0
+  pointType: 1
 --- !u!1 &6998442933784420562
 GameObject:
   m_ObjectHideFlags: 0

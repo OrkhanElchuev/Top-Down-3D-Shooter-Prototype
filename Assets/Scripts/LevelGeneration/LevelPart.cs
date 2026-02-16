@@ -35,7 +35,7 @@ public class LevelPart : MonoBehaviour
             {
                 IntersectionCheck intersectionCheck = hit.GetComponentInParent<IntersectionCheck>();
 
-                if (intersectionCheck != null)
+                if (intersectionCheck != null && intersectionCheckParent != intersectionCheck.transform)
                     return true;
             }
         }

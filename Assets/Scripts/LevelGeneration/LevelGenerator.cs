@@ -10,12 +10,17 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float generationDelay;
 
     private float delayTimer;
-    private List<Transform> currentLevelParts;
-
     private bool generationEnded;
+
+    private SnapPoint defaultSnapPoint;
+    private List<Transform> currentLevelParts;
+    private List<Transform> generatedLevelParts;
+
 
     private void Start()
     {
+        defaultSnapPoint = nextSnapPoint;
+        generatedLevelParts = new List<Transform>();
         currentLevelParts = new List<Transform>(levelParts);
     }
 
@@ -38,19 +43,39 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    [ContextMenu("Restart Generation")]
+    private void InitializeGeneration()
+    {
+        nextSnapPoint = defaultSnapPoint;
+        generationEnded = false;
+        currentLevelParts = new List<Transform>(levelParts);
+
+        foreach (Transform item in generatedLevelParts)
+        {
+            Destroy(item.gameObject);
+        }
+
+        generatedLevelParts.Clear();
+    }
+
     private void FinishGeneration()
     {
         generationEnded = true;
-
-        Transform finalLevelPart = Instantiate(lastLevelPart);
-        LevelPart levelPartScript = finalLevelPart.GetComponent<LevelPart>();
-
-        levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+        GenerateNextLevelPart();
     }
 
     private void GenerateNextLevelPart()
     {
-        Transform newPart = Instantiate(ChooseRandomLevelPart());
+        Transform newPart = null;
+
+        if (generationEnded)
+            newPart = Instantiate(lastLevelPart);
+        else
+            newPart = Instantiate(ChooseRandomLevelPart());
+
+        generatedLevelParts.Add(newPart);
+
+        // Transform newPart = Instantiate(ChooseRandomLevelPart());
         LevelPart levelPartScript = newPart.GetComponent<LevelPart>();
 
         levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
@@ -66,7 +91,6 @@ public class LevelGenerator : MonoBehaviour
     private Transform ChooseRandomLevelPart()
     {
         int randomIndex = Random.Range(0, currentLevelParts.Count);
-
         Transform chosenPart = currentLevelParts[randomIndex];
 
         currentLevelParts.RemoveAt(randomIndex);

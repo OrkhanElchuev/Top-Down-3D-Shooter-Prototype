@@ -10,17 +10,24 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float generationDelay;
 
     private float delayTimer;
-    private List<Transform> currentLevelParts;
-
     private bool generationEnded;
+
+    private SnapPoint defaultSnapPoint;
+    private List<Transform> currentLevelParts;
+    private List<Transform> generatedLevelParts = new List<Transform>();
+
 
     private void Start()
     {
-        currentLevelParts = new List<Transform>(levelParts);
+        defaultSnapPoint = nextSnapPoint;
+        InitializeGeneration();
     }
 
     private void Update()
     {
+        if (generationEnded)
+            return;
+
         delayTimer -= Time.deltaTime;
 
         if (delayTimer < 0)
@@ -30,7 +37,6 @@ public class LevelGenerator : MonoBehaviour
                 delayTimer = generationDelay;
                 GenerateNextLevelPart();
             }
-
             else if (generationEnded == false)
             {
                 FinishGeneration();
@@ -38,29 +44,59 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    [ContextMenu("Restart Generation")]
+    private void InitializeGeneration()
+    {
+        nextSnapPoint = defaultSnapPoint;
+        generationEnded = false;
+        currentLevelParts = new List<Transform>(levelParts);
+
+        DestroyOldLevelParts();
+    }
+
+    private void DestroyOldLevelParts()
+    {
+        foreach (Transform item in generatedLevelParts)
+        {
+            Destroy(item.gameObject);
+        }
+
+        generatedLevelParts = new List<Transform>();
+    }
+
     private void FinishGeneration()
     {
         generationEnded = true;
-
-        Transform finalLevelPart = Instantiate(lastLevelPart);
-        LevelPart levelPartScript = finalLevelPart.GetComponent<LevelPart>();
-
-        levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+        GenerateNextLevelPart();
     }
 
+    [ContextMenu("Create Next Level Part")]
     private void GenerateNextLevelPart()
     {
-        Transform newPart = Instantiate(ChooseRandomLevelPart());
-        LevelPart levelPartScript = newPart.GetComponent<LevelPart>();
+        Transform newPart = null;
 
+        if (generationEnded)
+            newPart = Instantiate(lastLevelPart);
+        else
+            newPart = Instantiate(ChooseRandomLevelPart());
+
+        generatedLevelParts.Add(newPart);
+
+        LevelPart levelPartScript = newPart.GetComponent<LevelPart>();
         levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+
+        if (levelPartScript.IntersectionDetected())
+        {
+            InitializeGeneration();
+            return;
+        }
+
         nextSnapPoint = levelPartScript.GetExitPoint();
     }
 
     private Transform ChooseRandomLevelPart()
     {
         int randomIndex = Random.Range(0, currentLevelParts.Count);
-
         Transform chosenPart = currentLevelParts[randomIndex];
 
         currentLevelParts.RemoveAt(randomIndex);

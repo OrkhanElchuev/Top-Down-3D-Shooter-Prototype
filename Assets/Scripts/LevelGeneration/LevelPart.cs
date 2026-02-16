@@ -1,8 +1,15 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelPart : MonoBehaviour
 {
+    [Header("Intersection Check")]
+    [SerializeField] private LayerMask intersectionLayer;
+    [SerializeField] private Collider[] intersectionCheckColliders;
+    [SerializeField] private Transform intersectionCheckParent;
+
     public SnapPoint GetEntrancePoint() => GetSnapPointOfType(SnapPointType.Enter);
     public SnapPoint GetExitPoint() => GetSnapPointOfType(SnapPointType.Exit);
 
@@ -13,6 +20,27 @@ public class LevelPart : MonoBehaviour
         // Align first, then snap the position.
         AlignTo(entrancePoint, targetSnapPoint); 
         SnapTo(entrancePoint, targetSnapPoint);
+    }
+
+    public bool IntersectionDetected()
+    {
+        Physics.SyncTransforms();
+
+        foreach (var collider in intersectionCheckColliders)
+        {
+            Collider[] hitColliders = 
+                Physics.OverlapBox(collider.bounds.center, collider.bounds.extents, Quaternion.identity, intersectionLayer);
+
+            foreach (var hit in hitColliders)
+            {
+                IntersectionCheck intersectionCheck = hit.GetComponentInParent<IntersectionCheck>();
+
+                if (intersectionCheck != null)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     private void AlignTo(SnapPoint ownSnapPoint, SnapPoint targetSnapPoint)

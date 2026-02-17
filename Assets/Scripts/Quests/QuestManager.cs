@@ -13,7 +13,7 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        currentQuest?.StartQuest();
+        Invoke(nameof(StartQuest), 2);
     }
 
     private void Update()

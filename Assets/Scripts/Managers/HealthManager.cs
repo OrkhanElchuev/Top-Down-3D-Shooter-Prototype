@@ -5,6 +5,8 @@ public class HealthManager : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
+    private bool isDead;
+
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
@@ -23,5 +25,17 @@ public class HealthManager : MonoBehaviour
             currentHealth = maxHealth;
     }
 
-    public bool ShouldDie() => currentHealth <= 0;
+    public bool ShouldDie()
+    {
+        if (isDead)
+            return false;
+        
+        if (currentHealth < 0)
+        {
+            isDead = true;
+            return true;
+        }
+
+        return false;
+    }
 }

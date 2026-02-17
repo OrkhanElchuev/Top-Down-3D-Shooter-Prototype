@@ -79,6 +79,8 @@ public class Enemy : MonoBehaviour
 
     public EnemyHealth health { get; private set; }
 
+    public EnemyDropManager dropManager { get; private set; }
+
     #endregion
 
     #region Unity Lifecycle
@@ -90,6 +92,7 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         health = GetComponent<EnemyHealth>();
+        dropManager = GetComponent<EnemyDropManager>();
     }
 
     protected virtual void Start()
@@ -111,6 +114,7 @@ public class Enemy : MonoBehaviour
         health.ReduceHealth(damage);
         
         if(health.ShouldDie())
+            dropManager.DropItems();
             Die();
 
         EnterBattleMode();

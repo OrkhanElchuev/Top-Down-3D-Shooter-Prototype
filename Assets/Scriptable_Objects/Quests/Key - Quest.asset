@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Quest_FindKey
   questName: The Hidden Key
   questDescription: You must defeat the enemies to find the lost key.
-  key: {fileID: 0}
+  key: {fileID: 5507792682714983622, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}

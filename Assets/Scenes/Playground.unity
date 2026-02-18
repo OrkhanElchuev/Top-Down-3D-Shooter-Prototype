@@ -4006,7 +4006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbbfffceaadba5459087c2d31fdfe9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  currentQuest: {fileID: 11400000, guid: 2ce09f9ee82153e448763c958884863b, type: 2}
+  currentQuest: {fileID: 11400000, guid: b2036dd8437bc5e4b9802f2f590edb1e, type: 2}
 --- !u!1 &1569642719
 GameObject:
   m_ObjectHideFlags: 0

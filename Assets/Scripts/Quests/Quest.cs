@@ -9,6 +9,5 @@ public abstract class Quest : ScriptableObject
 
     public abstract void StartQuest();
     public abstract bool QuestCompleted();
-
     public virtual void UpdateQuest(){}
 }

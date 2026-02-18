@@ -4006,7 +4006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbbfffceaadba5459087c2d31fdfe9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  currentQuest: {fileID: 11400000, guid: 2ce09f9ee82153e448763c958884863b, type: 2}
+  currentQuest: {fileID: 11400000, guid: b2036dd8437bc5e4b9802f2f590edb1e, type: 2}
 --- !u!1 &1569642719
 GameObject:
   m_ObjectHideFlags: 0
@@ -6639,6 +6639,107 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7617296764858138231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &9184286254561746166
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.14182
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253133501234024856, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5507792682714983622, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      propertyPath: m_Name
+      value: QuestObject_Key
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5507792682714983622, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9184286254561746169}
+    - targetCorrespondingSourceObject: {fileID: 5507792682714983622, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9184286254561746168}
+  m_SourcePrefab: {fileID: 100100000, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+--- !u!1 &9184286254561746167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5507792682714983622, guid: a22a21a2ca1a5bf4780cb068150ff180, type: 3}
+  m_PrefabInstance: {fileID: 9184286254561746166}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &9184286254561746168
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9184286254561746167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.8, z: 0.8}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9184286254561746169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9184286254561746167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d305a7eb0af7e44a83137b455fc5df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestObject_Key
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6655,3 +6756,4 @@ SceneRoots:
   - {fileID: 127380669}
   - {fileID: 3077348163692902002}
   - {fileID: 1026689138242524792}
+  - {fileID: 9184286254561746166}

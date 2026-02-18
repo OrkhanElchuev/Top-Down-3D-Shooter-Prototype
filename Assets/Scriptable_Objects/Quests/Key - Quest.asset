@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c97396f930e0b4dbe98c3a8ec01a00, type: 3}
   m_Name: Key - Quest
   m_EditorClassIdentifier: Assembly-CSharp::Quest_FindKey
-  questName: 
-  questDescription: 
+  questName: The Hidden Key
+  questDescription: You must defeat the enemies to find the lost key.
   key: {fileID: 0}

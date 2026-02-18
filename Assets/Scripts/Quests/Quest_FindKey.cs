@@ -8,7 +8,7 @@ public class Quest_FindKey : Quest
 
     public override void StartQuest()
     {
-        
+        QuestObject_Key.OnKeyPickedUp += PickUpKey;
     }
 
     public override bool QuestCompleted()
@@ -19,5 +19,7 @@ public class Quest_FindKey : Quest
     private void PickUpKey()
     {
         keyFound = true;
+        QuestObject_Key.OnKeyPickedUp -= PickUpKey;
+        Debug.Log("Key is Picked up");
     }
 }

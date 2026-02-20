@@ -10,4 +10,18 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            // Stops play mode in the Unity Editor
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            // Quits the built application
+            Application.Quit();
+#endif
+        }
+    }
 }

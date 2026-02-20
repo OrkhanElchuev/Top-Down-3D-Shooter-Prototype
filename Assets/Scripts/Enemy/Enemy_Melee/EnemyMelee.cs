@@ -1,6 +1,3 @@
-using System.Data;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 /// <summary>
